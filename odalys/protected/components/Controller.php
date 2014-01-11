@@ -1,4 +1,4 @@
-<?php
+<?php Yii::app()->clientScript->registerCoreScript('jquery');
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
