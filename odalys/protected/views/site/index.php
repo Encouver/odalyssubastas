@@ -5,18 +5,36 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <?php
-    $ourscript = "
+    $ourscript = '
 	$( document ).ready(function() {
-		//console.log( 'ready!' );
-
-		setInterval( 'updateMyContent();', 1000 );
+		//updateMyContent();
+		setInterval( "updateMyContent();", 1000 );
 		$(function() {
        		updateMyContent = function(){
-                $('#refreshData').prepend('Message display<br>').fadeIn('slow');
+               $.ajax({
+							type: "POST",
+							url: "http://localhost/odalyssubastas/odalys/index.php?r=site/buscar",
+							dataType: "html",
+							data: {
+								//id : $("#Numerosvendidos_idsorteo" ).val(),							
+							},
+							beforeSend: function () {
+	               			},
+							success : function(data){
+								json = data;
+
+							},
+							error : function(XMLHttpRequest, textStatus, errorThrown) {
+							
+							},
+							complete : function() { 
+									$("#refreshData").append(json);
+											 
+							 }
+				});
        		}
 		}); 
-	});
-";
+	});';
     Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 ?>
 
