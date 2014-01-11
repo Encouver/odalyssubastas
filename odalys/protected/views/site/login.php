@@ -49,5 +49,7 @@ $this->breadcrumbs=array(
 		<?php echo CHtml::submitButton('Login'); ?>
 	</div>
 
+	<div></div>
+
 <?php $this->endWidget(); ?>
 </div><!-- form -->

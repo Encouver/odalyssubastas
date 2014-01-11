@@ -38,7 +38,7 @@ return array(
 		),
 		// uncomment the following to enable URLs in path-format
 		
-		'urlManager'=>array(
+		/*'urlManager'=>array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
@@ -46,12 +46,14 @@ return array(
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
-		),
+		),*/
 		
 		/*'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 		),*/
 		// uncomment the following to use a MySQL database
+
+	
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
 			'emulatePrepare' => true,
@@ -59,6 +61,14 @@ return array(
 			'password' => 'edgar',
 			'charset' => 'utf8',
 		),
+		/*
+		'db'=>array(
+			'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
+			'emulatePrepare' => true,
+			'username' => 'odalyscs_ed',
+			'password' => 'edgar',
+			'charset' => 'utf8',
+		),*/
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
