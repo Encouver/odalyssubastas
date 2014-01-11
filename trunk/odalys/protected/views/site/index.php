@@ -3,18 +3,23 @@
 
 $this->pageTitle=Yii::app()->name;
 ?>
-<script type="text/javascript">
-	$( document ).ready(function() {
-		//console.log( "ready!" );
 
-		setInterval( "updateMyContent();", 1000 );
+<?php
+    $ourscript = "
+	$( document ).ready(function() {
+		//console.log( 'ready!' );
+
+		setInterval( 'updateMyContent();', 1000 );
 		$(function() {
        		updateMyContent = function(){
-                $('#refreshData').prepend("Message display<br>").fadeIn("slow");
+                $('#refreshData').prepend('Message display<br>').fadeIn('slow');
        		}
 		}); 
 	});
-</script>
+";
+    Yii::app()->clientScript->registerScript('helloscript',$ourscript,CClientScript::POS_READY);
+?>
+
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
 <p>Congratulations! You have successfully created your Yii application.</p>
