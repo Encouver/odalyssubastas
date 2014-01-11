@@ -17,7 +17,7 @@ $this->pageTitle=Yii::app()->name;
 		}); 
 	});
 ";
-    Yii::app()->clientScript->registerScript('helloscript',$ourscript,CClientScript::POS_READY);
+    Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 ?>
 
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
