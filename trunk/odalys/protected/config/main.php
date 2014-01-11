@@ -52,18 +52,6 @@ return array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 		),*/
 		// uncomment the following to use a MySQL database
-<<<<<<< .mine
-		
-=======
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
-			'emulatePrepare' => true,
-			'username' => 'odalyscs_ed',
-			'password' => 'edgar',
-			'charset' => 'utf8',
-		),
-		/*
->>>>>>> .r7
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
 			'emulatePrepare' => true,
