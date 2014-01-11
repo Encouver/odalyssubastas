@@ -1,14 +1,25 @@
-<?php
+<?php //Yii::app()->clientScript->registerCoreScript('jquery');
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
 ?>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		//console.log( "ready!" );
 
+		setInterval( "updateMyContent();", 1000 );
+		$(function() {
+       		updateMyContent = function(){
+                $('#refreshData').prepend("Message display<br>").fadeIn("slow");
+       		}
+		}); 
+	});
+</script>
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
 <p>Congratulations! You have successfully created your Yii application.</p>
 
-<p>You may change the content of this page by modifying the following two files:</p>
+<p id="refreshData">You may change the content of this page by modifying the following two files:</p>
 <ul>
 	<li>View file: <code><?php echo __FILE__; ?></code></li>
 	<li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>

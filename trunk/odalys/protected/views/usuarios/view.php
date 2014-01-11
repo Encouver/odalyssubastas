@@ -24,6 +24,8 @@ $this->menu=array(
        'updatingTime'=>6000, // 6 sec
     'filter'=>$model,
     'columns'=>array(
+    	'id',
+    	'nombre',
         array(
             'class'=>'CButtonColumn',
         ),
