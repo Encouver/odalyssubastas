@@ -29,12 +29,68 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'activa=:activa';
+		$criteria->params = array(':activa'=>1);
+
+		$subas = Subastas::model()->find($criteria);
+
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'ids=:ids';
+		$criteria->params = array(':ids'=>$subas['id']);
+
+
+		$query = ImagenS::model()->findAll($criteria);
+
+		$contador = 0;
+		$con = 0;
+		echo '<table width="100%"><tr>';
+		foreach ($query as $key => $value) {
+			$con ++;
+			$criteria = new CDbCriteria;
+
+			$criteria->condition = 'idusuario=:idusuario';
+			$criteria->params = array(':idusuario'=>$value->id_usuario);
+
+			$resultado= Usuariospujas::model()->find($criteria);
+			
+			if($contador==6)
+			{
+				echo '<tr>';
+			}
+				$contador++;
+				if($resultado)
+				{
+
+					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
+					//echo '<td><img src="'.$value->imagen.'"></td>';
+					
+					echo '<td><img src="images/3ba.jpg"><br/><div id="imagen_'.$value->id.'">'.$con.'<br/>Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div></td>';
+
+
+				}else
+				{
+					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
+					//echo '<td><img src="'.$value->imagen.'"></td>';
+					//echo '<td><img src="images/3ba.jpg"></td>';
+					echo '<td><img src="images/3ba.jpg"><br><div id="imagen_'.$value->id.'">'.$con.'<br/>Precio : '.$value->actual.'</div></td>';
+				}
+
+			if($contador==6)
+			{
+				echo '</tr>';
+				$contador=0;
+			}
+
+		}
 		$this->layout='//layouts/column2';
 		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
+		// using the default layout 'protected/views/layouts/main.php1'
 		$this->render('index');
-	}
 
+	}
 
 	public function actionBuscar()
 	{
@@ -58,56 +114,27 @@ class SiteController extends Controller
 		$criteria = new CDbCriteria;
 
 		$criteria->condition = 'ids=:ids';
+		$criteria->select = 'id, actual, id_usuario';
 		$criteria->params = array(':ids'=>$subas['id']);
-
 
 		$query = ImagenS::model()->findAll($criteria);
 
-		$contador = 0;
-		$con = 0;
-		echo '<table width="100%"><tr>';
+		//echo $query;
+
+		$res = array();
 		foreach ($query as $key => $value) {
-			$con ++;
 			$criteria = new CDbCriteria;
 
 			$criteria->condition = 'idusuario=:idusuario';
+			$criteria->select = 'paleta';
 			$criteria->params = array(':idusuario'=>$value->id_usuario);
 
 			$resultado= Usuariospujas::model()->find($criteria);
 
-			if($contador==6)
-			{
-				echo '<tr>';
+			if($resultado){
+				echo json_encode(array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>$value->actual));
 			}
-				$contador++;
-				if($resultado)
-				{
-
-					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
-					//echo '<td><img src="'.$value->imagen.'"></td>';
-					
-					echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<br/>Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</td>';
-
-
-				}else
-				{
-					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
-					//echo '<td><img src="'.$value->imagen.'"></td>';
-					//echo '<td><img src="images/3ba.jpg"></td>';
-					echo '<td><img src="images/3ba.jpg"><br>'.$con.'<br/>Precio : '.$value->actual.'</td>';
-				}
-
-			if($contador==6)
-			{
-				echo '</tr>';
-				$contador=0;
-			}
-
-
-			
 		}
-
-		echo "</tr></table>";
 	}
 
 	/**
