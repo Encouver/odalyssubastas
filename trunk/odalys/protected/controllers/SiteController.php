@@ -49,11 +49,43 @@ class SiteController extends Controller
 
 		$subas = Subastas::model()->find($criteria);
 
+
 		$criteria = new CDbCriteria;
-		$criteria->alias = 'a';
-		$criteria->join = 'LEFT JOIN usuariospujas ON usuariospujas.idusuario = a.id_usuario';
-		$criteria->condition='ids=:ids';
+
+		$criteria->condition = 'ids=:ids';
+		$criteria->params = array(':ids'=>$subas['id']);
+
+
+		$query = ImagenS::model()->findAll($criteria);
+
+		foreach ($query as $key => $value) {
+			$criteria = new CDbCriteria;
+
+			$criteria->condition = 'idusuario=:idusuario';
+			$criteria->params = array(':idusuario'=>$value->id_usuario);
+
+			$resultado= Usuariospujas::model()->find($criteria);
+
+			if($resultado)
+			{
+
+				echo 'Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
+
+			}else
+			{
+				echo 'Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
+
+			}
+		}
+
+
+
+		/*$criteria = new CDbCriteria;
+		//$criteria->alias = 'a';
 		$criteria->select = '*';
+		$criteria->join = 'LEFT JOIN usuariospujas ON usuariospujas.idusuario = imagen_s.id_usuario';
+		$criteria->condition='ids=:ids';
+		//$criteria->addCondition("imagen_s.ids=".34);
 		$criteria->together = true;
 		$criteria->params=array(':ids'=>$subas['id']);
 		
@@ -66,7 +98,7 @@ class SiteController extends Controller
 		$criteria->condition='idusuario=:idusuario';
 		if(isset($subas['id_usuario']))
 		$criteria->params=array(':idusuario'=>$subas['id_usuario']);
-		//else echo 'console.log('.print_r($subas).');';
+		//else echo 'console.log('.print_r($subas).');';*/
 
 		//$queryuser = Usuariospujas::model()->findAll($criteria);
 
@@ -74,9 +106,12 @@ class SiteController extends Controller
 
 		//echo 'console.log('.print_r($query).');';
 		
-		foreach ($query as $key => $value) {
+		/*foreach ($query as $key => $value) {
+			
+
+
 			echo 'Paleta Usuario: '.' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
-		}
+		}*/
 	}
 
 	/**

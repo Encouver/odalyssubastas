@@ -38,27 +38,6 @@ $this->pageTitle=Yii::app()->name;
 	});';
     Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 ?>
-$.ajax({
-type: "GET",
-url: "buscar",
-dataType: "html",
-data: {
-id : $("#Numerosvendidos_idsorteo" ).val(),	
-},
-beforeSend: function () {
-},
-success : function(data){
-json = data;
-
-},
-error : function(XMLHttpRequest, textStatus, errorThrown) {
-
-},
-complete : function() { 
-$("#busqueda").html(json);
-
-}
-});
 
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
