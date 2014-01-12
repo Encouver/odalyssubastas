@@ -39,7 +39,44 @@ class SiteController extends Controller
 		// using the default layout 'protected/views/layouts/main.php'
 		//$this->render('index');
 
-		echo "Hola marcos";
+		//$connection Yii::app()->db;
+		//$connection->query("SELECT * FROM imagen_s WHERE ");
+
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'activa=:activa';
+		$criteria->params = array(':activa'=>1);
+
+		$subas = Subastas::model()->find($criteria);
+
+		$criteria = new CDbCriteria;
+		$criteria->alias = 'a';
+		$criteria->join = 'LEFT JOIN usuariospujas ON usuariospujas.idusuario = a.id_usuario';
+		$criteria->condition='ids=:ids';
+		$criteria->select = '*';
+		$criteria->together = true;
+		$criteria->params=array(':ids'=>$subas['id']);
+		
+		//When using findAll() the results will be returned in array form, 
+		//while using find() the result will be in object form.
+		$query = ImagenS::model()->findAll($criteria);
+
+		$criteria = new CDbCriteria;
+		//$criteria->join = 'LEFT JOIN usuarios ON usuarios.id=idsubasta';
+		$criteria->condition='idusuario=:idusuario';
+		if(isset($subas['id_usuario']))
+		$criteria->params=array(':idusuario'=>$subas['id_usuario']);
+		//else echo 'console.log('.print_r($subas).');';
+
+		//$queryuser = Usuariospujas::model()->findAll($criteria);
+
+		//echo $queryuser;
+
+		//echo 'console.log('.print_r($query).');';
+		
+		foreach ($query as $key => $value) {
+			echo 'Paleta Usuario: '.' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
+		}
 	}
 
 	/**

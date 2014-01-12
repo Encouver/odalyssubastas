@@ -5,7 +5,7 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <?php
-    $ourscript = '
+    $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();
 		setInterval( "updateMyContent();", 1000 );
@@ -28,6 +28,7 @@ $this->pageTitle=Yii::app()->name;
 							
 							},
 							complete : function() { 
+									$("#refreshData").empty();
 									$("#refreshData").append(json);
 											 
 							 }
@@ -37,6 +38,27 @@ $this->pageTitle=Yii::app()->name;
 	});';
     Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 ?>
+$.ajax({
+type: "GET",
+url: "buscar",
+dataType: "html",
+data: {
+id : $("#Numerosvendidos_idsorteo" ).val(),	
+},
+beforeSend: function () {
+},
+success : function(data){
+json = data;
+
+},
+error : function(XMLHttpRequest, textStatus, errorThrown) {
+
+},
+complete : function() { 
+$("#busqueda").html(json);
+
+}
+});
 
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
@@ -52,3 +74,6 @@ $this->pageTitle=Yii::app()->name;
 the <a href="http://www.yiiframework.com/doc/">documentation</a>.
 Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
 should you have any questions.</p>
+
+
+
