@@ -2,6 +2,8 @@
 
 class SiteController extends Controller
 {
+
+	public $layout='//layouts/column2';
 	/**
 	 * Declares class-based actions.
 	 */
@@ -27,6 +29,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$this->layout='//layouts/column2';
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render('index');
@@ -35,6 +38,8 @@ class SiteController extends Controller
 
 	public function actionBuscar()
 	{
+
+
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		//$this->render('index');
@@ -58,6 +63,8 @@ class SiteController extends Controller
 
 		$query = ImagenS::model()->findAll($criteria);
 
+		$contador = 0;
+		echo '<table width="100%"><tr>';
 		foreach ($query as $key => $value) {
 			$criteria = new CDbCriteria;
 
@@ -66,52 +73,39 @@ class SiteController extends Controller
 
 			$resultado= Usuariospujas::model()->find($criteria);
 
-			if($resultado)
+			if($contador==6)
 			{
-
-				echo 'Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
-
-			}else
-			{
-				echo 'Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
-
+				echo '<tr>';
 			}
+				$contador++;
+				if($resultado)
+				{
+
+					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
+					//echo '<td><img src="'.$value->imagen.'"></td>';
+					
+					echo '<td><img src="images/3ba.jpg"><br/>'.$value->solonombre.'<br/>Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</td>';
+
+
+				}else
+				{
+					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
+					//echo '<td><img src="'.$value->imagen.'"></td>';
+					//echo '<td><img src="images/3ba.jpg"></td>';
+					echo '<td><img src="images/3ba.jpg"><br>'.$value->solonombre.'<br/>Precio : '.$value->actual.'</td>';
+				}
+
+			if($contador==6)
+			{
+				echo '</tr>';
+				$contador=0;
+			}
+
+
+			
 		}
 
-
-
-		/*$criteria = new CDbCriteria;
-		//$criteria->alias = 'a';
-		$criteria->select = '*';
-		$criteria->join = 'LEFT JOIN usuariospujas ON usuariospujas.idusuario = imagen_s.id_usuario';
-		$criteria->condition='ids=:ids';
-		//$criteria->addCondition("imagen_s.ids=".34);
-		$criteria->together = true;
-		$criteria->params=array(':ids'=>$subas['id']);
-		
-		//When using findAll() the results will be returned in array form, 
-		//while using find() the result will be in object form.
-		$query = ImagenS::model()->findAll($criteria);
-
-		$criteria = new CDbCriteria;
-		//$criteria->join = 'LEFT JOIN usuarios ON usuarios.id=idsubasta';
-		$criteria->condition='idusuario=:idusuario';
-		if(isset($subas['id_usuario']))
-		$criteria->params=array(':idusuario'=>$subas['id_usuario']);
-		//else echo 'console.log('.print_r($subas).');';*/
-
-		//$queryuser = Usuariospujas::model()->findAll($criteria);
-
-		//echo $queryuser;
-
-		//echo 'console.log('.print_r($query).');';
-		
-		/*foreach ($query as $key => $value) {
-			
-
-
-			echo 'Paleta Usuario: '.' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'<br/>';
-		}*/
+		echo "</tr></table>";
 	}
 
 	/**
