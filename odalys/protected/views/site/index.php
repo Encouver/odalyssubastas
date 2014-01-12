@@ -8,7 +8,7 @@ $this->pageTitle=Yii::app()->name;
     $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();
-		setInterval( "updateMyContent();", 1000 );
+		setInterval( "updateMyContent();", 5000 );
 		$(function() {
        		updateMyContent = function(){
                $.ajax({
@@ -30,10 +30,10 @@ $this->pageTitle=Yii::app()->name;
 									var datos = json;
 									//console.log(json);
 									json.forEach(function(entry){
-
-											$("#imagen_".entry["id"]).innerHTML = "<br/>Paleta : ".entry["paleta"]."<br/>Precio : ".entry["actual"];
-											//console.log("haciendo");
-									//});
+											$("#imagen_"+entry["id"]).empty();
+											$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
+											
+									});
 									//$("#refreshData").empty();
 									//$("#refreshData").append(json);
 											 

@@ -67,7 +67,7 @@ class SiteController extends Controller
 					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
 					//echo '<td><img src="'.$value->imagen.'"></td>';
 					
-					echo '<td><img src="images/3ba.jpg"><br/><div id="imagen_'.$value->id.'">'.$con.'<br/>Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div></td>';
+					echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div></td>';
 
 
 				}else
@@ -75,7 +75,7 @@ class SiteController extends Controller
 					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
 					//echo '<td><img src="'.$value->imagen.'"></td>';
 					//echo '<td><img src="images/3ba.jpg"></td>';
-					echo '<td><img src="images/3ba.jpg"><br><div id="imagen_'.$value->id.'">'.$con.'<br/>Precio : '.$value->actual.'</div></td>';
+					echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div></td>';
 				}
 
 			if($contador==6)
