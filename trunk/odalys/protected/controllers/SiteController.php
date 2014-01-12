@@ -132,9 +132,11 @@ class SiteController extends Controller
 			$resultado= Usuariospujas::model()->find($criteria);
 
 			if($resultado){
-				echo json_encode(array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>$value->actual));
+				$res[] =  array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>$value->actual);
 			}
 		}
+		echo json_encode($res);
+		exit();
 	}
 
 	/**

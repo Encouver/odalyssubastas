@@ -27,13 +27,13 @@ $this->pageTitle=Yii::app()->name;
 							
 							},
 							complete : function() { 
-									var datos = jQuery.parseJSON(json);
-									console.log(datos);
-									datos.forEach(function(entry){
+									var datos = json;
+									//console.log(json);
+									json.forEach(function(entry){
 
-									//		$("#imagen_".entry["id"]).innerHTML = "<br/>Paleta : ".entry["paleta"]."<br/>Precio : ".entry["actual"];
-											console.log("haciendo");
-									});
+											$("#imagen_".entry["id"]).innerHTML = "<br/>Paleta : ".entry["paleta"]."<br/>Precio : ".entry["actual"];
+											//console.log("haciendo");
+									//});
 									//$("#refreshData").empty();
 									//$("#refreshData").append(json);
 											 
