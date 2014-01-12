@@ -64,8 +64,10 @@ class SiteController extends Controller
 		$query = ImagenS::model()->findAll($criteria);
 
 		$contador = 0;
+		$con = 0;
 		echo '<table width="100%"><tr>';
 		foreach ($query as $key => $value) {
+			$con ++;
 			$criteria = new CDbCriteria;
 
 			$criteria->condition = 'idusuario=:idusuario';
@@ -84,7 +86,7 @@ class SiteController extends Controller
 					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
 					//echo '<td><img src="'.$value->imagen.'"></td>';
 					
-					echo '<td><img src="images/3ba.jpg"><br/>'.$value->solonombre.'<br/>Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</td>';
+					echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<br/>Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</td>';
 
 
 				}else
@@ -92,7 +94,7 @@ class SiteController extends Controller
 					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
 					//echo '<td><img src="'.$value->imagen.'"></td>';
 					//echo '<td><img src="images/3ba.jpg"></td>';
-					echo '<td><img src="images/3ba.jpg"><br>'.$value->solonombre.'<br/>Precio : '.$value->actual.'</td>';
+					echo '<td><img src="images/3ba.jpg"><br>'.$con.'<br/>Precio : '.$value->actual.'</td>';
 				}
 
 			if($contador==6)
