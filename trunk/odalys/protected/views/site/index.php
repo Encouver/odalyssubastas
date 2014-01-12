@@ -14,22 +14,28 @@ $this->pageTitle=Yii::app()->name;
                $.ajax({
 							type: "POST",
 							url: "http://localhost/odalyssubastas/odalys/index.php?r=site/buscar",
-							dataType: "html",
+							dataType: "json",
 							data: {
-								//id : $("#Numerosvendidos_idsorteo" ).val(),							
+
 							},
 							beforeSend: function () {
 	               			},
 							success : function(data){
 								json = data;
-
 							},
 							error : function(XMLHttpRequest, textStatus, errorThrown) {
 							
 							},
 							complete : function() { 
-									$("#refreshData").empty();
-									$("#refreshData").append(json);
+									var datos = jQuery.parseJSON(json);
+									console.log(datos);
+									datos.forEach(function(entry){
+
+									//		$("#imagen_".entry["id"]).innerHTML = "<br/>Paleta : ".entry["paleta"]."<br/>Precio : ".entry["actual"];
+											console.log("haciendo");
+									});
+									//$("#refreshData").empty();
+									//$("#refreshData").append(json);
 											 
 							 }
 				});
