@@ -27,16 +27,11 @@ $this->pageTitle=Yii::app()->name;
 							
 							},
 							complete : function() { 
-									var datos = json;
-									//console.log(json);
 									json.forEach(function(entry){
 											$("#imagen_"+entry["id"]).empty();
 											$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
 											
-									});
-									//$("#refreshData").empty();
-									//$("#refreshData").append(json);
-											 
+									});											 
 							 }
 				});
        		}
