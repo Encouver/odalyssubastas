@@ -14,8 +14,8 @@
 
 	<meta name="viewport" content="width=device-width">
 	
-	<meta name="description" content="Designa Studio, a HTML5 / CSS3 template.">
-	<meta name="author" content="Sylvain Lafitte, Web Designer, sylvainlafitte.com">
+	<meta name="description" content="Subastas Odalys">
+	<meta name="author" content="Marcos-Edgar">
 	
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	
@@ -66,11 +66,11 @@
 			<a href="#" class="arrow fright">see more infos</a>
 		</header>
 		
-		<div class="grid col-one-half mq2-col-full">
+		<div class="grid col-full mq2-col-full">
 			<?php echo $content; ?>
 		</div>
 	
-		 <div class="slider grid col-one-half mq2-col-full">
+		 <!--<div class="slider grid col-one-half mq2-col-full">
 		   <div class="flexslider">
 		     <div class="slides">
 		       <div class="slide">
@@ -98,11 +98,11 @@
 		               </div>
 		            </div>
 		   </div>
-		 </div>
+		 </div>-->
 		
 		 </section>
 	
-	<section class="services grid-wrap">
+	<!--<section class="services grid-wrap">
 		<header class="grid col-full">
 			<hr>
 			<p class="fleft">Services</p>
@@ -126,9 +126,9 @@
 			<h5>Graphic design</h5>
 			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim.</p>
 		</article>
-	</section>
+	</section>-->
 
-<section class="works grid-wrap">
+<!--<section class="works grid-wrap">
 	<header class="grid col-full">
 			<hr>
 			<p class="fleft">Works</p>
@@ -137,7 +137,7 @@
 	
 			<figure class="grid col-one-quarter mq2-col-one-half">
 				<a href="#">
-				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
+				<img src="<?php //echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
 				<span class="zoom"></span>
 				</a>
 				<figcaption>
@@ -148,7 +148,7 @@
 
 			<figure class="grid col-one-quarter mq2-col-one-half">
 				<a href="#">
-				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
+				<img src="<?php //echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
 				<span class="zoom"></span>
 				</a>
 				<figcaption>
@@ -159,7 +159,7 @@
 		
 			<figure class="grid col-one-quarter mq2-col-one-half">
 				<a href="#">
-				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
+				<img src="<?php //echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
 				<span class="zoom"></span>
 				</a>
 				<figcaption>
@@ -170,7 +170,7 @@
 		
 			<figure class="grid col-one-quarter mq2-col-one-half">
 				<a href="#">
-				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
+				<img src="<?php //echo Yii::app()->theme->baseUrl; ?>/img/img.jpg" alt="">
 				<span class="zoom"></span>
 				</a>
 				<figcaption>
@@ -184,11 +184,11 @@
 <div class="divide-top">
 	<footer class="grid-wrap">
 		<ul class="grid col-one-third social">
-			<li><a href="#">RSS</a></li>
+			<!--<li><a href="#">RSS</a></li>-->
 			<li><a href="#">Facebook</a></li>
 			<li><a href="#">Twitter</a></li>
 			<li><a href="#">Google+</a></li>
-			<li><a href="#">Flickr</a></li>
+			<!--<li><a href="#">Flickr</a></li>-->
 		</ul>
 	
 		<div class="up grid col-one-third ">

@@ -40,7 +40,9 @@ $this->pageTitle=Yii::app()->name;
     Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 ?>
 
-<p id="refreshData"></p>
+<p id="refreshData"><?php
+	echo $imprimir;
+?></p>
 
 
 

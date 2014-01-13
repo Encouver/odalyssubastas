@@ -3,7 +3,7 @@
 class SiteController extends Controller
 {
 
-	public $layout='//layouts/column2';
+	//public $layout='//layouts/column2';
 	/**
 	 * Declares class-based actions.
 	 */
@@ -46,7 +46,9 @@ class SiteController extends Controller
 
 		$contador = 0;
 		$con = 0;
-		echo '<table width="100%"><tr>';
+		$imprimir ="";
+		//echo '<table width="80%"><tr>';
+		$imprimir = '<table width="100%"><tr>';
 		foreach ($query as $key => $value) {
 			$con ++;
 			$criteria = new CDbCriteria;
@@ -58,7 +60,9 @@ class SiteController extends Controller
 			
 			if($contador==6)
 			{
-				echo '<tr>';
+				//echo '<tr>';
+
+				$imprimir .= '<tr align="center" valign="middle">';
 			}
 				$contador++;
 				if($resultado)
@@ -67,28 +71,37 @@ class SiteController extends Controller
 					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
 					//echo '<td><img src="'.$value->imagen.'"></td>';
 					
-					echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-
+					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					$imprimir .='<td align="center" valign="middle"><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
 
 				}else
 				{
 					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
 					//echo '<td><img src="'.$value->imagen.'"></td>';
 					//echo '<td><img src="images/3ba.jpg"></td>';
-					echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					$imprimir .='<td align="center" valign="middle"><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
 				}
 
 			if($contador==6)
 			{
-				echo '</tr>';
+				//echo '</tr>';
+				$imprimir .='</tr>';
 				$contador=0;
 			}
 
+			
+			//$model = 21;
+
 		}
-		$this->layout='//layouts/column2';
+		$imprimir .='</table>';
+
+		$this->layout='//layouts/column1';
+
+		//$imprimir ="Hola";
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php1'
-		$this->render('index');
+		$this->render('index', array('imprimir'=>$imprimir));
 
 	}
 
