@@ -67,20 +67,14 @@ class SiteController extends Controller
 				$contador++;
 				if($resultado)
 				{
-
-					//echo '<td>Paleta Usuario: '.$resultado['paleta'].' | Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
-					//echo '<td><img src="'.$value->imagen.'"></td>';
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
 
 				}else
 				{
-					//echo '<td>Imagens ID: '.$value->id.' | Precio Base: '.$value->base.' | Precio Actual: '.$value->actual.'</td><br/>';
-					//echo '<td><img src="'.$value->imagen.'"></td>';
-					//echo '<td><img src="images/3ba.jpg"></td>';
-					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
 				}
 
 			if($contador==6)
@@ -232,13 +226,13 @@ class SiteController extends Controller
 	    $model=new RegistroPujas;
 
 	    // uncomment the following code to enable ajax-based validation
-	    /*
+	    
 	    if(isset($_POST['ajax']) && $_POST['ajax']==='registro-pujas-pujar-form')
 	    {
 	        echo CActiveForm::validate($model);
 	        Yii::app()->end();
 	    }
-	    */
+	    /**/
 
 	    if(isset($_POST['RegistroPujas']))
 	    {
@@ -246,6 +240,7 @@ class SiteController extends Controller
 	        if($model->validate())
 	        {
 	            // form inputs are valid, do something here
+
 	            return;
 	        }
 	    }

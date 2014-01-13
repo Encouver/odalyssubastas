@@ -5,6 +5,30 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <?php
+    $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+		    'id'=>'pujaModal',
+		    'options'=>array(
+		        'title'=>'Pujar',
+		        'width'=>400,
+		        'height'=>200,
+		        'autoOpen'=>false,
+		        'resizable'=>false,
+		        'modal'=>true,
+		        'overlay'=>array(
+		            'backgroundColor'=>'#000',
+		            'opacity'=>'0.5'
+		        ),
+		        'buttons'=>array(
+		            'Pujar'=>'js:function(){alert("OK");}',
+		            'Cancelar'=>'js:function(){$(this).dialog("close");}',
+		        ),
+		    ),
+		));
+
+	    echo 'Modal dialog content here ';
+	    
+	$this->endWidget('zii.widgets.jui.CJuiDialog');
+
     $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();
@@ -30,7 +54,6 @@ $this->pageTitle=Yii::app()->name;
 									json.forEach(function(entry){
 											$("#imagen_"+entry["id"]).empty();
 											$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
-											
 									});											 
 							 }
 				});
@@ -38,11 +61,15 @@ $this->pageTitle=Yii::app()->name;
 		}); 
 	});';
     Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
-?>
 
-<p id="refreshData"><?php
+    echo $imprimir;
+?>
+<button onclick= "$('#pujaModal').dialog('open'); return false;">Trillionare</button>
+<p id="refreshData">
+	<?php
 	echo $imprimir;
-?></p>
+	?>
+</p>
 
 
 

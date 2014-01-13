@@ -8,7 +8,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'registro-pujas-pujar-form',
-	'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>false,
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
@@ -28,11 +28,6 @@
 		<?php echo $form->error($model,'id_imagen_s'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'monto_puja'); ?>
-		<?php echo $form->textField($model,'monto_puja'); ?>
-		<?php echo $form->error($model,'monto_puja'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
