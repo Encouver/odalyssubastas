@@ -9,8 +9,8 @@ $this->pageTitle=Yii::app()->name;
 		    'id'=>'pujaModal',
 		    'options'=>array(
 		        'title'=>'Pujar',
-		        'width'=>400,
-		        'height'=>200,
+		        'width'=>'auto',
+		        'height'=>'auto',
 		        'autoOpen'=>false,
 		        'resizable'=>false,
 		        'modal'=>true,
@@ -28,7 +28,9 @@ $this->pageTitle=Yii::app()->name;
 	    echo 'Modal dialog content here ';
 	    
 	$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
 
+<?php
     $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();
@@ -37,7 +39,7 @@ $this->pageTitle=Yii::app()->name;
        		updateMyContent = function(){
                $.ajax({
 							type: "POST",
-							url: "http://localhost/odalyssubastas/odalys/index.php?r=site/buscar",
+							url: "index.php?r=site/buscar",
 							dataType: "json",
 							data: {
 
@@ -62,12 +64,11 @@ $this->pageTitle=Yii::app()->name;
 	});';
     Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 
-    echo $imprimir;
 ?>
-<button onclick= "$('#pujaModal').dialog('open'); return false;">Trillionare</button>
+
 <p id="refreshData">
 	<?php
-	echo $imprimir;
+		echo $imprimir;
 	?>
 </p>
 
