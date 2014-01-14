@@ -44,6 +44,15 @@ class SiteController extends Controller
 
 		$query = ImagenS::model()->findAll($criteria);
 
+		$pujarAjaxLink = CHtml::ajaxLink('Pujar',
+		        $this->createUrl('site/pujar'),
+		        array(
+		            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+		            //'update'=>'#pujaModal'
+		            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+		        ),
+		        array('id'=>'showJuiDialog')
+		);
 		$contador = 0;
 		$con = 0;
 		$imprimir ="";
@@ -69,12 +78,15 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
+					.$pujarAjaxLink.'</td>';
+
 
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
+					.$pujarAjaxLink.'</td>';
 				}
 
 			if($contador==6)
@@ -244,6 +256,7 @@ class SiteController extends Controller
 	            return;
 	        }
 	    }
+	    $this->layout = '//layouts/modal';
 	    $this->render('pujar',array('model'=>$model));
 	}
 

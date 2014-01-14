@@ -8,7 +8,9 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'registro-pujas-pujar-form',
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation'=>true,
+	'enableClientValidation'=>true,
+    'focus'=>array($model,'idusuario'),
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
