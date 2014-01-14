@@ -19,7 +19,7 @@ $this->pageTitle=Yii::app()->name;
 		            'opacity'=>'0.5'
 		        ),
 		        'buttons'=>array(
-		            'Pujar'=>'js:function(){alert("OK");}',
+		            //'Pujar'=>'js:function(){alert("OK");}',
 		            'Cancelar'=>'js:function(){$(this).dialog("close");}',
 		        ),
 		    ),
@@ -31,6 +31,8 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <?php
+
+
     $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();

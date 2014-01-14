@@ -13,9 +13,9 @@
     'focus'=>array($model,'idusuario'),
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
-	<?php echo $form->errorSummary($model); ?>
+	<?php //echo $form->errorSummary($model); ?>
 
 
 	<div class="row">
@@ -39,7 +39,25 @@
 
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Submit'); ?>
+		<?php //echo CHtml::submitButton('Submit'); ?>
+		<?php echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
+															'dataType' => "html",
+															'data' => '{
+															}',
+															'success' => 'function(data){
+																	json = data;
+															}',
+													        'beforeSend' => 'function(){
+													            //alert("beforeSend");
+													        }',
+													        'complete' => 'function(){
+													        	console.log($("#pujaModal"));
+													        	//$("#pujaModal").html(json);
+													        	//$("#pujaModal").dialog("close");
+													            alert("Puja exitosa!");
+													            }',),
+													    array('type'=>'submit')); ?>
+
 	</div>
 
 <?php $this->endWidget(); ?>
