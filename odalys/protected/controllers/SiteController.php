@@ -51,7 +51,7 @@ class SiteController extends Controller
 		            //'update'=>'#pujaModal'
 		            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 		        ),
-		        array('id'=>'showJuiDialog')
+		        array('id'=>'showJuiDialogPujar')
 		);
 		$contador = 0;
 		$con = 0;
@@ -78,14 +78,14 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').click();" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
 					.$pujarAjaxLink.'</td>';
 
 
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#pujaModal\').dialog(\'open\'); return false;" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').click();" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
 					.$pujarAjaxLink.'</td>';
 				}
 
