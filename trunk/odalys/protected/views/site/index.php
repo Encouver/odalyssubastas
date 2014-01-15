@@ -32,7 +32,7 @@ $this->pageTitle=Yii::app()->name;
 
 <?php
 
-
+	
     $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();
@@ -41,7 +41,7 @@ $this->pageTitle=Yii::app()->name;
        		updateMyContent = function(){
                $.ajax({
 							type: "POST",
-							url: "index.php?r=site/buscar",
+							url: "'.$this->createUrl('site/buscar').'",
 							dataType: "json",
 							data: {
 

@@ -52,7 +52,7 @@
 													        }',
 													        'complete' => 'function(){
 													        	//$("#pujaModal").html(json);
-													        	//$("#pujaModal").dialog("close");
+													        	$("#pujaModal").dialog("close");
 													            alert("Puja exitosa!");
 													            }',),
 													    array('type'=>'submit')); ?>
