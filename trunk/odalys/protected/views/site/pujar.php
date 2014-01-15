@@ -51,7 +51,6 @@
 													            //alert("beforeSend");
 													        }',
 													        'complete' => 'function(){
-													        	console.log($("#pujaModal"));
 													        	//$("#pujaModal").html(json);
 													        	//$("#pujaModal").dialog("close");
 													            alert("Puja exitosa!");
