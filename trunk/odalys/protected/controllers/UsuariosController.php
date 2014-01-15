@@ -125,7 +125,12 @@ class UsuariosController extends Controller
 		$dataProvider=new CActiveDataProvider('Usuarios');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+		));*/
+
+		//Yii::app()->runController('Mail/Compradores');
+		
+		/*list($controlador) = Yii::app()->createController('Mail');
+		$controlador->actionCompradores();*/
 	}
 
 	/**
