@@ -44,15 +44,7 @@ class SiteController extends Controller
 
 		$query = ImagenS::model()->findAll($criteria);
 
-		$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-		        $this->createUrl('site/pujar'),
-		        array(
-		            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
-		            //'update'=>'#pujaModal'
-		            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
-		        ),
-		        array('id'=>'showJuiDialogPujar')
-		);
+
 		$contador = 0;
 		$con = 0;
 		$imprimir ="";
@@ -67,6 +59,22 @@ class SiteController extends Controller
 
 			$resultado= Usuariospujas::model()->find($criteria);
 			
+			$pujarAjaxLink = CHtml::ajaxLink('Pujar',
+		        $this->createUrl('site/pujar'),
+		        array(
+		            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+		            //'update'=>'#pujaModal'
+		            'type'=>'POST',
+		            'data' => array('imagen_s'=> $value->id ),
+		            'beforeSend'=>'function(){
+		            		//data["imagen_s"] = 0;
+		            		//data["montomax"] = $("#RegistroPujas_maximo_dispuesto").value;
+		            }',
+		            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+		        ),
+		        array('id'=>'showJuiDialogPujar')
+			);
+
 			if($contador==6)
 			{
 				//echo '<tr>';
@@ -78,14 +86,14 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').click();" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
 					.$pujarAjaxLink.'</td>';
 
 
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').click();" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').trigger();" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
 					.$pujarAjaxLink.'</td>';
 				}
 
@@ -252,7 +260,14 @@ class SiteController extends Controller
 	        if($model->validate())
 	        {
 	            // form inputs are valid, do something here
+	        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo realacionado con la puja
+	        	if(isset($_POST['data']))
+	        	{
+	        		$imagensId = $_POST['data']->imagen_s;
+		        	//$_SESSION['admin']
+		        	//$_SESSION['id_usuario']
 
+	        	}
 	            return;
 	        }
 	    }

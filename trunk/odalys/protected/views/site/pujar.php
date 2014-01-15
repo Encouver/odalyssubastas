@@ -4,31 +4,29 @@
 /* @var $form CActiveForm */
 ?>
 
+
+<?php 
+	
+	$modelImagenS = new ImagenS();
+	//$_POST['data']->imagen_s
+
+	if(isset($_POST['imagen_s']))
+	echo '<div id="'.$_POST['imagen_s'].'" </div>';
+
+?>
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'registro-pujas-pujar-form',
 	'enableAjaxValidation'=>true,
 	'enableClientValidation'=>true,
-    'focus'=>array($model,'idusuario'),
+    'focus'=>array($model,'maximo_dispuesto'),
 )); ?>
 
 	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
 	<?php //echo $form->errorSummary($model); ?>
-
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'idusuario'); ?>
-		<?php echo $form->textField($model,'idusuario'); ?>
-		<?php echo $form->error($model,'idusuario'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'id_imagen_s'); ?>
-		<?php echo $form->textField($model,'id_imagen_s'); ?>
-		<?php echo $form->error($model,'id_imagen_s'); ?>
-	</div>
 
 
 	<div class="row">
@@ -52,7 +50,7 @@
 													        }',
 													        'complete' => 'function(){
 													        	//$("#pujaModal").html(json);
-													        	$("#pujaModal").dialog("close");
+													        	//$("#pujaModal").dialog("close");
 													            alert("Puja exitosa!");
 													            }',),
 													    array('type'=>'submit')); ?>
