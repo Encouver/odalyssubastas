@@ -68,13 +68,9 @@ class SiteController extends Controller
 		            'data' => array('imagen_s'=> '0' ),
 		            'context'=>'js:this',
 		            'beforeSend'=>'function(xhr,settings){
-		            	console.log(settings);
-		            		//console.log($(this).attr("id"));
-		            		//console.log(settings.data);
-		            		settings.data = encodeURIComponent(\'imagen_s\')
+		            						settings.data = encodeURIComponent(\'imagen_s\')
               								+ \'=\'
-              								+ encodeURIComponent($(this).attr("id")); //{imagen_s: $(this).attr("id")};
-		            		//console.log(settings.data);
+              								+ encodeURIComponent($(this).attr(\'id\')); //{imagen_s: $(this).attr("id")};
 		            }',
 		            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 		        ),
@@ -92,14 +88,14 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
 					.$pujarAjaxLink.'</td>';
 
 
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#showJuiDialogPujar\').trigger();" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
 					.$pujarAjaxLink.'</td>';
 				}
 
@@ -296,7 +292,7 @@ class SiteController extends Controller
 	        				if($registro)
 	        				{
 
-		        				if($registro->monto_maximo >  $model->maximo_dispuesto)
+		        				if($registro->monto_maximo >  $model->maximo_dispuesto)  // <----------------- quieres decir monto_puja?
 		        				{
 		        					$imagen_modelo->actual = $model->maximo_dispuesto;
 
@@ -322,6 +318,11 @@ class SiteController extends Controller
 
 		        					/// es el primero que ingresa.
 
+								$imagen_modelo->actual *= 1.1;
+
+								$imagen_modelo->save();
+
+								$model->save();
 		        			}
 
 	        			}
@@ -347,7 +348,12 @@ class SiteController extends Controller
 
 	        	}
 	            return;
+	        }else
+	        {
+	        //	echo CActiveForm::validate($model);
+	        //	Yii::app()->end();
 	        }
+
 	    }
 	    $this->layout = '//layouts/modal';
 	    $this->render('pujar',array('model'=>$model));
