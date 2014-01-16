@@ -65,14 +65,20 @@ class SiteController extends Controller
 		            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
 		            //'update'=>'#pujaModal'
 		            'type'=>'POST',
-		            'data' => array('imagen_s'=> $value->id ),
-		            'beforeSend'=>'function(){
-		            		//data["imagen_s"] = 0;
-		            		//data["montomax"] = $("#RegistroPujas_maximo_dispuesto").value;
+		            'data' => array('imagen_s'=> '0' ),
+		            'context'=>'js:this',
+		            'beforeSend'=>'function(xhr,settings){
+		            	console.log(settings);
+		            		//console.log($(this).attr("id"));
+		            		//console.log(settings.data);
+		            		settings.data = encodeURIComponent(\'imagen_s\')
+              								+ \'=\'
+              								+ encodeURIComponent($(this).attr("id")); //{imagen_s: $(this).attr("id")};
+		            		//console.log(settings.data);
 		            }',
 		            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 		        ),
-		        array('id'=>'showJuiDialogPujar')
+		        array('id'=>$value->id)
 			);
 
 			if($contador==6)
@@ -260,12 +266,24 @@ class SiteController extends Controller
 	        if($model->validate())
 	        {
 	            // form inputs are valid, do something here
-	        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo realacionado con la puja
+	        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
 	        	if(isset($_POST['data']))
 	        	{
+	        		ImagenS::model();
+
+
 	        		$imagensId = $_POST['data']->imagen_s;
-		        	//$_SESSION['admin']
+		        	//$_SESSION['admin']	//caso especial
+		        	
 		        	//$_SESSION['id_usuario']
+	        		$model->updateByPk(array('idusuario'=>$_SESSION['id_usuario'],'id_imagen_s'=>$imagensId));
+
+	        		//ImagenS::model()->updateByPk($imagenId,array('actual'=>$model->maximo_dispuesto));
+
+	        		//Hay que hacer un trigger en la bd que al actualizar el maximo_dispuesto de la tabla registro_pujas,
+	        		//actualice el monto actual de la imagen_s correspondiente a ese registro, al minimo valor de puja siguiente (tomando
+	        		// en cuenta los maximos_dispuestos de los otros usuarios que hayan de esa imagen_s) y que se genere 
+	        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
 
 	        	}
 	            return;

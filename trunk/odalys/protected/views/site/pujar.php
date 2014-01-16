@@ -7,11 +7,33 @@
 
 <?php 
 	
-	$modelImagenS = new ImagenS();
 	//$_POST['data']->imagen_s
 
-	if(isset($_POST['imagen_s']))
-	echo '<div id="'.$_POST['imagen_s'].'" </div>';
+		if(isset($_POST['imagen_s']))
+		{
+			$criteria = new CDbCriteria;
+
+			$criteria->condition = 'id=:id';
+			$criteria->select = '*';
+			$criteria->params = array('id'=>$_POST['imagen_s']);
+
+			$imagen = ImagenS::model()->find($criteria);
+
+
+			// Si la subasta esta activa
+			if (Subastas::model()->findByPk($imagen['ids'])['activa'])
+			{
+				echo '<div id="'.$_POST['imagen_s'].'"> <img src="'.$imagen['imageng'].'"> <p>'.$imagen['descri'].'</p> <BR> <h1>Precio actual: '.$imagen['actual'].'</h1></img></div>';
+			}else
+			{
+				echo 'La imágen no pertenece a la subasta activa. Se recibio: '.$_POST['imagen_s'];
+			}
+
+		}else
+		{
+			echo 'Error recibiendo el identificador de la imágen.';
+		}
+
 
 ?>
 
