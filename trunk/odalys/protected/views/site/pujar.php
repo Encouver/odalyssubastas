@@ -6,8 +6,6 @@
 
 
 <?php 
-	
-	//$_POST['data']->imagen_s
 
 		if(isset($_POST['imagen_s']))
 		{
@@ -23,7 +21,15 @@
 			// Si la subasta esta activa
 			if (Subastas::model()->findByPk($imagen['ids'])['activa'])
 			{
-				echo '<div id="'.$_POST['imagen_s'].'"> <img src="'.$imagen['imageng'].'"> <p>'.$imagen['descri'].'</p> <BR> <h1>Precio actual: '.$imagen['actual'].'</h1></img></div>';
+				echo '<div id="'.$_POST['imagen_s'].'"> 
+							<img src="'.$imagen['imageng'].'"> 
+								<p>'.$imagen['descri'].'</p> 
+								<BR> 
+								<h1>Precio actual: '.$imagen['actual'].'</h1>
+								Precio siguiente: '.($imagen['actual']*1.1).'<BR> 
+								Minimo Monto maximo: '.($imagen['actual']*1.1*1.1).'
+							</img>
+					  </div>';
 			}else
 			{
 				echo 'La imágen no pertenece a la subasta activa. Se recibio: '.$_POST['imagen_s'];
@@ -31,7 +37,7 @@
 
 		}else
 		{
-			echo 'Error recibiendo el identificador de la imágen.';
+			//echo 'Error recibiendo el identificador de la imágen.';
 		}
 
 
@@ -58,6 +64,7 @@
 	</div>
 
 
+
 	<div class="row buttons">
 		<?php //echo CHtml::submitButton('Submit'); ?>
 		<?php echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
@@ -67,15 +74,17 @@
 															'success' => 'function(data){
 																	json = data;
 															}',
+															'context'=>'js:this',
 													        'beforeSend' => 'function(){
 													            //alert("beforeSend");
 													        }',
 													        'complete' => 'function(){
 													        	//$("#pujaModal").html(json);
 													        	//$("#pujaModal").dialog("close");
-													            alert("Puja exitosa!");
-													            }',),
-													    array('type'=>'submit')); ?>
+													            //alert("Puja exitosa!");
+													            }',
+													        'success'=>'function(r){$(".form").html(r); return false; }',),
+													    array('type'=>'submit','id'=>'accion-pujar'.uniqid())); ?>
 
 	</div>
 
