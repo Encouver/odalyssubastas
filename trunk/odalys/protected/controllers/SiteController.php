@@ -269,10 +269,47 @@ class SiteController extends Controller
 	        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
 	        	if(isset($_POST['data']))
 	        	{
-	        		ImagenS::model();
+	        		
 
 
 	        		$imagensId = $_POST['data']->imagen_s;
+
+
+	        		$imagen_modelo = ImagenS::model()->findByPk($imagensId);
+
+
+	        		if($model->maximo_dispuesto) //aqui se verifica si se envio un monto_maximo.
+	        		{
+	        			$monto_real = ($imagen_modelo->actual*0.1)*0.1;
+
+	        			if($model->maximo_dispuesto >= $monto_real) //aqui va monto_maximo
+	        			{
+
+	        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND maximo_dispuesto=:maxi',
+							array(
+							  ':imagen'=>$imagensId,
+							  ':verificado'=>1,
+							  ':maxi' => NULL,
+							));
+
+
+	        				if()
+	        				{
+
+
+	        				}
+
+	        				//$model->save();	
+
+	        			}
+
+	        		}else
+	        		{
+
+	        			$model->save();	
+
+	        		}
+
 		        	//$_SESSION['admin']	//caso especial
 		        	
 		        	//$_SESSION['id_usuario']
