@@ -248,13 +248,13 @@ class SiteController extends Controller
 	    $model=new RegistroPujas;
 
 	    // uncomment the following code to enable ajax-based validation
-	    /*
+	    
 	    if(isset($_POST['ajax']) && $_POST['ajax']==='registro-pujas-pujar-form')
 	    {
 	        echo CActiveForm::validate($model);
 	        Yii::app()->end();
 	    }
-	    */
+	    
 
 	    if(isset($_POST['RegistroPujas']))
 	    {
@@ -348,13 +348,10 @@ class SiteController extends Controller
 
 	        	}
 	            return;
-	        }else
-	        {
-	        //	echo CActiveForm::validate($model);
-	        //	Yii::app()->end();
 	        }
 
 	    }
+
 	    $this->layout = '//layouts/modal';
 	    $this->render('pujar',array('model'=>$model));
 	}
