@@ -285,21 +285,44 @@ class SiteController extends Controller
 	        			if($model->maximo_dispuesto >= $monto_real) //aqui va monto_maximo
 	        			{
 
-	        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND maximo_dispuesto=:maxi',
+	        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
 							array(
 							  ':imagen'=>$imagensId,
 							  ':verificado'=>1,
-							  ':maxi' => NULL,
+							  //':maxi' => NULL,
 							));
 
 
-	        				if()
+	        				if($registro)
 	        				{
 
+		        				if($registro->monto_maximo >  $model->maximo_dispuesto)
+		        				{
+		        					$imagen_modelo->actual = $model->maximo_dispuesto;
 
-	        				}
+		        				}else
+		        				{
 
-	        				//$model->save();	
+									$imagen_modelo->actual = $registro->monto_maximo;
+
+									$registro->verificado = 2;
+
+									$registro->save();
+
+
+									$model->verificado=1;
+
+
+
+		        				}
+
+		        				$model->save();	
+		        			}else
+		        			{
+
+		        					/// es el primero que ingresa.
+
+		        			}
 
 	        			}
 
