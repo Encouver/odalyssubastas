@@ -276,7 +276,7 @@ class SiteController extends Controller
 
 	        		if($model->maximo_dispuesto) //aqui se verifica si se envio un monto_maximo.
 	        		{
-	        			$monto_real = ($imagen_modelo->actual*0.1)*0.1;
+	        			$monto_real = ($imagen_modelo->actual*1.1)*1.1;
 
 	        			if($model->maximo_dispuesto >= $monto_real) //aqui va monto_maximo
 	        			{
@@ -292,27 +292,42 @@ class SiteController extends Controller
 	        				if($registro)
 	        				{
 
-		        				if($registro->monto_maximo >  $model->maximo_dispuesto)  // <----------------- quieres decir monto_puja?
+		        				if($registro->maximo_dispuesto >  $model->maximo_dispuesto)  
 		        				{
-		        					$imagen_modelo->actual = $model->maximo_dispuesto;
+		        					$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
 
-		        				}else
+		        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
 		        				{
 
-									$imagen_modelo->actual = $registro->monto_maximo;
+									$imagen_modelo->actual = $registro->maximo_dispuesto * 1.1;
 
 									$registro->verificado = 2;
-
-									$registro->save();
-
 
 									$model->verificado=1;
 
 
+		        				}else{
+
+		        					while ($imagen_modelo->actual < $model->maximo_dispuesto) {
+		        						
+		        						$imagen_modelo->actual *= 1.1;
+
+		        						if($registro->verificado == 2){
+		        							$registro->verificado = 1;
+		        							$registro->monto_puja = $imagen_modelo->actual;
+		        							$model->verificado = 2;
+		        						}else{
+		        							$registro->verificado = 2;
+		        							$model->verificado = 1;
+		        							$model->monto_puja = $imagen_modelo->actual;
+		        						}
+
+		        					}
 
 		        				}
 
-		        				$model->save();	
+		        				$registro->save();
+		        					
 		        			}else
 		        			{
 
@@ -320,24 +335,36 @@ class SiteController extends Controller
 
 								$imagen_modelo->actual *= 1.1;
 
-								$imagen_modelo->save();
-
-								$model->save();
+								//$model->save();
 		        			}
 
+		        			$model->monto_puja = $imagen_modelo->actual;
+							//$model->save();
+							//echo $imagen_modelo->save(false);
+							if(!$imagen_modelo->save()){
+							$msg = print_r($imagen_modelo->getErrors(),1);
+							throw CHttpException(400,'data not saving: '.$msg );
+							}
+
+		        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
+		        			
+	        			}else
+	        			{
+	        				echo 'monto maximo dispuesto debe ser mayor a dos veces el 10% de la actual';
 	        			}
 
 	        		}else
 	        		{
-
-	        			$model->save();	
+	        			$imagen_modelo->actual *= 1.1;
+	        			echo $imagen_modelo->save(false);
+	        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));	
 
 	        		}
 
 		        	//$_SESSION['admin']	//caso especial
 		        	
 		        	//$_SESSION['id_usuario']
-	        		$model->updateByPk(array('idusuario'=>$_SESSION['id_usuario'],'id_imagen_s'=>$imagensId));
+	        		//$model->updateByPk(array('idusuario'=>Yii::app()->session['id_usuario'],'id_imagen_s'=>$imagensId));
 
 	        		//ImagenS::model()->updateByPk($imagenId,array('actual'=>$model->maximo_dispuesto));
 
