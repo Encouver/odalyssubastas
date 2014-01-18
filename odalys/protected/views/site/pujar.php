@@ -86,8 +86,11 @@
 																		alert(data["responseText"]);
 																	}',
 																	'success' => 'function(data){
-																			json = data;
-																			$(this).html(data); 
+																			if(data['success']){
+																				console.log(data['msg']);
+																				$('#pujaModal').dialog('close');
+																			}
+																			$(this).html(data);
 																			//return false;
 																	}',
 																	'context'=>'js:this',
