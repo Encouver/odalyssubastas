@@ -88,15 +88,17 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>'
 					.$pujarAjaxLink.'</td>';
-
+					// number_format($value->actual,0,'.','') // entero sin coma
+					// '.$value->imagen.'						//imagen pequeña
 
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div>'
+					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>'
 					.$pujarAjaxLink.'</td>';
+					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
 			if($contador==6)
@@ -161,7 +163,8 @@ class SiteController extends Controller
 			$resultado= Usuariospujas::model()->find($criteria);
 
 			if($resultado){
-				$res[] =  array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>$value->actual);
+				$res[] =  array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>number_format($value->actual));
+				// number_format($value->actual,0,'.','') // entero sin coma
 			}
 		}
 		echo json_encode($res);
@@ -247,6 +250,7 @@ class SiteController extends Controller
 	{
 	    $model=new RegistroPujas;
 
+
 	    // uncomment the following code to enable ajax-based validation
 	    
 	    /*if(isset($_POST['ajax']) && $_POST['ajax']==='registro-pujas-pujar-form')
@@ -255,37 +259,46 @@ class SiteController extends Controller
 	        Yii::app()->end();
 	    }*/
 	   
-echo '::::::SSSSSSSSSSSSSS';
+/*echo '::::::SSSSSSSSSSSSSS';
 if(isset($_POST['imagen_ss']))
 echo 'si veo imagen_ss: '.$_POST['imagen_ss'];
 else
 echo 'no veo imagen_ss en: ';
-echo print_r($_POST);
+echo print_r($_POST);*/
 
 	    if(isset($_POST['RegistroPujas']))
-	    {echo 'Existe $_POST[\'RegistroPujas\']: '.print_r($_POST);
+	    {//echo 'Existe $_POST[\'RegistroPujas\']: '.print_r($_POST);
 	        $model->attributes=$_POST['RegistroPujas'];
 	        if($model->validate())
-	        { echo 'todo validado!!!!!!!!!!!!!!!!!   '.print_r($model->id_imagen_s);	        		
+	        { //echo 'todo validado!!!!!!!!!!!!!!!!!   '.print_r($model->id_imagen_s);	        		
 
 	    			$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
 	        		$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
 
+
+
 	            // form inputs are valid, do something here
 	        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
 	        	//if($model->id_imagen_s == 4593)
-	        	if($subasta->activa)
+
+	        	// si el usuario va ganando la puja
+	        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
+	        		echo 'Estas a la cabeza en esta subasta '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'];
+	        	}elseif($subasta->activa) //subasta esta activa
 	        	{
-	        		echo 'ENTREEEEEEEEEEEEEEEEEEEEEEE';
+	        		$model->ids = $subasta->id;
+	        		//echo 'ENTREEEEEEEEEEEEEEEEEEEEEEE';
 
 
 	        		$imagen_modelo->id_usuario = Yii::app()->session['id_usuario'];
 
-	        		if($model->maximo_dispuesto) //aqui se verifica si se envio un monto_maximo.
+					//aqui se verifica si se envio un monto_maximo.
+	        		if($model->maximo_dispuesto) 
 	        		{
-	        			$monto_real = ($imagen_modelo->actual*1.1)*1.1;
-
-	        			if($model->maximo_dispuesto >= $monto_real) //aqui va monto_maximo
+	        			$monto_minimo_dispuesto = ($imagen_modelo->actual*1.1)*1.1;
+ 						
+ 						//aqui va monto_maximo
+	        			if($model->maximo_dispuesto >= $monto_minimo_dispuesto)
 	        			{
 
 	        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
@@ -295,17 +308,22 @@ echo print_r($_POST);
 							  //':maxi' => NULL,
 							));
 
-
+	        				// Existe otra pujador con maximo dispuesto
 	        				if($registro)
 	        				{
 
 		        				if($registro->maximo_dispuesto >  $model->maximo_dispuesto)  
 		        				{
+		        					// Gana el que ya estaba en la base de datos
 		        					$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
+
+		        					$registro->verificado = 1;
+
+									$model->verificado=2;
 
 		        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
 		        				{
-
+		        					//Gana el usuario actual
 									$imagen_modelo->actual = $registro->maximo_dispuesto * 1.1;
 
 									$registro->verificado = 2;
@@ -314,6 +332,7 @@ echo print_r($_POST);
 
 
 		        				}else{
+		        						// En este caso se simula pujar
 
 		        					while ($imagen_modelo->actual < $model->maximo_dispuesto) {
 		        						
@@ -346,16 +365,26 @@ echo print_r($_POST);
 		        			}
 
 		        			$model->monto_puja = $imagen_modelo->actual;
-		        			//$imagen_modelo->paleta = $model 						// <----------- Falta esto
+
+		        			Usuariospujas::model()->findByPk();
 
 
 							//$model->save();
 							//echo $imagen_modelo->save(false);
 							if(!$imagen_modelo->save()){
-							$msg = print_r($imagen_modelo->getErrors(),1);
-							throw new CHttpException(400,'data not saving: '.$msg );
+								$msg = print_r($imagen_modelo->getErrors(),1);
+								throw new CHttpException(400,'data not saving: '.$msg );
 							}
-
+        				
+        					
+        					$model->idusuario = Yii::app()->session['id_usuario'];
+        				 	$model->monto_puja = $imagen_modelo->actual;
+        					if(!$model->insert())
+        					{
+								$msg = print_r($model->getErrors(),1);
+								throw new CHttpException(400,'data not saving: '.$msg );
+							}
+						
 		        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
 		        			
 	        			}else
@@ -364,17 +393,31 @@ echo print_r($_POST);
 	        			}
 
 	        		}else
-	        		{
+	        		{	// Puja simple
+	        			// se icrementa el valor de la imagen por 10%
 	        			$imagen_modelo->actual *= 1.1;
-	        			echo $imagen_modelo->save(false);
-	        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));	
 
+						if(!$imagen_modelo->save()){
+							$msg = print_r($imagen_modelo->getErrors(),1);
+							throw new CHttpException(400,'data not saving: '.$msg );
+						}
+	        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
+
+	        			$model->idusuario = Yii::app()->session['id_usuario'];
+        				$model->monto_puja = $imagen_modelo->actual;
+        					if(!$model->insert())
+        					{
+								$msg = print_r($model->getErrors(),1);
+								throw new CHttpException(400,'data not saving: '.$msg );
+							}
+						
 	        		}
 
 		        	//$_SESSION['admin']	//caso especial
 		        	
 		        	//$_SESSION['id_usuario']
-	        		//$model->updateByPk(array('idusuario'=>Yii::app()->session['id_usuario'],'id_imagen_s'=>$imagensId));
+	        		
+
 
 	        		//ImagenS::model()->updateByPk($imagenId,array('actual'=>$model->maximo_dispuesto));
 
@@ -384,7 +427,7 @@ echo print_r($_POST);
 	        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
 
 	        	}else
-	        	{echo 'No se recibio el identificador de la imagen';}
+	        	{echo 'La subasta correspondiente al id de la imagen recibida no esta activa';}
 	            return;
 	        }
 

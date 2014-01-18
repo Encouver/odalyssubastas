@@ -19,6 +19,10 @@ class RegistroPujas extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return RegistroPujas the static model class
 	 */
+	
+	public $paleta;
+	public $codigo;
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -40,8 +44,9 @@ class RegistroPujas extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('maximo_dispuesto', 'required'),
-			array('ids, idusuario, id_imagen_s, monto_puja, maximo_dispuesto', 'numerical', 'integerOnly'=>true),
+			array('', 'required'),
+			array('ids, idusuario, id_imagen_s, monto_puja', 'numerical', 'integerOnly'=>true),
+			array('maximo_dispuesto, paleta', 'match', 'pattern' => '/^[0-9]+$/', 'allowEmpty' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, ids, idusuario, id_imagen_s, monto_puja, maximo_dispuesto, fecha', 'safe', 'on'=>'search'),
