@@ -88,7 +88,7 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>'
+					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>'
 					.$pujarAjaxLink.'</td>';
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
@@ -96,7 +96,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><img onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');" src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>'
+					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>'
 					.$pujarAjaxLink.'</td>';
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -245,6 +245,59 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	public function actionPujaradmin()
+{
+//if($_SESSION['admin']){
+//$arreglo[];
+
+
+$this->layout='//layouts/pujaadmin';
+
+//$subasta = new Subastas();
+
+$criteria = new CDbCriteria;
+
+$criteria->condition = 'silenciosa=:activa';
+$criteria->params = array(':activa'=>1);
+
+$subas = Subastas::model()->find($criteria);
+
+
+$criteria = new CDbCriteria;
+
+$criteria->condition = 'idsubasta=:subasta';
+$criteria->params = array(':subasta'=>$subas['id']);
+
+$usuarios_puja = Usuariospujas::model()->findAll($criteria);
+
+foreach ($usuarios_puja as $key => $value) {
+
+$criteria = new CDbCriteria;
+
+$criteria->condition = 'id=:usuario';
+$criteria->params = array(':usuario'=>$value->idusuario);
+
+$usuarios = Usuarios::model()->find($criteria);
+
+$arreglo[] = $usuarios['email'];
+
+
+//echo $usuarios['email'].'<br>';
+
+}
+
+
+$this->render('pujaradmin', array('usuarios' => $arreglo));
+
+
+/*}else
+{
+//header ("location: http://localhost/odalys/admin/_adminIndex.php");
+
+}*/
+
+
+}
 
 	public function actionPujar()
 	{
@@ -265,6 +318,13 @@ echo 'si veo imagen_ss: '.$_POST['imagen_ss'];
 else
 echo 'no veo imagen_ss en: ';
 echo print_r($_POST);*/
+
+		if($_POST['datosDeControl']==1)
+		{
+			echo $_POST['correo'];
+
+		}
+
 
 	    if(isset($_POST['RegistroPujas']))
 	    {//echo 'Existe $_POST[\'RegistroPujas\']: '.print_r($_POST);
@@ -332,7 +392,7 @@ echo print_r($_POST);*/
 
 
 		        				}else{
-		        						// En este caso se simula pujar
+		        						// En este caso se simula seguidilla de pujas para saber quie es el ganador final
 
 		        					while ($imagen_modelo->actual < $model->maximo_dispuesto) {
 		        						
@@ -373,7 +433,7 @@ echo print_r($_POST);*/
 							//echo $imagen_modelo->save(false);
 							if(!$imagen_modelo->save()){
 								$msg = print_r($imagen_modelo->getErrors(),1);
-								throw new CHttpException(400,'data not saving: '.$msg );
+								throw new CHttpException(400,'ImagenS data not saving: '.$msg );
 							}
         				
         					
@@ -382,7 +442,10 @@ echo print_r($_POST);*/
         					if(!$model->insert())
         					{
 								$msg = print_r($model->getErrors(),1);
-								throw new CHttpException(400,'data not saving: '.$msg );
+								throw new CHttpException(400,'Registro Pujas data not saving: '.$msg );
+							}else{
+
+								echo array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.');
 							}
 						
 		        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
@@ -394,22 +457,64 @@ echo print_r($_POST);*/
 
 	        		}else
 	        		{	// Puja simple
-	        			// se icrementa el valor de la imagen por 10%
-	        			$imagen_modelo->actual *= 1.1;
+	        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
+							array(
+							  ':imagen'=>$model->id_imagen_s,
+							  ':verificado'=>1,
+							  //':maxi' => NULL,
+							));
+							$imagen_modelo->actual *= 1.1;
 
-						if(!$imagen_modelo->save()){
-							$msg = print_r($imagen_modelo->getErrors(),1);
-							throw new CHttpException(400,'data not saving: '.$msg );
-						}
-	        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
+							if($registro){ //ya hay un maximo dispuesto 
+								if($registro->maximo_dispuesto > $imagen_modelo->actual){
 
-	        			$model->idusuario = Yii::app()->session['id_usuario'];
-        				$model->monto_puja = $imagen_modelo->actual;
-        					if(!$model->insert())
-        					{
-								$msg = print_r($model->getErrors(),1);
-								throw new CHttpException(400,'data not saving: '.$msg );
+									// Se inserta otra vez con el monto puja nuevo
+									$registro->monto_puja = $imagen_modelo->actual;
+									if(!$registro->insert())
+		        					{
+										$msg = print_r($registro->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+									}else{
+
+										echo array('id'=>1, 'success'=>false,'msg'=>'Tu puja ha sido superada.');
+									}
+
+								}else{
+										$registro->verificado = 2;
+								
+			        				$model->idusuario = Yii::app()->session['id_usuario'];
+			        				$model->monto_puja = $imagen_modelo->actual;
+		        					if(!$model->insert())
+		        					{
+										$msg = print_r($model->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+									}else{
+
+										echo array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.');
+									}
+								}
+
+							}else{
+
+				        			// se icrementa el valor de la imagen por 10%
+				        			
+			        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
+
+			        			$model->idusuario = Yii::app()->session['id_usuario'];
+		        				$model->monto_puja = $imagen_modelo->actual;
+	        					if(!$model->insert())
+	        					{
+									$msg = print_r($model->getErrors(),1);
+									throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+								}else{
+
+									echo array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.');
+								}
 							}
+								if(!$imagen_modelo->save()){
+									$msg = print_r($imagen_modelo->getErrors(),1);
+									throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+								}
 						
 	        		}
 
