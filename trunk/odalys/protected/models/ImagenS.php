@@ -43,7 +43,7 @@ class ImagenS extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, ids, imagen, imageng, descri, solonombre, monto, base, actual, id_usuario', 'required'),
+			array('id, ids, imagen, imageng, descri, monto, base, actual, id_usuario', 'required'),
 			array('id, ids', 'numerical', 'integerOnly'=>true),
 			array('imagen, imageng, descri, solonombre, monto, base, actual, id_usuario', 'length', 'max'=>255),
 			// The following rule is used by search().

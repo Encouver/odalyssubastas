@@ -231,7 +231,7 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		$this->render('login',array('model'=>$model)); 
 	}
 
 	/**
@@ -249,30 +249,37 @@ class SiteController extends Controller
 
 	    // uncomment the following code to enable ajax-based validation
 	    
-	    if(isset($_POST['ajax']) && $_POST['ajax']==='registro-pujas-pujar-form')
+	    /*if(isset($_POST['ajax']) && $_POST['ajax']==='registro-pujas-pujar-form')
 	    {
 	        echo CActiveForm::validate($model);
 	        Yii::app()->end();
-	    }
-	    
+	    }*/
+	   
+echo '::::::SSSSSSSSSSSSSS';
+if(isset($_POST['imagen_ss']))
+echo 'si veo imagen_ss: '.$_POST['imagen_ss'];
+else
+echo 'no veo imagen_ss en: ';
+echo print_r($_POST);
 
 	    if(isset($_POST['RegistroPujas']))
-	    {
+	    {echo 'Existe $_POST[\'RegistroPujas\']: '.print_r($_POST);
 	        $model->attributes=$_POST['RegistroPujas'];
 	        if($model->validate())
-	        {
+	        { echo 'todo validado!!!!!!!!!!!!!!!!!   '.print_r($model->id_imagen_s);	        		
+
+	    			$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
+	        		$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
+
 	            // form inputs are valid, do something here
 	        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
-	        	if(isset($_POST['data']))
+	        	//if($model->id_imagen_s == 4593)
+	        	if($subasta->activa)
 	        	{
-	        		
+	        		echo 'ENTREEEEEEEEEEEEEEEEEEEEEEE';
 
 
-	        		$imagensId = $_POST['data']->imagen_s;
-
-
-	        		$imagen_modelo = ImagenS::model()->findByPk($imagensId);
-
+	        		$imagen_modelo->id_usuario = Yii::app()->session['id_usuario'];
 
 	        		if($model->maximo_dispuesto) //aqui se verifica si se envio un monto_maximo.
 	        		{
@@ -283,7 +290,7 @@ class SiteController extends Controller
 
 	        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
 							array(
-							  ':imagen'=>$imagensId,
+							  ':imagen'=>$model->id_imagen_s,
 							  ':verificado'=>1,
 							  //':maxi' => NULL,
 							));
@@ -332,18 +339,21 @@ class SiteController extends Controller
 		        			{
 
 		        					/// es el primero que ingresa.
-
+		        				echo 'Salvando';
 								$imagen_modelo->actual *= 1.1;
 
 								//$model->save();
 		        			}
 
 		        			$model->monto_puja = $imagen_modelo->actual;
+		        			//$imagen_modelo->paleta = $model 						// <----------- Falta esto
+
+
 							//$model->save();
 							//echo $imagen_modelo->save(false);
 							if(!$imagen_modelo->save()){
 							$msg = print_r($imagen_modelo->getErrors(),1);
-							throw CHttpException(400,'data not saving: '.$msg );
+							throw new CHttpException(400,'data not saving: '.$msg );
 							}
 
 		        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
@@ -373,7 +383,8 @@ class SiteController extends Controller
 	        		// en cuenta los maximos_dispuestos de los otros usuarios que hayan de esa imagen_s) y que se genere 
 	        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
 
-	        	}
+	        	}else
+	        	{echo 'No se recibio el identificador de la imagen';}
 	            return;
 	        }
 
