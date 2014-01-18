@@ -40,7 +40,7 @@ class RegistroPujas extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idusuario, id_imagen_s, monto_puja, maximo_dispuesto', 'required'),
+			array('maximo_dispuesto', 'required'),
 			array('ids, idusuario, id_imagen_s, monto_puja, maximo_dispuesto', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

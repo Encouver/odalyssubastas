@@ -5271,3 +5271,284 @@ Stack trace:
 REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
 in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php (262)
 in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php (13)
+2014/01/16 21:11:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'El sistema no ha podido encontrar la acción "chrome-extension:" solicitada.' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(270): CController->missingAction('chrome-extensio...')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('chrome-extensio...')
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/chrome-ext...')
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/chrome-extension://bmagokdooijbeehmkpknfglimnifench/firebug-lite.js
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php?r=site/index
+---
+2014/01/16 22:51:44 [error] [php] Array to string conversion (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:257)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php (257)
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php (13)
+2014/01/17 12:46:06 [error] [php] Array to string conversion (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php:94)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(869): SiteController->renderFile()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(782): SiteController->renderPartial()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(384): SiteController->render()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php (94)
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php (384)
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php (13)
+2014/01/17 16:14:17 [error] [exception.CException] exception 'CException' with message 'CActiveForm y sus behaviors no tienen un método o closure llamado "hidden".' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CComponent.php:265
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CComponent->__call('hidden', Array)
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CActiveForm->hidden(Object(RegistroPujas), 'id_imagen_s', Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(126): require('C:\Program File...')
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\Program File...', Array, true)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(869): CBaseController->renderFile('C:\Program File...', Array, true)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(782): CController->renderPartial('pujar', Array, true)
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(390): CController->render('pujar', Array)
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#12 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#13 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#14 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:14:19 [error] [exception.CException] exception 'CException' with message 'CActiveForm y sus behaviors no tienen un método o closure llamado "hidden".' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CComponent.php:265
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CComponent->__call('hidden', Array)
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CActiveForm->hidden(Object(RegistroPujas), 'id_imagen_s', Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(126): require('C:\Program File...')
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\Program File...', Array, true)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(869): CBaseController->renderFile('C:\Program File...', Array, true)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(782): CController->renderPartial('pujar', Array, true)
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(390): CController->render('pujar', Array)
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#12 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#13 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#14 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:14:19 [error] [exception.CException] exception 'CException' with message 'CActiveForm y sus behaviors no tienen un método o closure llamado "hidden".' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CComponent.php:265
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CComponent->__call('hidden', Array)
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CActiveForm->hidden(Object(RegistroPujas), 'id_imagen_s', Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(126): require('C:\Program File...')
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\Program File...', Array, true)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(869): CBaseController->renderFile('C:\Program File...', Array, true)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(782): CController->renderPartial('pujar', Array, true)
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(390): CController->render('pujar', Array)
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#12 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#13 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#14 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:14:19 [error] [exception.CException] exception 'CException' with message 'CActiveForm y sus behaviors no tienen un método o closure llamado "hidden".' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CComponent.php:265
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CComponent->__call('hidden', Array)
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\views\site\pujar.php(66): CActiveForm->hidden(Object(RegistroPujas), 'id_imagen_s', Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(126): require('C:\Program File...')
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\Program File...', Array, true)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(869): CBaseController->renderFile('C:\Program File...', Array, true)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(782): CController->renderPartial('pujar', Array, true)
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(390): CController->render('pujar', Array)
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#12 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#13 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#14 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:15:35 [error] [php] Undefined index: imagen_ss (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:277)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php (277)
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php (13)
+2014/01/17 16:16:53 [error] [php] Undefined variable: imagensId (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:280)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php (280)
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php (13)
+2014/01/17 16:18:01 [error] [php] Undefined variable: imagensId (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:289)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php (289)
+in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php (13)
+2014/01/17 16:31:50 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'data not saving: Array
+(
+    [solonombre] => Array
+        (
+            [0] => Solonombre no puede ser nulo.
+        )
+
+)
+' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:354
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:36:53 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'data not saving: Array
+(
+    [solonombre] => Array
+        (
+            [0] => Solonombre no puede ser nulo.
+        )
+
+    [id_usuario] => Array
+        (
+            [0] => Id Usuario no puede ser nulo.
+        )
+
+)
+' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:354
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:45:04 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'data not saving: Array
+(
+    [solonombre] => Array
+        (
+            [0] => Solonombre no puede ser nulo.
+        )
+
+    [id_usuario] => Array
+        (
+            [0] => Id Usuario no puede ser nulo.
+        )
+
+)
+' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:354
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:47:01 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'data not saving: Array
+(
+    [solonombre] => Array
+        (
+            [0] => Solonombre no puede ser nulo.
+        )
+
+    [id_usuario] => Array
+        (
+            [0] => Id Usuario no puede ser nulo.
+        )
+
+)
+' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:354
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
+2014/01/17 16:49:29 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'data not saving: Array
+(
+    [solonombre] => Array
+        (
+            [0] => Solonombre no puede ser nulo.
+        )
+
+)
+' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:356
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('pujar')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/pujar')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/
+---
