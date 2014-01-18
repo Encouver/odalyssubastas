@@ -27,9 +27,9 @@
 							<img src="'.$imagen['imageng'].'"> 
 								<p>'.$imagen['descri'].'</p> 
 								<BR> 
-								<h1>Precio actual: '.$imagen['actual'].'</h1>
-								Precio siguiente: '.($imagen['actual']*1.1).'<BR> 
-								Minimo Monto maximo: '.($imagen['actual']*1.1*1.1).'
+								<h1>Precio actual: '.number_format($imagen['actual']).'</h1>
+								Precio siguiente: '.number_format($imagen['actual']*1.1).'<BR> 
+								Minimo Monto maximo: '.number_format($imagen['actual']*1.1*1.1).'
 							</img>
 					  </div>';
 			}else
@@ -54,20 +54,26 @@
     'focus'=>array($model,'maximo_dispuesto'),
 )); ?>
 
-	<p class="note">Los campos con <span class="required">*</span> son obligatorios.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
-		<?php echo $form->textField($model,'maximo_dispuesto'); ?>
+		<?php echo $form->textField($model,'maximo_dispuesto',array('value'=> '0')); ?>
 
 		<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 		<?php echo $form->error($model,'maximo_dispuesto'); ?>
 	</div>
+	<div class="row">
 
-
+		<?php 
+		if(Yii::app()->session['id_usuario']){
+				echo $form->labelEx($model,'paleta'); 
+			  echo $form->textField($model,'paleta',array('value'=> '')); 
+		 	  echo $form->error($model,'paleta');
+		 } ?>
+	</div>
 
 	<div class="row buttons">
 		<?php //echo CHtml::submitButton('Submit'); ?>

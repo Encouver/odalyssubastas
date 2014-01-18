@@ -42,6 +42,7 @@ class Usuariospujas extends CActiveRecord
 			array('idusuario, paleta, codigo, cedula, idsubasta', 'required'),
 			array('idusuario, paleta, idsubasta', 'numerical', 'integerOnly'=>true),
 			array('codigo, cedula', 'length', 'max'=>255),
+			array('paleta', 'match', 'pattern' => '/^[0-9]+$/', 'allowEmpty' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, idusuario, paleta, codigo, cedula, idsubasta', 'safe', 'on'=>'search'),
