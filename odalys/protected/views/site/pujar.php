@@ -5,7 +5,16 @@
 ?>
 
 
-<?php 
+<?php /*
+Yii::app()->clientscript->scriptMap['jquery-ui.min.js'] = false;
+Yii::app()->clientscript->scriptMap['jquery-ui.js'] = false;
+Yii::app()->clientscript->scriptMap['jquery.min.js'] = false;
+Yii::app()->clientscript->scriptMap['jquery.js'] = false;*/
+
+Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
+											'jquery-ui.js'=>false,
+											'jquery.min.js'=>false,
+											'jquery.js'=>false, );
 
 		if(isset($_POST['imagen_s']))
 		{
@@ -28,8 +37,8 @@
 								<p>'.$imagen['descri'].'</p> 
 								<BR> 
 								<h1>Precio actual: '.number_format($imagen['actual']).'</h1>
-								Precio siguiente: '.number_format($imagen['actual']*1.1).'<BR> 
-								Minimo Monto maximo: '.number_format($imagen['actual']*1.1*1.1).'
+								Puja siguiente: '.number_format($imagen['actual']*1.1).'<BR> 
+								<!--Minimo Puja maxima: '.number_format($imagen['actual']*1.1*1.1).'-->
 							</img>
 					  </div>';
 			}else
@@ -65,13 +74,28 @@
 		<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 		<?php echo $form->error($model,'maximo_dispuesto'); ?>
 	</div>
+
 	<div class="row">
 
 		<?php 
 		if(Yii::app()->session['id_usuario']){
-				echo $form->labelEx($model,'paleta'); 
+			if(!isset(Yii::app()->request->cookies['up']) && !isset(Yii::app()->request->cookies['uc'])){
+			  echo $form->labelEx($model,'paleta'); 
 			  echo $form->textField($model,'paleta',array('value'=> '')); 
 		 	  echo $form->error($model,'paleta');
+		 	}
+		 } ?>
+	</div>
+
+	<div class="row">
+
+		<?php 
+		if(Yii::app()->session['id_usuario']){
+			if(!isset(Yii::app()->request->cookies['up']) && !isset(Yii::app()->request->cookies['uc'])){
+			  echo $form->labelEx($model,'codigo'); 
+			  echo $form->textField($model,'codigo',array('value'=> '')); 
+		 	  echo $form->error($model,'codigo');
+		 	}
 		 } ?>
 	</div>
 
@@ -79,18 +103,24 @@
 		<?php //echo CHtml::submitButton('Submit'); ?>
 		<?php if(isset($_POST['imagen_s']))
 					echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
-																	'dataType' => "html",
+																	'dataType' => "json",
 																	//'data' => '{imagen_ss: "0"}',
 																	'error' =>'function(data){
 																		alert("Error");
 																		alert(data["responseText"]);
 																	}',
 																	'success' => 'function(data){
-																			if(data['success']){
-																				console.log(data['msg']);
-																				$('#pujaModal').dialog('close');
+																		json = data;//$("#pujaModal").dialog("close");
+																		//$("#Cancel").click();
+																		//alert(data);
+																			if(data[\'id\']){
+																				alert(data["msg"]);
+																				if(data["success"]){
+																					$("#pujaModal").dialog("close");
+																				}
+																			}else{
+																				$(this).html(data);
 																			}
-																			$(this).html(data);
 																			//return false;
 																	}',
 																	'context'=>'js:this',

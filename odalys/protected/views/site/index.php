@@ -20,7 +20,7 @@ $this->pageTitle=Yii::app()->name;
 		        ),
 		        'buttons'=>array(
 		            //'Pujar'=>'js:function(){alert("OK");}',
-		            'Cancelar'=>'js:function(){$(this).dialog("close");}',
+		            array('id'=> 'Cancel', 'text'=>'Cancelar','click'=>'js:function(){$(this).dialog("close");}'),
 		        ),
 		    ),
 		));
