@@ -3,7 +3,22 @@
 
 $this->pageTitle=Yii::app()->name;
 ?>
+<?php
+$this->widget('ext.bcountdown.BCountdown', 
+        array(
+                //'title'=>'UNDER CONSTRUCTION',  // Title
+                //'message'=>'Stay tuned for news and updates', // message for user
+                'isDark'=>false,  // two skin dark and light , by default it light i.e isDark=false
+                'year'=>'2014',   
+                'month'=>'1',
+                'day'=>'26',
+                'hour'=>'0',
+                'min'=>'0',
+                'sec'=>'5',
+            )
+        );
 
+?>
 <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 		    'id'=>'pujaModal',
