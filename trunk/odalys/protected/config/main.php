@@ -36,6 +36,18 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+		'clientScript' => array(
+	        'scriptMap' => array(
+	            'jquery.js'=>false,  //disable default implementation of jquery
+	            'jquery-ui.js'=>false,
+	            'jquery.min.js'=>false,  //desable any others default implementation
+	            'jquery-ui.min.cs'=>false,
+	            'core.css'=>false, //disable
+	            'styles.css'=>false,  //disable
+	            'pager.css'=>false,   //disable
+	            'default.css'=>false,  //disable
+	        ),
+        ),/**/
 		// uncomment the following to enable URLs in path-format
 		
 		/*'urlManager'=>array(

@@ -44,7 +44,7 @@ class RegistroPujas extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('', 'required'),
+			array('paleta, codigo', 'required'),
 			array('ids, idusuario, id_imagen_s, monto_puja', 'numerical', 'integerOnly'=>true),
 			array('maximo_dispuesto, paleta', 'match', 'pattern' => '/^[0-9]+$/', 'allowEmpty' => true),
 			// The following rule is used by search().
@@ -75,8 +75,11 @@ class RegistroPujas extends CActiveRecord
 			'idusuario' => 'Idusuario',
 			'id_imagen_s' => 'Id Imagen S',
 			'monto_puja' => 'Monto Puja',
-			'maximo_dispuesto' => 'Maximo Dispuesto',
+			'maximo_dispuesto' => 'Puja Máxima',
 			'fecha' => 'Fecha',
+			'codigo' => 'Código',
+			'paleta' => 'Paleta',
+
 		);
 	}
 
