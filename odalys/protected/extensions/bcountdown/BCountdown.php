@@ -78,7 +78,7 @@ class BCountdown extends CWidget{
             }
             $cs = Yii::app()->clientScript;
             //$cs = new CClientScript;
-            $cs->registerScriptFile($this->jsFile);
+            //$cs->registerScriptFile($this->jsFile);
             $cs->registerCssFile($this->cssFile);
            
 			$script = '

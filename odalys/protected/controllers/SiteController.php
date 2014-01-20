@@ -92,7 +92,7 @@ class SiteController extends Controller
 					if(Yii::app()->session['admin'])
 						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
 					else
-						$imprimir .= '<br/>Precio : '.number_format($value->actual).'</div>';
+						$imprimir .= 'Precio : '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
@@ -105,7 +105,7 @@ class SiteController extends Controller
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
-				if(Yii::app()->session['id_usuario'] and  !(ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario']))
+				if(Yii::app()->session['id_usuario'] && !(ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario']))
 					$imprimir .= $pujarAjaxLink.'<BR/></td>';
 				else
 					$imprimir .= '</td>';
@@ -340,7 +340,8 @@ class SiteController extends Controller
 	    if(isset($_POST['RegistroPujas'])){
 	        $model->attributes=$_POST['RegistroPujas'];
 
-	    	
+	    	if(!$model->paleta && !$model->codigo)
+	    		$model->paleta = $model->codigo = 0;
 	        if($model->validate())
 	        { 	         // form inputs are valid, do something here		
 
@@ -367,7 +368,7 @@ class SiteController extends Controller
 					{
 
 
-	           			validaciones($model, $imagen_modelo, $subasta);
+	           			$this->validaciones($model, $imagen_modelo, $subasta);
 
 
 					}else{
@@ -403,7 +404,7 @@ function validaciones($model, $imagen_modelo, $subasta){
 
 							
 
-			        		validaciones2($model, $imagen_modelo, $subasta);
+			        		$this->validaciones2($model, $imagen_modelo, $subasta);
 
 				        	//$_SESSION['admin']	//caso especial
 				        	
@@ -586,4 +587,5 @@ function validaciones2($model, $imagen_modelo, $subasta){
 							
 			        		}
 		}
-}
+
+} //Cierra la clase
