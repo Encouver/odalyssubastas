@@ -94,20 +94,21 @@ class SiteController extends Controller
 					else
 						$imprimir .= '<br/>Precio : '.number_format($value->actual).'</div>';
 					
-					if(Yii::app()->session['id_usuario']  || ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario'])
-						$imprimir .= $pujarAjaxLink.'</td>';
-					else
-						$imprimir .= '</td>';
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
 
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>'
-					.$pujarAjaxLink.'</td>';
+					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
+				
+				if(Yii::app()->session['id_usuario']  || ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario'])
+					$imprimir .= $pujarAjaxLink.'<BR></td>';
+				else
+					$imprimir .= '</td>';
 
 			if($contador==6)
 			{
