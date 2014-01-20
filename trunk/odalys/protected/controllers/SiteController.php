@@ -88,8 +88,16 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>'
-					.$pujarAjaxLink.'</td>';
+					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					if(Yii::app()->session['admin'])
+						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
+					else
+						$imprimir .= '<br/>Precio : '.number_format($value->actual).'</div>';
+					
+					if(Yii::app()->session['id_usuario']  || ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario'])
+						$imprimir .= $pujarAjaxLink.'</td>';
+					else
+						$imprimir .= '</td>';
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
 
@@ -328,26 +336,24 @@ class SiteController extends Controller
 	    if(isset($_POST['RegistroPujas'])){
 	        $model->attributes=$_POST['RegistroPujas'];
 
-	    	$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
-	    	$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
-			$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',array(':idsubasta'=>$subasta->id, ':idusuario'=>Yii::app()->session['id_usuario']));
-
-	       
-	        $model->codigo = $upc->codigo; 
-	        $model->paleta = $upc->paleta;
-
+	    	
 	        if($model->validate())
 	        { 	         // form inputs are valid, do something here		
 
+				$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
+	    		$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
+				$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',array(':idsubasta'=>$subasta->id, ':idusuario'=>Yii::app()->session['id_usuario']));
 
-
-				
 				if( !isset(Yii::app()->request->cookies['up']) && !isset(Yii::app()->request->cookies['uc'])){
 					//Introdujo codigo y paleta por primera vez
-					if($upc){
-						Yii::app()->request->cookies['up'] = new CHttpCookie('up', md5($upc['paleta']));
-						Yii::app()->request->cookies['uc'] = new CHttpCookie('uc', md5($upc['codigo']));
-					}else{
+					if( $model->codigo == $upc->codigo && $model->paleta == $upc->paleta)
+					{
+
+							Yii::app()->request->cookies['up'] = new CHttpCookie('up', md5($upc['paleta']));
+							Yii::app()->request->cookies['uc'] = new CHttpCookie('uc', md5($upc['codigo']));
+
+					}else
+					{
 						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'));
 					}
 				}else{

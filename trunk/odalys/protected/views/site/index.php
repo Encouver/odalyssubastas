@@ -40,7 +40,7 @@ $this->widget('ext.bcountdown.BCountdown',
 		    ),
 		));
 
-	    echo 'Modal dialog content here ';
+	    //echo 'Modal dialog content here ';
 	    
 	$this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
