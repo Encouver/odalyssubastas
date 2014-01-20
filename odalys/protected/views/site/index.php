@@ -72,7 +72,10 @@ $this->widget('ext.bcountdown.BCountdown',
 							complete : function() { 
 									json.forEach(function(entry){
 											$("#imagen_"+entry["id"]).empty();
-											$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
+											if(entry["paleta"])
+												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
+											else
+												$("#imagen_"+entry["id"]).html("<br/>Precio : "+entry["actual"]);
 									});											 
 							 }
 				});
