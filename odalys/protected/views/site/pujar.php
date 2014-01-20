@@ -33,7 +33,7 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 			if (Subastas::model()->findByPk($imagen['ids'])['activa'])
 			{
 				echo '<div id="imageng_'.$_POST['imagen_s'].' class="image"> 
-							<img src="'.$imagen['imageng'].'"> 
+							<img src="'.$imagen['imagen'].'"> 
 								<p>'.$imagen['descri'].'</p> 
 								<BR/> 
 								<h1>Precio actual: '.number_format($imagen['actual']).'</h1>
