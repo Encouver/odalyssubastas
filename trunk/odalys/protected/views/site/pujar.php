@@ -35,7 +35,7 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 				echo '<div id="imageng_'.$_POST['imagen_s'].' class="image"> 
 							<img src="'.$imagen['imageng'].'"> 
 								<p>'.$imagen['descri'].'</p> 
-								<BR> 
+								<BR/> 
 								<h1>Precio actual: '.number_format($imagen['actual']).'</h1>
 								Puja siguiente: '.number_format($imagen['actual']*1.1).'<BR> 
 								<!--Minimo Puja maxima: '.number_format($imagen['actual']*1.1*1.1).'-->
@@ -102,13 +102,22 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 	<div class="row buttons">
 		<?php //echo CHtml::submitButton('Submit'); ?>
 		<?php if(isset($_POST['imagen_s']))
+					$imagenid = $_POST['imagen_s'];
+			  else
+			  		$imagenid = $model->id_imagen_s;
 					echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
 																	'dataType' => "json",
 																	//'data' => '{imagen_ss: "0"}',
 																	'error' =>'function(data){
-																		alert("Error");
+																		//alert("Error");
 																		console.log(data);
-																		alert(data["responseText"]);
+																		if(data["status"] == 200){
+																		//	$("#registro-pujas-pujar-form").empty();
+																			$("#registro-pujas-pujar-form").html(data["responseText"]);
+																		}
+																		else{
+																			alert(data["responseText"]);
+																		}
 																	}',
 																	'success' => 'function(data){
 																		json = data;//$("#pujaModal").dialog("close");
@@ -120,7 +129,8 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 																					$("#pujaModal").dialog("close");
 																				}
 																			}else{
-																				$(this).html(data);
+																				//$("#registro-pujas-pujar-form").empty();
+																				$("#registro-pujas-pujar-form").html(data);
 																			}
 																			//return false;
 																	}',
@@ -146,7 +156,7 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 															            //alert("Puja exitosa!");
 															            }',
 															       ),
-													   		  array('id'=>$_POST['imagen_s'].'_'.uniqid())); 
+													   		  array('id'=>$imagenid.'_'.uniqid())); 
    		  ?>
 
 	</div>

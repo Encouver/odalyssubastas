@@ -2966,3 +2966,12 @@ Stack trace:
 REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
 HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
 ---
+2014/01/19 22:44:30 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:349)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar

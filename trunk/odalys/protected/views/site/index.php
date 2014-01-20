@@ -75,7 +75,7 @@ $this->widget('ext.bcountdown.BCountdown',
 											if(entry["paleta"])
 												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
 											else
-												$("#imagen_"+entry["id"]).html("<br/>Precio : "+entry["actual"]);
+												$("#imagen_"+entry["id"]).html("Precio : "+entry["actual"]);
 									});											 
 							 }
 				});
