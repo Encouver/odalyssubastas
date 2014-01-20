@@ -420,7 +420,7 @@ function validaciones($model, $imagen_modelo, $subasta){
 			        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
 
 			        	}else{
-			        		echo 'La subasta correspondiente a la imagen recibida no esta activa';
+			        		echo json_encode(array('id'=>1,'success'=>false,'msg'=>'La subasta correspondiente a la imagen recibida no esta activa'));
 			        	}
 
 	 }
@@ -433,7 +433,7 @@ function validaciones2($model, $imagen_modelo, $subasta){
 			        		{
 			        			$monto_minimo_dispuesto = ($imagen_modelo->actual*1.1)*1.1;
 		 						
-		 						//aqui va monto_maximo
+		 						//aqui va puja maxima
 			        			if($model->maximo_dispuesto >= $monto_minimo_dispuesto)
 			        			{
 
@@ -521,7 +521,7 @@ function validaciones2($model, $imagen_modelo, $subasta){
 				        			
 			        			}else
 			        			{
-			        				echo 'Puja maxima debe ser mayor a dos veces el 10% de la actual';
+			        				echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Puja maxima debe ser mayor a dos veces el 10% de la actual'));
 			        			}
 
 			        		}else

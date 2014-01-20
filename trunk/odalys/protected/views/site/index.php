@@ -50,11 +50,11 @@ $this->widget('ext.bcountdown.BCountdown',
 
 <?php
 
-	
+	$refreshTime = 5000; 	// tiempo de refresco en milisegundos
     $ourscript = '  
 	$( document ).ready(function() {
 		//updateMyContent();
-		setInterval( "updateMyContent();", 5000 );
+		setInterval( "updateMyContent();", '.$refreshTime.' );
 		$(function() {
        		updateMyContent = function(){
                $.ajax({
