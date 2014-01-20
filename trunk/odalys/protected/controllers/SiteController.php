@@ -105,7 +105,7 @@ class SiteController extends Controller
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
-				if(Yii::app()->session['id_usuario'] || !(ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario']))
+				if(Yii::app()->session['id_usuario'] and  !(ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario']))
 					$imprimir .= $pujarAjaxLink.'<BR/></td>';
 				else
 					$imprimir .= '</td>';

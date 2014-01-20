@@ -107,6 +107,7 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 																	//'data' => '{imagen_ss: "0"}',
 																	'error' =>'function(data){
 																		alert("Error");
+																		console.log(data);
 																		alert(data["responseText"]);
 																	}',
 																	'success' => 'function(data){
