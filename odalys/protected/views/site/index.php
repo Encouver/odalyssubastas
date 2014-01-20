@@ -4,17 +4,20 @@
 $this->pageTitle=Yii::app()->name;
 ?>
 <?php
+
+	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('activa=1')['id']))['fecha_finalizacion']));
+	//echo 'Fecha Finalización: '.$fecha->format('d-m-Y h:i:s');
 $this->widget('ext.bcountdown.BCountdown', 
         array(
                 //'title'=>'UNDER CONSTRUCTION',  // Title
                 //'message'=>'Stay tuned for news and updates', // message for user
                 'isDark'=>false,  // two skin dark and light , by default it light i.e isDark=false
-                'year'=>'2014',   
-                'month'=>'1',
-                'day'=>'26',
-                'hour'=>'0',
-                'min'=>'0',
-                'sec'=>'5',
+                'year'=>$fecha->format('Y'),   
+                'month'=>$fecha->format('m'),
+                'day'=>$fecha->format('d'),
+                'hour'=>$fecha->format('h'),
+                'min'=>$fecha->format('i'),
+                'sec'=>$fecha->format('s'),
             )
         );
 
