@@ -44,7 +44,7 @@
 		<nav class="fright">
 				<?php $this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
-						array('label'=>'Inicio', 'url'=>'http://www.odalys.com'),
+						array('label'=>'ir a  ww.odalys.com', 'url'=>'http://www.odalys.com', 'htmlOptions'=>array('target'=>'_blank') ),
 						//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 						//array('label'=>'Contact', 'url'=>array('/site/contact')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
@@ -181,30 +181,30 @@
 	</section>
 	</div> <!--main-->
 
-<div class="divide-top">
+<div class="divide-top" style="text-align:center">
 	<footer class="grid-wrap">
-		<ul class="grid col-one-third social">
+		<!--<ul class="grid col-one-third social">
 			<!--<li><a href="#">RSS</a></li>-->
-			<li><a href="#">Facebook</a></li>
+			<!--<li><a href="#">Facebook</a></li>
 			<li><a href="#">Twitter</a></li>
 			<li><a href="#">Google+</a></li>
 			<!--<li><a href="#">Flickr</a></li>-->
-		</ul>
+		<!--</ul>-->
 	
-		<div class="up grid col-one-third ">
+		<!--<div class="up grid col-one-third">
 			<a href="#navtop" title="Go back up">&uarr;</a>
-		</div>
+		</div>-->
 		
 		<nav class="grid col-one-third ">
-				<?php $this->widget('zii.widgets.CMenu',array(
+				<?php /*$this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
 						array('label'=>'Home', 'url'=>array('/site/index')),
 						array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 						array('label'=>'Contact', 'url'=>array('/site/contact')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-					),
-				)); ?>
+					),*/
+				//)); ?>
 		</nav>
 	</footer>
 </div>
