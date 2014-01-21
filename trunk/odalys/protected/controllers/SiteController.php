@@ -76,7 +76,11 @@ class SiteController extends Controller
 		        ),
 		        array('id'=>$value->id)
 			);
-
+			$this->widget('ext.fancybox.EFancyBox', array(
+					   	 'target'=>'a#des_'.$value->id ,
+					   	 'config'=>array(),
+					   	 )
+			);
 			if($contador==6)
 			{
 				//echo '<tr>';
@@ -88,7 +92,7 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="middle">'.CHtml::link(CHtml::image('images/3ba.jpg'),'',array('id'=> 'des_'.$value->id, 'onclick'=>'$(\'#'.$value->id.'\').triggerHandler(\'click\');')).'<br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])
 						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
 					else
@@ -100,7 +104,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><a onclick="$(\'#'.$value->id.'\').triggerHandler(\'click\');"><img  src="images/3ba.jpg"></a><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="middle">'.CHtml::link(CHtml::image('images/3ba.jpg'),'',array('id'=> 'des_'.$value->id,'onclick'=>'$(\'#'.$value->id.'\').triggerHandler(\'click\');')).'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}

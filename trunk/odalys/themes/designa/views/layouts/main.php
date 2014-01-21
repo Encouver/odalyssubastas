@@ -221,7 +221,7 @@
 
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.flexslider-min.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/scripts.js"></script>
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.lwtCountdown-1.0.js"></script>
+<!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.lwtCountdown-1.0.js"></script>-->
 
 
 <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID. -->
