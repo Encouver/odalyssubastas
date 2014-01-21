@@ -524,7 +524,7 @@ class SiteController extends Controller
 			        	// si el usuario va ganando la puja
 			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
 			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Estas a la cabeza en esta subasta '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
-			        	}elseif($subasta->activa) //subasta esta activa
+			        	}elseif($subasta->silenciosa) //subasta silenciosa
 			        	{
 			        		$model->ids = $subasta->id;
 			        		$imagen_modelo->id_usuario = Yii::app()->session['id_usuario'];
@@ -547,7 +547,7 @@ class SiteController extends Controller
 			        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
 
 			        	}else{
-			        		echo json_encode(array('id'=>1,'success'=>false,'msg'=>'La subasta correspondiente a la imagen recibida no esta activa'));
+			        		echo json_encode(array('id'=>1,'success'=>false,'msg'=>'La subasta correspondiente a la imagen recibida no es silenciosa'));
 			        	}
 
 	 }

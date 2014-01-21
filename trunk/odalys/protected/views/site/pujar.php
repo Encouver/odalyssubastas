@@ -30,7 +30,7 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 
 
 			// Si la subasta esta activa
-			if (Subastas::model()->findByPk($imagen['ids'])['activa'])
+			if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
 			{
 				echo '<div id="imageng_'.$_POST['imagen_s'].' class="image"> 
 							<img src="'.$imagen['imagen'].'"> 
@@ -43,7 +43,7 @@ Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 					  </div>';
 			}else
 			{
-				echo 'La imágen no pertenece a la subasta activa. Se recibio: '.$_POST['imagen_s'];
+				echo 'La imágen no pertenece a la subasta silenciosa. Se recibio: '.$_POST['imagen_s'];
 			}
 
 		}else
