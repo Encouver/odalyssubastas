@@ -240,7 +240,7 @@ class SiteController extends Controller
 	public function validarImagenid($id){
 		$imagen = ImagenS::model()->findByPk($id);
 		if($imagen)
-			if(Subastas::model()->findByPk($imagen->ids)->activa){
+			if(Subastas::model()->findByPk($imagen->ids)->silenciosa){
 				return $imagen;
 			}else
 				throw new Exception("Error Processing Request: Subasta inactiva" , 1);
