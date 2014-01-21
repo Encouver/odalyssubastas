@@ -293,7 +293,7 @@ nav a, menu a { text-decoration: none; color: #555; }
 /* -- GENERAL 
 ------------------------------------------------------------- */
 .main > section { margin-bottom: 7em; }
-.main header{ color: #555; margin-bottom: 3em; }
+.main header{ color: #555; margin-bottom: 0em; }
 .main header hr{border-top-color:#999;}
 .arrow:after {content:" \27F6"; /* html unicode: &#10230; */ } 
 header .arrow {color: #999; font-style: italic;}
