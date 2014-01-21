@@ -3246,3 +3246,207 @@ Stack trace:
 #12 {main}
 REQUEST_URI=/odalyssubastas/odalys/index.php
 ---
+2014/01/21 08:03:30 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:189
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+---
+2014/01/21 08:04:54 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request id not found' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:189
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+---
+2014/01/21 08:08:21 [error] [php] Object of class ImagenS could not be converted to string (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\db\schema\CDbCommandBuilder.php:379)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\db\ar\CActiveRecord.php(1402): Subastas->query()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(169): Subastas->find()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+2014/01/21 08:10:36 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:172
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid('4593')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 08:12:47 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request: Subasta inactive' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:172
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid('4593')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 08:13:40 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request: Subasta inactive1' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:172
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid('4593')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 08:14:06 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request: Subasta inactive2' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:172
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid('4593')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 08:15:08 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request: Subasta inactiva(2)' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:172
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid('4593')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 08:15:51 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request: Subasta inactiva(4593)' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:172
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(181): SiteController->validarImagenid('4593')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#9 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 08:16:38 [error] [php] Undefined variable: value (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:182)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+2014/01/21 08:16:38 [error] [php] Undefined variable: value (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:182)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+2014/01/21 09:05:35 [error] [exception.Exception] exception 'Exception' with message 'Error Processing Request: id not found' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:182
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionImagen()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('imagen')
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/imagen')
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#8 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/imagen
+HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
+---
+2014/01/21 09:12:01 [error] [php] htmlspecialchars() expects parameter 1 to be string, array given (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php:98)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php(153): renderAttributes()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php(426): tag()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(95): image()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionIndex()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php
+2014/01/21 09:12:17 [error] [php] htmlspecialchars() expects parameter 1 to be string, array given (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php:98)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php(153): renderAttributes()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php(426): tag()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(95): image()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionIndex()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php
+2014/01/21 09:51:54 [error] [php] htmlspecialchars() expects parameter 1 to be string, array given (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php:98)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php(153): renderAttributes()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\helpers\CHtml.php(426): tag()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(107): image()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionIndex()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#10 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php
