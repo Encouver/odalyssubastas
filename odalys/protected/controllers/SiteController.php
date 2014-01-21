@@ -86,15 +86,9 @@ class SiteController extends Controller
 		        ),
 		        array('id'=>$value->id)
 			);
-			$this->widget('ext.fancybox.EFancyBox', array(
-					   	 'target'=>'a#des_'.$value->id ,
-					   	 'config'=>array(),
-					   	 )
-			);
-			echo '<div style="display:none">
-					<div id="data_'.$value->id.'">'.CHtml::image($value->imageng).'<p>'.$value->descri.'</p>'.'
-					</div>
-					</div>';
+			
+			$this->mostrandoImagen($value);
+
 			/*$ajaxLink = CHtml::ajaxLink(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'?r=site/imagen',array(
 																	'type'=>'POST',
 																	'dataType' => "html",
@@ -107,7 +101,7 @@ class SiteController extends Controller
 																	}',
 															       ), array('id'=> 'des_'.$value->id,'class'=>'iframe', 'rel'=>'gallery','href'=> '#data_'.$value->id));*/
 			
-			$ajaxLink = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
+			$link = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
 
 			if($contador==6)
 			{
@@ -120,7 +114,7 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle">'.$ajaxLink.'<br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="middle">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])
 						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
 					else
@@ -132,7 +126,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle">'.$ajaxLink.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="middle">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -193,18 +187,10 @@ class SiteController extends Controller
 		foreach ($query as $key => $value) {
 			$con ++;
 
-			$this->widget('ext.fancybox.EFancyBox', array(
-					   	 'target'=>'a#des_'.$value->id ,
-					   	 'config'=>array(),
-					   	 )
-			);
 
-			echo '<div style="display:none">
-					<div id="data_'.$value->id.'">'.CHtml::image($value->imageng).'<p>'.$value->descri.'</p>'.'
-					</div>
-					</div>';
+			$this->mostrandoImagen($value);
 
-					$ajaxLink = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
+			$link = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
 			if($contador==6)
 			{
 				//echo '<tr>';
@@ -215,11 +201,11 @@ class SiteController extends Controller
 				if($value->id_usuario)
 				{
 					
-					$imprimir .=  '<td align="center" valign="middle">'.$ajaxLink.'<br>'.$con.' <span style="color:#f20000;">Vendido</span></td>';
+					$imprimir .=  '<td align="center" valign="middle">'.$link.'<br>'.$con.' <span style="color:#f20000;">Vendido</span></td>';
 
 				}else
 				{
-					$imprimir .= '<td align="center" valign="middle">'.$ajaxLink.'<br>'.$con.'</td>';
+					$imprimir .= '<td align="center" valign="middle">'.$link.'<br>'.$con.'</td>';
 				}
 
 			if($contador==6)
@@ -238,6 +224,19 @@ class SiteController extends Controller
 		$this->render('resultados', array('resultados'=>$imprimir));
 	}
 
+	public function mostrandoImagen($imagen){
+
+
+			$this->widget('ext.fancybox.EFancyBox', array(
+					   	 'target'=>'a#des_'.$imagen->id ,
+					   	 'config'=>array('scrolling'=>'no','fitToView'=>false,),
+			));
+
+			echo '<div style="display:none">
+					<div id="data_'.$imagen->id.'">'.CHtml::image($imagen->imageng).'<p>'.$imagen->descri.'</p>'.'
+					</div>
+					</div>';
+	}
 	public function validarImagenid($id){
 		$imagen = ImagenS::model()->findByPk($id);
 		if($imagen)
@@ -517,7 +516,7 @@ class SiteController extends Controller
 
 
 
-function validaciones($model, $imagen_modelo, $subasta){
+	function validaciones($model, $imagen_modelo, $subasta){
 
 			        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
 			        	//if($model->id_imagen_s == 4593)
@@ -554,7 +553,7 @@ function validaciones($model, $imagen_modelo, $subasta){
 	 }
 	
 
-function validaciones2($model, $imagen_modelo, $subasta){
+	function validaciones2($model, $imagen_modelo, $subasta){
 
 						//aqui se verifica si se envio una puja maxima.
 			        		if($model->maximo_dispuesto) 
