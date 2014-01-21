@@ -63,7 +63,7 @@
 				'links'=>$this->breadcrumbs,
 			)); ?><!-- breadcrumbs -->
 
-			<a href="#" class="arrow fright">see more infos</a>
+			<!--<a href="#" class="arrow fright"></a>-->
 		</header>
 		
 		<div class="grid col-full mq2-col-full">
