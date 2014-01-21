@@ -36,6 +36,13 @@ class SiteController extends Controller
 
 		$subas = Subastas::model()->find($criteria);
 
+		if(!$subas)
+		{
+			//Aqui va la redirección a la vista resultado
+			echo 'No hay subasta activas';
+			return;
+		}
+
 		$criteria = new CDbCriteria;
 
 		$criteria->condition = 'ids=:ids';
@@ -81,10 +88,28 @@ class SiteController extends Controller
 					   	 'config'=>array(),
 					   	 )
 			);
+			echo '<div style="display:none">
+					<div id="data_'.$value->id.'">'.CHtml::image($value->imageng).'<p>'.$value->descri.'</p>'.'
+					</div>
+					</div>';
+			/*$ajaxLink = CHtml::ajaxLink(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'?r=site/imagen',array(
+																	'type'=>'POST',
+																	'dataType' => "html",
+																	'data' => array('idimagen'=>$value->id),//'{imagen_ss: "0"}',
+																	'context'=>'js:this',
+																	'success'=> 'function(data){
+																			$("#data_'.$value->id.'").empty();
+																			$("#data_'.$value->id.'").html(data);
+																			//$(".data_'.$value->id.'").fancybox();
+																	}',
+															       ), array('class'=> 'des_'.$value->id,'rel'=>'gallery','href'=> '#data_'.$value->id));*/
+			
+			$ajaxLink = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
+
 			if($contador==6)
 			{
 				//echo '<tr>';
-
+				
 				$imprimir .= '<tr align="center" valign="middle">';
 			}
 				$contador++;
@@ -92,7 +117,7 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle">'.CHtml::link(CHtml::image('images/3ba.jpg'),'',array('id'=> 'des_'.$value->id, 'onclick'=>'$(\'#'.$value->id.'\').triggerHandler(\'click\');')).'<br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="middle">'.$ajaxLink.'<br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])
 						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
 					else
@@ -104,7 +129,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle">'.CHtml::link(CHtml::image('images/3ba.jpg'),'',array('id'=> 'des_'.$value->id,'onclick'=>'$(\'#'.$value->id.'\').triggerHandler(\'click\');')).'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="middle">'.$ajaxLink.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -134,6 +159,28 @@ class SiteController extends Controller
 		// using the default layout 'protected/views/layouts/main.php1'
 		$this->render('index', array('imprimir'=>$imprimir));
 
+	}
+
+	public function validarImagenid($id){
+		$imagen = ImagenS::model()->findByPk($id);
+		if($imagen)
+			if(Subastas::model()->findByPk($imagen->ids)->activa){
+				return $imagen;
+			}else
+				throw new Exception("Error Processing Request: Subasta inactiva" , 1);
+		else
+			throw new Exception("Error Processing Request: error id image", 1);
+			
+	}
+	public function actionImagen()
+	{
+		if(isset($_POST['idimagen']))
+		{
+			$imagen = $this->validarImagenid($_POST['idimagen']);
+			echo CHtml::image($imagen->imageng).'<p>'.$imagen->descri.'</p>';
+		}else
+			throw new Exception("Error Processing Request: id not found", 1);
+		
 	}
 
 	public function actionBuscar()
