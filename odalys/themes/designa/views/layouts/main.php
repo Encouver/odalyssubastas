@@ -44,7 +44,7 @@
 		<nav class="fright">
 				<?php $this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
-						array('label'=>'ir a  ww.odalys.com', 'url'=>'http://www.odalys.com', 'htmlOptions'=>array('target'=>'_blank') ),
+						array('label'=>'ir a  www.odalys.com', 'url'=>'http://www.odalys.com', 'htmlOptions'=>array('target'=>'_blank') ),
 						//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 						//array('label'=>'Contact', 'url'=>array('/site/contact')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

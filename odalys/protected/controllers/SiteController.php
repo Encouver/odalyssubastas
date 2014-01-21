@@ -481,13 +481,16 @@ class SiteController extends Controller
 					if( $model->codigo == $upc->codigo && $model->paleta == $upc->paleta)
 					{
 
-							Yii::app()->request->cookies['up'] = new CHttpCookie('up', md5($upc['paleta']));
-							Yii::app()->request->cookies['uc'] = new CHttpCookie('uc', md5($upc['codigo']));
+						Yii::app()->request->cookies['up'] = new CHttpCookie('up', md5($upc['paleta']));
+						Yii::app()->request->cookies['uc'] = new CHttpCookie('uc', md5($upc['codigo']));
+
+						$this->validaciones($model, $imagen_modelo, $subasta);
 
 					}else
 					{
 						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'));
 					}
+
 				}else{
 					// Verificando que el codigo y paleta almacenados en cookie sean las correctas.
 					if(Yii::app()->request->cookies['uc']->value == md5(Usuariospujas::model()->find('idsubasta=:idsubasta',array(':idsubasta'=>$subasta->id))['codigo'])
