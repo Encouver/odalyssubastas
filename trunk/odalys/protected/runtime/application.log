@@ -3606,3 +3606,66 @@ Stack trace:
 #14 {main}
 REQUEST_URI=/odalyssubastas/odalys/index.php
 ---
+2014/01/21 17:38:49 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:493)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+2014/01/21 17:45:39 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:493)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+2014/01/21 17:45:47 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:493)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+2014/01/21 17:47:08 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:494)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+2014/01/21 17:47:10 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:494)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+2014/01/21 17:47:45 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:494)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
+2014/01/21 17:47:50 [error] [php] Trying to get property of non-object (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php:494)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
