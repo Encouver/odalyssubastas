@@ -102,7 +102,7 @@ class SiteController extends Controller
 																			$("#data_'.$value->id.'").html(data);
 																			//$(".data_'.$value->id.'").fancybox();
 																	}',
-															       ), array('class'=> 'des_'.$value->id,'rel'=>'gallery','href'=> '#data_'.$value->id));*/
+															       ), array('id'=> 'des_'.$value->id,'class'=>'iframe', 'rel'=>'gallery','href'=> '#data_'.$value->id));*/
 			
 			$ajaxLink = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
 

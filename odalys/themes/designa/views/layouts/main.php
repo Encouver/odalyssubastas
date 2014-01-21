@@ -37,14 +37,14 @@
 <div class="container"> 
 
 	<header id="navtop">
-		<a href="#" class="logo fleft">
+		<a href="<?php echo Yii::app()->getHomeUrl();?>" class="logo fleft">
 			<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" alt="Designa Studio">
 		</a>
 		
 		<nav class="fright">
 				<?php $this->widget('zii.widgets.CMenu',array(
 					'items'=>array(
-						array('label'=>'Home', 'url'=>array('/site/index')),
+						array('label'=>'Inicio', 'url'=>'http://www.odalys.com'),
 						//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 						//array('label'=>'Contact', 'url'=>array('/site/contact')),
 						array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
