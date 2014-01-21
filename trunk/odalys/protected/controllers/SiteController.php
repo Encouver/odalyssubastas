@@ -59,7 +59,7 @@ class SiteController extends Controller
 		$con = 0;
 		$imprimir ="";
 		//echo '<table width="80%"><tr>';
-		$imprimir = '<table width="100%"><tr>';
+		$imprimir = '<table width="100%" class="tablaresultado"><tr>';
 		foreach ($query as $key => $value) {
 			$con ++;
 			$criteria = new CDbCriteria;
@@ -183,7 +183,7 @@ class SiteController extends Controller
 		$con = 0;
 		$imprimir ="";
 		//echo '<table width="80%"><tr>';
-		$imprimir = '<table width="100%"><tr>';
+		$imprimir = '<table width="100%" class="tablaresultado"><tr>';
 		foreach ($query as $key => $value) {
 			$con ++;
 
