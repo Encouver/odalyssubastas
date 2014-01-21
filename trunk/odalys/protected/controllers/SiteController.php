@@ -31,15 +31,18 @@ class SiteController extends Controller
 	{
 		$criteria = new CDbCriteria;
 
-		$criteria->condition = 'activa=:activa';
-		$criteria->params = array(':activa'=>1);
+		$criteria->condition = 'silenciosa=:silenciosa';
+		$criteria->params = array(':silenciosa'=>1);
 
 		$subas = Subastas::model()->find($criteria);
 
 		if(!$subas)
 		{
+
+			$this->actionResultados();
+			//$this->redirect('odalys/site/resultados'/*, array('imprimir'=>$imprimir)*/);
 			//Aqui va la redirección a la vista resultado
-			echo 'No hay subasta activas';
+			//echo 'No hay subasta activas';
 			return;
 		}
 
@@ -161,6 +164,80 @@ class SiteController extends Controller
 
 	}
 
+	public function actionResultados()
+	{
+
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+		$criteria->params = array(':fuesilenciosa'=>1);
+		$criteria->order = 'id DESC';
+
+
+		$resultados = Subastas::model()->find($criteria);
+		
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'ids=:ids';
+		$criteria->params = array(':ids'=>$resultados['id']);
+
+
+		$query = ImagenS::model()->findAll($criteria);
+
+
+		$contador = 0;
+		$con = 0;
+		$imprimir ="";
+		//echo '<table width="80%"><tr>';
+		$imprimir = '<table width="100%"><tr>';
+		foreach ($query as $key => $value) {
+			$con ++;
+
+			$this->widget('ext.fancybox.EFancyBox', array(
+					   	 'target'=>'a#des_'.$value->id ,
+					   	 'config'=>array(),
+					   	 )
+			);
+
+			echo '<div style="display:none">
+					<div id="data_'.$value->id.'">'.CHtml::image($value->imageng).'<p>'.$value->descri.'</p>'.'
+					</div>
+					</div>';
+
+					$ajaxLink = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
+			if($contador==6)
+			{
+				//echo '<tr>';
+				
+				$imprimir .= '<tr align="center" valign="middle">';
+			}
+				$contador++;
+				if($value->id_usuario)
+				{
+					
+					$imprimir .=  '<td align="center" valign="middle">'.$ajaxLink.'<br>'.$con.' <span style="color:#f20000;">Vendido</span></td>';
+
+				}else
+				{
+					$imprimir .= '<td align="center" valign="middle">'.$ajaxLink.'<br>'.$con.'</td>';
+				}
+
+			if($contador==6)
+			{
+				//echo '</tr>';
+				$imprimir .='</tr>';
+				$contador=0;
+			}
+
+			
+			//$model = 21;
+
+		}
+		$imprimir .='</table>';
+		
+		$this->render('resultados', array('resultados'=>$imprimir));
+	}
+
 	public function validarImagenid($id){
 		$imagen = ImagenS::model()->findByPk($id);
 		if($imagen)
@@ -196,8 +273,8 @@ class SiteController extends Controller
 
 		$criteria = new CDbCriteria;
 
-		$criteria->condition = 'activa=:activa';
-		$criteria->params = array(':activa'=>1);
+		$criteria->condition = 'silenciosa=:silenciosa';
+		$criteria->params = array(':silenciosa'=>1);
 
 		$subas = Subastas::model()->find($criteria);
 
@@ -324,8 +401,8 @@ class SiteController extends Controller
 
 		$criteria = new CDbCriteria;
 
-		$criteria->condition = 'silenciosa=:activa';
-		$criteria->params = array(':activa'=>1);
+		$criteria->condition = 'silenciosa=:silenciosa';
+		$criteria->params = array(':silenciosa'=>1);
 
 		$subas = Subastas::model()->find($criteria);
 
