@@ -12,6 +12,15 @@
 	CSS Tricks (css-tricks.com).
 ------------------------------------------------------------- */
 
+/*Diseño tabla muestra resultados y contenidos*/
+
+
+table.tablaresultado tr td
+{
+	padding: 10px;
+}
+
+
 
 
 /* -------------------------------------------------------------
