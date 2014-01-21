@@ -5,7 +5,7 @@ $this->pageTitle=Yii::app()->name;
 ?>
 <?php
 
-	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('activa=1')['id']))['fecha_finalizacion']));
+	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion']));
 	//echo 'Fecha Finalización: '.$fecha->format('d-m-Y h:i:s');
 $this->widget('ext.bcountdown.BCountdown', 
         array(
