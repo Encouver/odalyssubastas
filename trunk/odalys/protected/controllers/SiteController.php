@@ -89,8 +89,9 @@ class SiteController extends Controller
 																	}',
 															       ), array('id'=> 'des_'.$value->id,'class'=>'iframe', 'rel'=>'gallery','href'=> '#data_'.$value->id));*/
 			//cambiar a *********ADMIN******
+			$imagenElement = CHtml::image('','',array('data-original'=>$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';', 'width'=>'auto','height'=>'auto'));
 			if(Yii::app()->session['admin'])
-				$link = CHtml::ajaxLink(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),
+				$link = CHtml::ajaxLink( $imagenElement,
 								        $this->createUrl('site/pujaradmin'),
 								        array(
 								            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
@@ -108,7 +109,7 @@ class SiteController extends Controller
 								        array('id'=>'admin_'.$value->id)
 									);
 			else//if(Yii::app()->session['id_usuario'])
-				$link = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),Yii::app()->request->baseUrl.'/'.$value->imageng/*'#data_'.$value->id*/, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
+				$link = CHtml::link($imagenElement, '', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
 				//height="480"
 			// Fancybox
 			$this->mostrandoImagen($value);
@@ -256,7 +257,7 @@ class SiteController extends Controller
 
 
 			$this->widget('ext.fancybox.EFancyBox', array(
-					   	 'target'=>'a#des_'.$imagen->id ,
+					   	 'target'=>'a.des_'.$imagen->id ,
 					   	 'config'=>array('scrolling'=>'no',
 					   	 				 'fitToView'=>true,
 					   	 				 'aspectRatio'=>true,
