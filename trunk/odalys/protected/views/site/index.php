@@ -51,6 +51,11 @@ $this->widget('ext.bcountdown.BCountdown',
 <?php
 	$baseUrl = Yii::app()->request->baseUrl;
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.lazyload.min.js', CClientScript::POS_END);
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.easing-1.3.pack.js', CClientScript::POS_END);
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.mousewheel-3.0.4.pack.js', CClientScript::POS_END);
+	
+	Yii::app()->clientScript->registerCssFile($baseUrl . '/js/fancybox/jquery.fancybox-1.3.4.css');
 
 
 

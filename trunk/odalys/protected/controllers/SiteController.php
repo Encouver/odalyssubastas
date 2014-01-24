@@ -125,7 +125,7 @@ class SiteController extends Controller
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><table><tr><td>'.$link.'</td></tr><tr><td> <br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="middle">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])
 						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
 					else
@@ -137,7 +137,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle"><table style="margin-top:0;"><tr><td>'.$link.'</td></tr><tr><td> <br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="middle">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -162,10 +162,10 @@ class SiteController extends Controller
 											        ),
 											        array('id'=>$value->id)
 												);
-						$imprimir .= $pujarAjaxLink.'<BR/></td></tr></table></td>';
+						$imprimir .= $pujarAjaxLink.'<BR/></td>';
 					}
 					else
-						$imprimir .= '<span style="color:red;font-size:200%;">.</span></td></tr></table></td>';
+						$imprimir .= '<span style="color:red;font-size:200%;">.</span></td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -184,7 +184,7 @@ class SiteController extends Controller
 										        ),
 										        array('id'=>$value->id)
 											);
-					$imprimir .= $pujarAjaxLink.'<BR/></td></tr></table></td>';					
+					$imprimir .= $pujarAjaxLink.'<BR/></td>';					
 				}
 
 			if($contador==6)
@@ -266,6 +266,19 @@ class SiteController extends Controller
 					   	 				  'helpers' =>array('title'=>array('type'=>'inside'))),
 			));
 			Yii::app()->clientScript->registerScript( 'fancybox-position','
+			/*$("a.des_'.$imagen->id.'").fancybox({
+					\'transitionIn\'	:	\'elastic\',
+					\'transitionOut\'	:	\'elastic\',
+					\'speedIn\'		:	600, 
+					\'speedOut\'		:	200, 
+					\'overlayShow\'	:	false,
+					\'scrolling\' : \'no\',
+					\'autoScale\' : true,
+					\'aspectRatio\': true,
+					\'title\' : \'<p>'.$imagen->descri.'</p>\',
+					\'href\': '.Yii::app()->request->baseUrl.'/'.$imagen->imageng.',
+					\'titlePosition\' : \'inside\'
+				});*/
 			$(".fancybox").fancybox({
 			    helpers:  {
 			        title : {
