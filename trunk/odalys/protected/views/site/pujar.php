@@ -84,7 +84,7 @@
   
 		<div class="row"><li>
 			<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
-			<?php echo $form->textField($model,'maximo_dispuesto',array('value'=> '0')); ?>
+			<?php echo $form->textField($model,'maximo_dispuesto'); ?>
 
 			<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 			<?php echo $form->error($model,'maximo_dispuesto'); ?></li>

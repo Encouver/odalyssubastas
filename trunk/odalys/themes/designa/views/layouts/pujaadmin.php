@@ -1,1 +1,5 @@
-<?php echo $content ?>
+<div id='container'>
+
+	<?php echo $content ?>
+
+</div>
