@@ -1,4 +1,4 @@
-<?php //Yii::app()->clientScript->registerCoreScript('jquery');
+	<?php //Yii::app()->clientScript->registerCoreScript('jquery');
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
@@ -49,10 +49,21 @@ $this->widget('ext.bcountdown.BCountdown',
 ?>
 
 <?php
+	$baseUrl = Yii::app()->request->baseUrl;
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.lazyload.min.js', CClientScript::POS_END);
+
+
 
 	$refreshTime = 5000; 	// tiempo de refresco en milisegundos
     $ourscript = '  
 	$( document ).ready(function() {
+		// LAZY LOAD
+		$(function() {
+    		$("img.lazy").lazyload({
+									    threshold : 200
+									});
+		});
+
 		//updateMyContent();
 		setInterval( "updateMyContent();", '.$refreshTime.' );
 		$(function() {
