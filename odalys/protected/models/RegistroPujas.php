@@ -22,6 +22,7 @@ class RegistroPujas extends CActiveRecord
 	
 	public $paleta;
 	public $codigo;
+	public $correo;
 
 	public static function model($className=__CLASS__)
 	{
@@ -45,6 +46,7 @@ class RegistroPujas extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('paleta, codigo', 'required'),
+			array('correo', 'email'),
 			array('ids, idusuario, id_imagen_s, monto_puja', 'numerical', 'integerOnly'=>true),
 			array('maximo_dispuesto, paleta', 'match', 'pattern' => '/^[0-9]+$/', 'allowEmpty' => true),
 			// The following rule is used by search().

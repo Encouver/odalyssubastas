@@ -85,8 +85,8 @@ class BCountdown extends CWidget{
        jQuery(document).ready(function() {
 				$("#countdown_dashboard").countDown({
 					targetDate: {
-                                        "year":"'.$this->year.'",
-                                        "month":"'.$this->month.'",
+                    "year":"'.$this->year.'",
+                    "month":"'.$this->month.'",
 					"day":"'.$this->day.'",
 					"hour":"'.$this->hour.'",
 					"min":"'.$this->min.'",
@@ -114,41 +114,42 @@ class BCountdown extends CWidget{
 		 
             echo '
                 <div id="contenido">
-		<h1>'.$this->title.'</h1>
-		<h2 class="subtitle">'.$this->message.'</h2>
+					<h1>'.$this->title.'</h1>
+					<h2 class="subtitle">'.$this->message.'</h2>
 
-                        <div id="countdown_dashboard">
-			<div class="dash weeks_dash">
-				<span class="dash_title">Semanas</span>
-				<div class="digit">0</div>
-				<div class="digit">0</div>
-			</div>
+				                    <div id="countdown_dashboard">
+						<div class="dash weeks_dash">
+							<span class="dash_title">Semanas</span>
+							<div class="digit">0</div>
+							<div class="digit">0</div>
+						</div>
 
-			<div class="dash days_dash">
-				<span class="dash_title">Días</span>
-				<div class="digit">0</div>
-				<div class="digit">0</div>
-			</div>
+						<div class="dash days_dash">
+							<span class="dash_title">Días</span>
+							<div class="digit">0</div>
+							<div class="digit">0</div>
+						</div>
 
-			<div class="dash hours_dash">
-				<span class="dash_title">Horas</span>
-				<div class="digit">0</div>
-				<div class="digit">0</div>
-			</div>
+						<div class="dash hours_dash">
+							<span class="dash_title">Horas</span>
+							<div class="digit">0</div>
+							<div class="digit">0</div>
+						</div>
 
-			<div class="dash minutes_dash">
-				<span class="dash_title">Minutos</span>
-				<div class="digit">0</div>
-				<div class="digit">0</div>
-			</div>
+						<div class="dash minutes_dash">
+							<span class="dash_title">Minutos</span>
+							<div class="digit">0</div>
+							<div class="digit">0</div>
+						</div>
 
-			<div class="dash seconds_dash">
-				<span class="dash_title">Segundos</span>
-				<div class="digit">0</div>
-				<div class="digit">0</div>
-			</div>
-		</div> </div>                
-		';
+						<div class="dash seconds_dash">
+							<span class="dash_title">Segundos</span>
+							<div class="digit">0</div>
+							<div class="digit">0</div>
+						</div>
+					</div> 
+				</div>                
+				';
         }
     
 }
