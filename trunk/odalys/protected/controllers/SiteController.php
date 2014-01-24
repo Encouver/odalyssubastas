@@ -59,6 +59,33 @@ class SiteController extends Controller
 
 	}
 
+	public function actionTerminar(){
+
+
+		$suba = Subastas::model()->find('silenciosa=1');
+		if($suba){
+
+			$crono = Cronometro::model()->find('ids=:ids', array(':ids'=>$suba->id));
+			
+			if($crono)
+			if( strtotime($crono->fecha_finalizacion) < time() ){
+				//$this->actionIndex();
+				$suba->silenciosa = 0;
+			}
+		
+		
+		
+
+		if($suba->save())
+			$this->redirect(Yii::app()->homeUrl);
+			//$this->redirect(array('site/index'));
+		else
+			throw new Exception("Error Processing Request: No se pudo finalizar la subasta.", 1);
+		}else
+			$this->redirect(Yii::app()->homeUrl);
+			//$this->redirect(array('site/index'));
+			
+	}
 	public function listaImagen($subas){
 		
 		$query = ImagenS::model()->findAll('ids=:ids', array(':ids'=>$subas['id']));
@@ -143,7 +170,7 @@ class SiteController extends Controller
 				}
 
 				if(Yii::app()->session['id_usuario'])
-					if(!(ImagenS::model()->findByPk($value->id)->id_usuario == Yii::app()->session['id_usuario']))
+					if(!($value->id_usuario == Yii::app()->session['id_usuario']))
 					{
 					
 						$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -165,7 +192,7 @@ class SiteController extends Controller
 						$imprimir .= $pujarAjaxLink.'<BR/></td>';
 					}
 					else
-						$imprimir .= '<span style="color:red;font-size:0%;">.</span></td>';
+						$imprimir .= '<p style="color:red;font-size:100%;">.</p></td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -265,20 +292,18 @@ class SiteController extends Controller
 					   	 				 'href'=> Yii::app()->request->baseUrl.'/'.$imagen->imageng,
 					   	 				  'helpers' =>array('title'=>array('type'=>'inside'))),
 			));
+			/*Yii::app()->clientScript->registerScript( 'fancybox','
+			$("a.des_'.$imagen->id.'").fancybox({
+					"scrolling" : "no",
+					"fitToView": true,
+					"aspectRatio": true,
+					"href": "'.Yii::app()->request->baseUrl.'/'.$imagen->imageng.'",
+					"title" : "\'<p>'.$imagen->descri.'</p>\'",					
+												 
+				});
+			' );*/
+
 			Yii::app()->clientScript->registerScript( 'fancybox-position','
-			/*$("a.des_'.$imagen->id.'").fancybox({
-					\'transitionIn\'	:	\'elastic\',
-					\'transitionOut\'	:	\'elastic\',
-					\'speedIn\'		:	600, 
-					\'speedOut\'		:	200, 
-					\'overlayShow\'	:	false,
-					\'scrolling\' : \'no\',
-					\'autoScale\' : true,
-					\'aspectRatio\': true,
-					\'title\' : \'<p>'.$imagen->descri.'</p>\',
-					\'href\': '.Yii::app()->request->baseUrl.'/'.$imagen->imageng.',
-					\'titlePosition\' : \'inside\'
-				});*/
 			$(".fancybox").fancybox({
 			    helpers:  {
 			        title : {

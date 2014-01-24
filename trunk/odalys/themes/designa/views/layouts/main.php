@@ -227,7 +227,7 @@
 
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.flexslider-min.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/scripts.js"></script>
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/kkcountdown.min.js"></script>
+<!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/kkcountdown.min.js"></script>-->
 
 <!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.lwtCountdown-1.0.js"></script>-->
 

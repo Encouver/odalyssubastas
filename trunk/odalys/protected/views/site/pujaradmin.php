@@ -157,7 +157,7 @@
 																		}',
 																		'success' => 'function(data){
 																			json = data;//$("#pujaModal").dialog("close");
-																			console.log(data);
+																			//console.log(data);
 																			//alert(data);
 																				if(data[\'id\']){
 																					alert(data["msg"]);
