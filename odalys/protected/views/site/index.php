@@ -7,7 +7,7 @@ $this->pageTitle=Yii::app()->name;
 
 	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion']));
 	//echo 'Fecha Finalización: '.$fecha->format('d-m-Y h:i:s');
-$this->widget('ext.bcountdown.BCountdown', 
+/*$this->widget('ext.bcountdown.BCountdown', 
         array(
                 //'title'=>'UNDER CONSTRUCTION',  // Title
                 //'message'=>'Stay tuned for news and updates', // message for user
@@ -20,8 +20,60 @@ $this->widget('ext.bcountdown.BCountdown',
                 'sec'=>$fecha->format('s'),
             )
         );
-
+*/
 ?>
+
+<script type="text/javascript">
+$(document).ready(function(){
+                $(".kkcount-down-1").kkcountdown({
+                	dayText		: 'día ',
+                	daysText 	: 'días ',
+                    hoursText	: 'h ',
+                    minutesText	: 'm ',
+                    secondsText	: 's',
+                    displayZeroDays : false,
+                    callback	: test,
+                    oneDayClass	: 'one-day'
+                });
+               /* $(".kkcount-down").kkcountdown({
+                	dayText		: ' ',
+                	daysText 	: ' ',
+                    hoursText	: ':',
+                    minutesText	: ':',
+                    secondsText	: '',
+                    displayZeroDays : false,
+                    callback	: function() {
+                    	$("odliczanie-a").css({'background-color':'#fff',color:'#333'});
+                    },
+                    addClass	: ''
+                });*/
+                $("#go").click(function() {
+                	var secs = $("#secs").val();
+                	$("#secs").parent("span").html("<strong>"+secs+"</strong>").addClass('red');
+                	$("#go").hide();
+	                $(".kkcount-down-2")
+	                	.attr('data-seconds', secs)
+	                	.kkcountdown({
+	                	dayText		: 'd ',
+	                	daysText 	: 'dd ',
+	                    hoursText	: ':',
+	                    minutesText	: ':',
+	                    secondsText	: '',
+	                    displayZeroDays : false,
+	                    textAfterCount: 'BOOM!',
+	                    warnSeconds : 10,
+	                    warnClass   : 'red',
+	                });
+                });
+            });
+            function test(){
+            	console.log('KONIEC');
+            }
+</script>
+
+<div id="odliczanie-b"><b><span data-time="1420066800" class="kkcount-down-1">kokokokoko</span></b></div>
+
+
 <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 		    'id'=>'pujaModal',
@@ -51,11 +103,11 @@ $this->widget('ext.bcountdown.BCountdown',
 <?php
 	$baseUrl = Yii::app()->request->baseUrl;
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.lazyload.min.js', CClientScript::POS_END);
-	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
+	/*Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.fancybox-1.3.4.pack.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.easing-1.3.pack.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/fancybox/jquery.mousewheel-3.0.4.pack.js', CClientScript::POS_END);
 	
-	Yii::app()->clientScript->registerCssFile($baseUrl . '/js/fancybox/jquery.fancybox-1.3.4.css');
+	Yii::app()->clientScript->registerCssFile($baseUrl . '/js/fancybox/jquery.fancybox-1.3.4.css');*/
 
 
 

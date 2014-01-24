@@ -93,7 +93,7 @@ input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
 button::-moz-focus-inner, input::-moz-focus-inner{border:0; padding:0}
 textarea{overflow:auto; vertical-align:top; resize:vertical}
 table{border-collapse:collapse; border-spacing:0}
-td{vertical-align:top}
+/*td{vertical-align:top}*/
 .chromeframe { margin: 1em 0; background: red; color: black; padding: 1em; }
 
 

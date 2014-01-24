@@ -118,14 +118,14 @@ class SiteController extends Controller
 			{
 				//echo '<tr>';
 				
-				$imprimir .= '<tr align="center" valign="middle">';
+				$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
 				if($resultado)
 				{
 					
 					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])
 						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
 					else
@@ -137,7 +137,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="middle">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -165,7 +165,7 @@ class SiteController extends Controller
 						$imprimir .= $pujarAjaxLink.'<BR/></td>';
 					}
 					else
-						$imprimir .= '<span style="color:red;font-size:200%;">.</span></td>';
+						$imprimir .= '<span style="color:red;font-size:0%;">.</span></td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -226,17 +226,17 @@ class SiteController extends Controller
 			
 			if($contador==6)
 			{
-				$imprimir .= '<tr align="center" valign="middle">';
+				$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
 				if($value->id_usuario)
 				{
 					
-					$imprimir .=  '<td align="center" valign="middle">'.$link.'<br>'.$con.' <span style="color:#f20000;">Vendido</span></td>';
+					$imprimir .=  '<td align="center" valign="bottom">'.$link.'<br>'.$con.' <span style="color:#f20000;">Vendido</span></td>';
 
 				}else
 				{
-					$imprimir .= '<td align="center" valign="middle">'.$link.'<br>'.$con.'</td>';
+					$imprimir .= '<td align="center" valign="bottom">'.$link.'<br>'.$con.'</td>';
 				}
 
 			if($contador==6)
