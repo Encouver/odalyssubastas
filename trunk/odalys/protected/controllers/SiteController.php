@@ -249,7 +249,7 @@ class SiteController extends Controller
 		foreach ($query as $key => $value) {
 			$con ++;
 			
-			$link = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'#data_'.$value->id, array('id'=> 'des_'.$value->id,'rel'=>'gallery'));
+			$link = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
 			
 			if($contador==6)
 			{
