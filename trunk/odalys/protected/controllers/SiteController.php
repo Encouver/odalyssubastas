@@ -196,7 +196,7 @@ class SiteController extends Controller
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-		        	$this->createUrl('site/login'), array(
+		        	$this->createUrl('site/loginmodal'), array(
 										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
 										            //'update'=>'#pujaModal'
 										            'type'=>'POST',
@@ -462,6 +462,31 @@ class SiteController extends Controller
 		$this->render('login',array('model'=>$model)); 
 	}
 
+	public function actionLoginmodal(){
+
+		$model=new LoginForm;
+
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		// collect user input data
+		if(isset($_POST['LoginForm']))
+		{
+			$model->attributes=$_POST['LoginForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->login())
+				$this->redirect(Yii::app()->user->returnUrl);
+		}
+		$this->layout='//layouts/column2';
+		// display the login form
+		$this->render('login',array('model'=>$model)); 
+
+	}
+
 	/**
 	 * Logs out the current user and redirect to homepage.
 	 */
@@ -701,10 +726,10 @@ class SiteController extends Controller
 			        		if($model->maximo_dispuesto) 
 			        		{
 			        			//Puja maxima
-			        			$monto_minimo_dispuesto = ($imagen_modelo->actual*1.1)*1.1;
+			        			$puja_siguiente = $imagen_modelo->actual*1.1;
 		 						
 		 						//aqui va puja maxima
-			        			if($model->maximo_dispuesto >= $monto_minimo_dispuesto)
+			        			if($model->maximo_dispuesto >= $puja_siguiente)
 			        			{
 
 			        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
@@ -790,7 +815,7 @@ class SiteController extends Controller
 				        			
 			        			}else
 			        			{
-			        				echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Puja maxima debe ser mayor a dos veces el 10% de la actual'));
+			        				echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Puja maxima debe ser mayor a el 10% del precio actual'));
 			        			}
 
 			        		}else
