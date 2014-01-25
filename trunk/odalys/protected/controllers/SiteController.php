@@ -580,18 +580,19 @@ class SiteController extends Controller
 	        $model->attributes=$_POST['RegistroPujas'];
 
 
-	    	if(!$model->paleta  && isset(Yii::app()->request->cookies['up']) )
+	    	if(!$model->paleta  && isset(Yii::app()->request->cookies['up']))
 	    		$model->paleta = 0;
 			if(!$model->codigo && isset(Yii::app()->request->cookies['uc']))
 	    		$model->codigo = 0;
 	        if($model->validate())
 	        { 	         // form inputs are valid, do something here		
+				$usuario_actual = Yii::app()->session['id_usuario'];
 
 				$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
 	    		$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
-				$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',array(':idsubasta'=>$subasta->id, ':idusuario'=>Yii::app()->session['id_usuario']));
+				$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',array(':idsubasta'=>$subasta->id, ':idusuario'=>$usuario_actual));
 				
-				$usuario_actual = Yii::app()->session['id_usuario'];
+				
 
 				if( !isset(Yii::app()->request->cookies['up']) && !isset(Yii::app()->request->cookies['uc']))
 				{
@@ -636,7 +637,7 @@ class SiteController extends Controller
 
 					}else
 					{
-						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'));
+						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'.$upc->paleta));
 					}
 
 				}else{
@@ -674,7 +675,7 @@ class SiteController extends Controller
 			        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
 
 			        	}else{
-			        		echo json_encode(array('id'=>1,'success'=>false,'msg'=>'La subasta correspondiente a la imagen recibida no es silenciosa'));
+			        		echo json_encode(array('id'=>1,'success'=>true,'msg'=>'La subasta correspondiente a la imagen recibida no es silenciosa'));
 			        	}
 
 					}else{
@@ -789,7 +790,7 @@ class SiteController extends Controller
 				        			
 			        			}else
 			        			{
-			        				echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Puja maxima debe ser mayor a dos veces el 10% de la actual'));
+			        				echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Puja maxima debe ser mayor a dos veces el 10% de la actual'));
 			        			}
 
 			        		}else
