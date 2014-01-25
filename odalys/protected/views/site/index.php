@@ -97,7 +97,7 @@ $this->pageTitle=Yii::app()->name;
 		    'id'=>'pujaModal',
 		    'options'=>array(
 		        'title'=>'Pujar',
-		        'width'=>'auto',
+		        'width'=>'600px',
 		        'height'=>'auto',
 		        'autoOpen'=>false,
 		        'resizable'=>false,
@@ -111,6 +111,7 @@ $this->pageTitle=Yii::app()->name;
 		            array('id'=> 'Cancel', 'text'=>'Cancelar','click'=>'js:function(){$(this).dialog("close");}'),
 		        ),
 		    ),
+		    'htmlOptions'=>array('style'=>'`//z-index: 4;'),
 		));
 
 	    //echo 'Modal dialog content here ';

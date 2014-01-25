@@ -54,11 +54,11 @@
 						//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 						//array('label'=>'Contact', 'url'=>array('/site/contact')),
 						// NOTA CAMBIAR A ************************** ADMIN ************************** CUANDO TERMINE DE TRABAJARSE
-						//array('label'=>'Puja asistida','url'=>array('site/pujaradmin'), 'visible'=>isset(Yii::app()->session['id_usuario'])),
+						//array('label'=>'Puja asistida','url'=>array('site/pujaradmin'), 'visible'=>isset(Yii::app()->session['admin'])),
 						array('label'=>'Iniciar Sesión', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-						array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+						array('label'=>'Cerrar sesión ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 						array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'], 'visible'=>!Yii::app()->user->isGuest),
-						array('label'=>'Mi cuenta ', 'url'=>'', 'visible'=>!Yii::app()->user->isGuest)
+						array('label'=>'Mi cuenta ', 'url'=>'http://www.odalys.com/odalys/micuenta.php', 'visible'=>!Yii::app()->user->isGuest)
 					),
 				)); ?>
 		</nav>	
@@ -68,7 +68,7 @@
 
 <hr>
 <div class = "alignleft">
-Subasta 215 En línea
+<w class="enbold">Subasta 215</w> En línea
 </div>
 
 		<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
@@ -79,7 +79,7 @@ Subasta 215 En línea
 
 </div>
 
-<div class="container" style= "padding-top: 100px;"> 
+<div class="container" style= "padding-top: 150px;"> 
 
 <div class="home-page main">
 	<section class="grid-wrap" >
