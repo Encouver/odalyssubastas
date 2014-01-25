@@ -540,7 +540,7 @@ class SiteController extends Controller
 	           		//else{
 					//$contenido = //$this->listaImagen($subas);
 	           			//echo json_encode(array('id'=>0,'success'=>false,'msg'=>'No se ha recibido correo.'));
-						$model->maximo_dispuesto = 0;
+						//$model->maximo_dispuesto = 0;
 						$this->render('pujaradmin', array('usuarios' => $arreglo,'model'=>$model));
 					//}
 
@@ -578,6 +578,7 @@ class SiteController extends Controller
 
 	    if(isset($_POST['RegistroPujas'])){
 	        $model->attributes=$_POST['RegistroPujas'];
+
 
 	    	if(!$model->paleta  && isset(Yii::app()->request->cookies['up']) )
 	    		$model->paleta = 0;
@@ -687,7 +688,7 @@ class SiteController extends Controller
 	        }
 
 	    }
-	    $model->maximo_dispuesto = 0;
+	    //$model->maximo_dispuesto = 0;
 	    $this->layout = '//layouts/modal';
 	    $this->render('pujar',array('model'=>$model));
 	}
