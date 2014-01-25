@@ -89,10 +89,14 @@
 				$idsub = $imagenid.'_'.uniqid();
 
 				$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
+
+				$baseUrl = Yii::app()->request->baseUrl;
+				Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
 			?>
 		<div class="row"><li>
 			<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
-			<?php echo $form->textField($model,'maximo_dispuesto', array('oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+precio);')); ?>
+			<?php echo $form->textField($model,'maximo_dispuesto', 
+			array('oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precio));')); ?>
 
 			<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 			<?php echo $form->error($model,'maximo_dispuesto'); ?></li>

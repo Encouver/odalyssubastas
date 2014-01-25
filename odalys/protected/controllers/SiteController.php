@@ -696,9 +696,10 @@ class SiteController extends Controller
 
 	function validaciones($model, $imagen_modelo, $subasta, $usuario_actual){
 
-						//aqui se verifica si se envio una puja maxima.
+						
 			        		if($model->maximo_dispuesto) 
 			        		{
+			        			//Puja maxima
 			        			$monto_minimo_dispuesto = ($imagen_modelo->actual*1.1)*1.1;
 		 						
 		 						//aqui va puja maxima
@@ -773,7 +774,6 @@ class SiteController extends Controller
 										throw new CHttpException(400,'ImagenS data not saving: '.$msg );
 									}
 		        				
-		        					$model->monto_puja = $imagen_modelo->actual;
 		        					$model->idusuario = $usuario_actual;
 		        				 	$model->monto_puja = $imagen_modelo->actual;
 		        					if(!$model->insert())
@@ -811,11 +811,9 @@ class SiteController extends Controller
 				        					{
 												$msg = print_r($registro->getErrors(),1);
 												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
-											}else{
-
+											}else
 												echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Tu puja ha sido superada.'));
-											}
-
+											
 										}else{
 												$registro->verificado = 2;
 										
@@ -825,10 +823,8 @@ class SiteController extends Controller
 				        					{
 												$msg = print_r($model->getErrors(),1);
 												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
-											}else{
-
+											}else
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
-											}
 										}
 
 									}else{
@@ -848,10 +844,10 @@ class SiteController extends Controller
 											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
 										}
 									}
-									if(!$imagen_modelo->save()){
-										$msg = print_r($imagen_modelo->getErrors(),1);
-										throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
-									}
+								if(!$imagen_modelo->save()){
+									$msg = print_r($imagen_modelo->getErrors(),1);
+									throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+								}
 							
 			        		}
 		}
