@@ -59,7 +59,7 @@
 				//echo 'Error recibiendo el identificador de la imágen.';
 			}
 
-
+			
 	?>
 </tr>
 </table>
@@ -81,10 +81,18 @@
  		<p class="note">Campos con <span class="required">*</span> son requeridos.</p>  
  		<?php }?>
 <ul>
-  
+			 <?php  if(isset($_POST['imagen_s']))
+					$imagenid = $_POST['imagen_s'];
+			  else
+			  		$imagenid = $model->id_imagen_s;
+				
+				$idsub = $imagenid.'_'.uniqid();
+
+				$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
+			?>
 		<div class="row"><li>
 			<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
-			<?php echo $form->textField($model,'maximo_dispuesto'); ?>
+			<?php echo $form->textField($model,'maximo_dispuesto', array('oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+precio);')); ?>
 
 			<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 			<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
@@ -122,11 +130,9 @@
 </ul>
 		<div class="row buttons">
 			<?php //echo CHtml::submitButton('Submit'); ?>
-			<?php if(isset($_POST['imagen_s']))
-						$imagenid = $_POST['imagen_s'];
-				  else
-				  		$imagenid = $model->id_imagen_s;
-						echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
+			<?php 	
+						echo CHtml::ajaxSubmitButton('Pujar '.$precioActual, '',
+																	 array('type'=>'POST',//'update'=>'#pujaModal', 
 																		'dataType' => "json",
 																		//'data' => '{imagen_ss: "0"}',
 																		'error' =>'function(data){
@@ -159,8 +165,8 @@
 
 																        'beforeSend' => 'function(xhr,settings){
 																		        	//settings.data += {imagen_ss: $(this).attr(\'id\').split("_" )[0]});
-																		        	console.log(typeof settings.data);
-																		        	console.log(settings.data);
+																		        	//console.log(typeof settings.data);
+																		        	//console.log(settings.data);
 																		        	//settins.data += "&"+$.param({"imagen_ss": $(this).attr(\'id\').split("_" )[0]});
 																			        //Encode at end
 																			        //settings.data = jQuery.param(settings.data, false);
@@ -168,7 +174,7 @@
 										              								//+ \'=\'
 										              								//+ encodeURIComponent($(this).attr(\'id\').split("_")[0]);
 																		        	//alert(settings.data);
-										              								console.log(settings.data);
+										              								//console.log(settings.data);
 										              								//$(\'#RegistroPujas_\').val($(this).attr(\'id\').split("_")[0]);
 																        }',
 																        'complete' => 'function(){
@@ -177,7 +183,7 @@
 																            //alert("Puja exitosa!");
 																            }',
 																       ),
-														   		  array('id'=>$imagenid.'_'.uniqid())); 
+														   		  array('id'=>$idsub)); 
 	   		  ?>
 
 		</div>
