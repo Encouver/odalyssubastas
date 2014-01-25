@@ -44,7 +44,7 @@
 
  	<header id="navtop">
 		<a href="<?php echo Yii::app()->getHomeUrl();?>" class="logo fleft">
-			<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" alt="Designa Studio">
+			<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" width= "20px" alt="Designa Studio">
 		</a>
 		
 		<nav class="fright">
@@ -62,21 +62,29 @@
 					),
 				)); ?>
 		</nav>	
-		<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
-	<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-	<div id="odliczanie-b"><b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
+
 	</header>
 
 
+<hr>
+<div class = "alignleft">
+Subasta 215 En línea
+</div>
 
+		<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
+	<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
+	<div id="odliczanie-b" class = "alignright"><b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
+    
+    <hr style="clear:both"></div></div>
 
-    </div></div></div>
-<div class="container" style= "padding-top: 80px;"> 
+</div>
+
+<div class="container" style= "padding-top: 100px;"> 
 
 <div class="home-page main">
 	<section class="grid-wrap" >
 		<header class="grid col-full">
-			<hr>
+			
 			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 				'links'=>$this->breadcrumbs,
 			)); ?><!-- breadcrumbs -->

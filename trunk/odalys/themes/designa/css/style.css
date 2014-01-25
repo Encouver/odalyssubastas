@@ -17,12 +17,12 @@
     .f-nav{ z-index: 9999; position: fixed; left: 0; top: 0; width: 100%;} /* this make our menu fixed top */
     
 .nav { 
-  height: 64px; 
+  height: 105px; 
   padding-top: 12px;
   padding-bottom: 8px;
   font-size: 14px;
   font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
-  color: #B90C0C;
+  color: #000000;
 }
 
 .shadow {
@@ -358,7 +358,7 @@ a img:hover {
 /* -- HEADER
 ------------------------------------------------------------- */
 header#navtop { clear: both; overflow: hidden;  }
-    header nav ul { float: left; overflow: hidden; padding: 0 3em 0 2em; border-left: 1px solid #ddd; line-height: 2em; }
+    header nav ul { float: left; overflow: hidden; padding: 0 3em 0 2em; /*border-left: 1px solid #ddd;*/ line-height: 2em; }
 nav a, menu a { text-decoration: none; color: #555; }
 .navactive { color: #0078CF }
 .logo {margin-bottom: 1em;}
