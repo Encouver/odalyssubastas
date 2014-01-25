@@ -36,9 +36,13 @@
 <!-- Prompt IE 7 users to install Chrome Frame -->
 <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-<div class="container"> 
+  <div class="nav-container f-nav">
+<div class="nav">
 
-	<header id="navtop">
+
+    <div class="container"> 
+
+ 	<header id="navtop">
 		<a href="<?php echo Yii::app()->getHomeUrl();?>" class="logo fleft">
 			<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" alt="Designa Studio">
 		</a>
@@ -57,9 +61,17 @@
 						array('label'=>'Mi cuenta ', 'url'=>'', 'visible'=>!Yii::app()->user->isGuest)
 					),
 				)); ?>
-		</nav>
+		</nav>	
+		<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
+	<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
+	<div id="odliczanie-b"><b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
 	</header>
 
+
+
+
+    </div></div></div>
+<div class="container" style= "padding-top: 80px;"> 
 
 <div class="home-page main">
 	<section class="grid-wrap" >

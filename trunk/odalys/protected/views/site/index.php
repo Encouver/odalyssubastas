@@ -91,9 +91,6 @@ $this->pageTitle=Yii::app()->name;
 */
 ?>
 
-<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-<header><div id="odliczanie-b"><b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div></header>
-
 
 <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(

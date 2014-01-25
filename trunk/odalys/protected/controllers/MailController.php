@@ -25,16 +25,9 @@ class MailController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('compradores', 'pujadores'),
 				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'expression' => '(Yii::app()->session["id_usuario"])'  //cambiar a admin
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -45,8 +38,28 @@ class MailController extends Controller
 	public function actionCompradores()
 	{
 
-		//Falta consultar los compradores de las obras es decir la tabla imagen_s y hacer un foreach
+		$silenciosa = Subastas::model()->find('silenciosa=:silenciosa', array(':silenciosa'=>1));
+		
 
+		$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+
+		
+		foreach ($ganadores as $key => $value) {
+			
+
+
+			if($value->id_usuario)
+			{
+
+					echo $value->id_usuario.'<br/>';
+
+			}
+		}
+
+		//echo $silenciosa['id'];
+
+		//Falta consultar los compradores de las obras es decir la tabla imagen_s y hacer un foreach
+		/*
 		$correo = "edgar.leal0@gmail.com";
 		$nombre = "edgar";
 		$apellido = "apellido";
@@ -76,9 +89,9 @@ class MailController extends Controller
 		';
 
 	 
-	 	$headers  = 'MIME-Version: 1.0' ."\r\n";
-		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$headers .= 'From: Grupo Odalys<galeriaccs@odalys.com>'. "\r\n" .
+		 	$headers  = 'MIME-Version: 1.0' ."\r\n";
+			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+			$headers .= 'From: Grupo Odalys<galeriaccs@odalys.com>'. "\r\n" .
 		    'Reply-To: pujas@odalys.com' . "\r\n" .
 		    'X-Mailer: PHP/' . phpversion();
 
@@ -95,7 +108,7 @@ class MailController extends Controller
 			    	$valor = false;
 					$this->render('index', array('valor'=>$valor));
 		    	
-		    }
+		    }*/
 
 
 	}

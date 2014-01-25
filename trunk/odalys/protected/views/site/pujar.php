@@ -41,12 +41,13 @@
 				if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
 				{
 					echo '<div id="imageng_'.$_POST['imagen_s'].' class="image"> 
-								<td><img src="'.$imagen['imagen'].'"> 
-								</img></td><td>
+								<table>
+								<td><img src="'.$imagen['imagen'].'"/></td>
+								<td>
 									<p>'.$imagen['descri'].'</p> 
-									<BR/> 
+									<BR/>
 									Precio actual: '.number_format($imagen['actual']).'<BR>
-									Puja siguiente: '.number_format($imagen['actual']*1.1).'<BR> </td>
+									Puja siguiente: '.number_format($imagen['actual']*1.1).'<BR> </td></table>
 									<!--Minimo Puja maxima: '.number_format($imagen['actual']*1.1*1.1).'-->
 						  </div>';
 				}else
