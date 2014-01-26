@@ -606,3 +606,15 @@ Stack trace:
 REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/buscar
 HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php
 ---
+2014/01/26 15:12:58 [error] [php] mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() (C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\MailController.php:210)
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\protected\controllers\SiteController.php(728): SiteController->validaciones()
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\actions\CInlineAction.php(49): SiteController->actionPujar()
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#5 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#6 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#7 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#8 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CWebApplication->run()
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/pujar
