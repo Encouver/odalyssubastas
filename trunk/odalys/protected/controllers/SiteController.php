@@ -767,6 +767,7 @@ class SiteController extends Controller
 				        					else
 				        						$imagen_modelo->actual = $registro->maximo_dispuesto;
 
+				        					$registro->monto_puja = intval($imagen_modelo->actual);
 
 				        					//$registro->verificado = 1;
 
@@ -775,7 +776,7 @@ class SiteController extends Controller
 		        							$imagen_modelo->id_usuario = $registro->idusuario;
 
 					        				$model->idusuario = $usuario_actual;
-					        				$model->monto_puja = 65656556;//$imagen_modelo->actual;
+					        				$model->monto_puja = intval($imagen_modelo->actual);
 				        					if(!$model->save())
 				        					{
 												$msg = print_r($model->getErrors(),1);
@@ -786,7 +787,7 @@ class SiteController extends Controller
 											$nuevoregistro->ids = $registro->ids;
 											$nuevoregistro->idusuario =$registro->idusuario;
 											$nuevoregistro->id_imagen_s =$registro->id_imagen_s;
-											$nuevoregistro->monto_puja = 65656;//$registro->monto_puja;
+											$nuevoregistro->monto_puja = intval($registro->monto_puja);
 											$nuevoregistro->maximo_dispuesto = $registro->maximo_dispuesto;
 											$nuevoregistro->verificado = 2;
 											$nuevoregistro->paleta = 0;
@@ -820,7 +821,7 @@ class SiteController extends Controller
 												}
 
 												$model->verificado = 1;
-					        				 	$model->monto_puja = 6454;//$imagen_modelo->actual;
+					        				 	$model->monto_puja = intval($imagen_modelo->actual);
 					        				 	$model->idusuario = $usuario_actual;
 
 					        					if(!$model->save())
@@ -840,7 +841,7 @@ class SiteController extends Controller
 					        						// Si ya existe una puja maxima igual se la gana el que primero haya hecho la puja
 
 					        					$imagen_modelo->actual = $registro->maximo_dispuesto;
-					        					$registro->monto_puja = $imagen_modelo->actual;
+					        					$registro->monto_puja = intval($imagen_modelo->actual);
 
 					        					
 												if(!$registro->save())
@@ -865,7 +866,7 @@ class SiteController extends Controller
 										$imagen_modelo->actual *= 1.1;
 
 			        					$model->idusuario = $usuario_actual;
-			        				 	$model->monto_puja = 6454;//$imagen_modelo->actual;
+			        				 	$model->monto_puja = intval($imagen_modelo->actual);
 
 			        					if(!$model->save())
 			        					{
@@ -914,7 +915,7 @@ class SiteController extends Controller
 
 											
 											// Se incrementa el valor y sigue con la pieza el mismo de maxima puja
-											$registro->monto_puja = $imagen_modelo->actual *= 1.1;	// Este es el historial
+											$registro->monto_puja = intval($imagen_modelo->actual *= 1.1);	// Este es el historial
 											
 											//Esto es para que se guarde como nueva fila
 		        							//$registro->setIsNewRecord(false);
@@ -923,7 +924,7 @@ class SiteController extends Controller
 		        							$imagen_modelo->id_usuario = $registro->idusuario;
 
 					        				$model->idusuario = $usuario_actual;
-					        				$model->monto_puja = 65656556;//$imagen_modelo->actual;
+					        				$model->monto_puja = intval($imagen_modelo->actual);
 				        					if(!$model->save())
 				        					{
 												$msg = print_r($model->getErrors(),1);
@@ -934,7 +935,7 @@ class SiteController extends Controller
 											$nuevoregistro->ids = $registro->ids;
 											$nuevoregistro->idusuario =$registro->idusuario;
 											$nuevoregistro->id_imagen_s =$registro->id_imagen_s;
-											$nuevoregistro->monto_puja = 65656;//$registro->monto_puja;
+											$nuevoregistro->monto_puja = intval($registro->monto_puja);
 											$nuevoregistro->maximo_dispuesto = $registro->maximo_dispuesto;
 											$nuevoregistro->verificado = 2;
 											$nuevoregistro->paleta = 0;
@@ -960,13 +961,12 @@ class SiteController extends Controller
 
 										
 					        				$model->idusuario = $usuario_actual;
-					        				$model->monto_puja = 6565;//$imagen_modelo->actual;
+					        				$model->monto_puja = intval($imagen_modelo->actual);
 				        					if(!$model->save())
 				        					{
 												$msg = print_r($model->getErrors(),1);
 												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
 											}
-											$registro->monto_puja = 4545;
 
 											if(!$registro->save())
 				        					{
@@ -993,7 +993,7 @@ class SiteController extends Controller
 
 
 					        			$model->idusuario = $usuario_actual;
-				        				$model->monto_puja = 656;//$imagen_modelo->actual;
+				        				$model->monto_puja = intval($imagen_modelo->actual);
 			        					if(!$model->save())
 			        					{
 											$msg = print_r($model->getErrors(),1);
