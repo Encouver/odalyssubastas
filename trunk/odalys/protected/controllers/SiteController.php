@@ -195,7 +195,8 @@ class SiteController extends Controller
 						$imprimir .= $pujarAjaxLink.'<BR/></td>';
 					}
 					else
-						$imprimir .= CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',array('style'=>'width: 5px;hight:5px;')).'</td>';
+						$imprimir .= CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
+							array('style'=>'width: 5px;hight:5px;')).'</td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -672,7 +673,7 @@ class SiteController extends Controller
 
 					}else
 					{
-						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'));
+						echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Error en el código o la paleta.'));
 					}
 
 				}else{
@@ -800,7 +801,7 @@ class SiteController extends Controller
 												$msg = print_r($imagen_modelo->getErrors(),1);
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 											}else
-												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido superada.'));										
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));										
 
 				        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
 					        				{
@@ -832,7 +833,7 @@ class SiteController extends Controller
 													$msg = print_r($imagen_modelo->getErrors(),1);
 													throw new CHttpException(400,'ImagenS data not saving: '.$msg );
 												}else{
-													echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+													echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 												}
 
 					        				}else{
@@ -848,7 +849,7 @@ class SiteController extends Controller
 													throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
 												}else{
 
-													echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Tu puja ha sido superada.'));
+													echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
 												}
 												// Se cambia a 2 porque el registro que ya estaba con el monto puja anterior debe quedar registrado
 												$registro->verificado = 2;
@@ -876,7 +877,7 @@ class SiteController extends Controller
 											$msg = print_r($imagen_modelo->getErrors(),1);
 											throw new CHttpException(400,'ImagenS data not saving: '.$msg );
 										}else{
-											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 										}
 				        			}
 
@@ -948,7 +949,7 @@ class SiteController extends Controller
 												$msg = print_r($imagen_modelo->getErrors(),1);
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 											}else
-												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido superada.'));
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
 
 
 										}else{
@@ -977,7 +978,7 @@ class SiteController extends Controller
 												$msg = print_r($imagen_modelo->getErrors(),1);
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 											}else{
-												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 											}											
 										}
 				
@@ -1002,7 +1003,7 @@ class SiteController extends Controller
 											$msg = print_r($imagen_modelo->getErrors(),1);
 											throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 										}else{
-											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 										}
 									}
 
