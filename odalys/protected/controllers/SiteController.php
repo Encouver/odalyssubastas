@@ -619,14 +619,20 @@ class SiteController extends Controller
 
 				$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
 	    		$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
-				$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',array(':idsubasta'=>$subasta->id, ':idusuario'=>$usuario_actual));
+	    		$criteria = new CDbCriteria();
+
+	    		$criteria->condition = 'idsubasta=:idsubasta AND idusuario=:idusuario';
+	    		$criteria->params = array(':idsubasta'=>$subasta->id, ':idusuario'=>$usuario_actual);
+
+				$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',
+													array(':idsubasta'=>$subasta->id, ':idusuario'=>$usuario_actual));
 				
 				
 
-				if( !isset(Yii::app()->request->cookies['up']) && !isset(Yii::app()->request->cookies['uc']))
+				if( !Yii::app()->request->cookies['up'] && !Yii::app()->request->cookies['uc'])
 				{
 					//Introdujo codigo y paleta por primera vez
-					if( $model->codigo == $upc->codigo && $model->paleta == $upc->paleta)
+					if( strtoupper($model->codigo) == $upc->codigo && $model->paleta == $upc->paleta)
 					{
 
 						Yii::app()->request->cookies['up'] = new CHttpCookie('up', md5($upc['paleta']));
@@ -642,7 +648,7 @@ class SiteController extends Controller
 			        	{
 
 			        		$model->ids = $subasta->id;
-			        		$imagen_modelo->id_usuario = Yii::app()->session['id_usuario'];
+			        		$imagen_modelo->id_usuario = $usuario_actual;
 
 
 	           				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
@@ -671,8 +677,8 @@ class SiteController extends Controller
 
 				}else{
 					// Verificando que el codigo y paleta almacenados en cookie sean las correctas.
-					if(Yii::app()->request->cookies['uc']->value == md5(Usuariospujas::model()->find('idsubasta=:idsubasta',array(':idsubasta'=>$subasta->id))['codigo'])
-						&& Yii::app()->request->cookies['up']->value == md5(Usuariospujas::model()->find('idsubasta=:idsubasta',array(':idsubasta'=>$subasta->id))['paleta']))
+					if(Yii::app()->request->cookies['uc']->value == md5($upc->codigo)
+						&& Yii::app()->request->cookies['up']->value == md5($upc->paleta))
 					{
 
 			        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
@@ -685,6 +691,8 @@ class SiteController extends Controller
 			        	{
 
 			        		$model->ids = $subasta->id;
+			        		$model->idusuario = $usuario_actual;
+
 			        		$imagen_modelo->id_usuario = Yii::app()->session['id_usuario'];
 
 
@@ -742,77 +750,138 @@ class SiteController extends Controller
 									  ':verificado'=>1,
 									  //':maxi' => NULL,
 									));
+									//Esto es para que se guarde como nueva fila
+									//$registro->setIsNewRecord(true);
 
 			        				// Existe otra pujador con maximo dispuesto
 			        				if($registro)
 			        				{
-
+					        					$registro->paleta = 0;
+					        					$registro->codigo = 0;
 				        				if($registro->maximo_dispuesto >  $model->maximo_dispuesto)  
 				        				{
 				        					// Gana el que ya estaba en la base de datos
-				        					$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
+				        					if($registro->maximo_dispuesto >= $model->maximo_dispuesto*1.1)
+				        						$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
+				        					else
+				        						$imagen_modelo->actual = $registro->maximo_dispuesto;
 
-				        					$registro->verificado = 1;
+
+				        					//$registro->verificado = 1;
 
 											$model->verificado=2;
 
-				        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
-				        				{
-				        					//Gana el usuario actual
-											$imagen_modelo->actual = $registro->maximo_dispuesto * 1.1;
+		        							$imagen_modelo->id_usuario = $registro->idusuario;
 
-											$registro->verificado = 2;
-
-											$model->verificado=1;
-
-
-				        				}else{
-				        						// Si ya existe una puja maxima igua se la gana el que primero haya hecho la puja
-
-				        					$imagen_modelo->actual = $registro->maximo_dispuesto;
-				        					$registro->monto_puja = $imagen_modelo->actual;
-											if(!$registro->insert())
+					        				$model->idusuario = $usuario_actual;
+					        				$model->monto_puja = 65656556;//$imagen_modelo->actual;
+				        					if(!$model->save())
 				        					{
-												$msg = print_r($registro->getErrors(),1);
-												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
-											}else{
-
-												echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Tu puja ha sido superada.'));
+												$msg = print_r($model->getErrors(),1);
+												throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
 											}
-											// Se cambia a 2 porque el registro que ya estaba con el monto puja anterior debe quedar registrado
-											$registro->verificado = 2;
-				        				}
+
+											$nuevoregistro = new RegistroPujas();
+											$nuevoregistro->ids = $registro->ids;
+											$nuevoregistro->idusuario =$registro->idusuario;
+											$nuevoregistro->id_imagen_s =$registro->id_imagen_s;
+											$nuevoregistro->monto_puja = 65656;//$registro->monto_puja;
+											$nuevoregistro->maximo_dispuesto = $registro->maximo_dispuesto;
+											$nuevoregistro->verificado = 2;
+											$nuevoregistro->paleta = 0;
+											$nuevoregistro->codigo = 0;
+											if(!$nuevoregistro->save())
+				        					{
+												$msg = print_r($nuevoregistro->getErrors(),1);
+												throw new CHttpException(400,'RegistroPujas nuevoregistro: data not saving: '.$msg );
+											}
+
+											if(!$imagen_modelo->save()){
+												$msg = print_r($imagen_modelo->getErrors(),1);
+												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+											}else
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido superada.'));										
+
+				        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
+					        				{
+					        					//Gana el usuario actual
+					        					if($model->maximo_dispuesto >= $registro->maximo_dispuesto*1.1)
+				        							$imagen_modelo->actual = $registro->maximo_dispuesto * 1.1;
+				        						else
+				        							$imagen_modelo->actual = $model->maximo_dispuesto;
+
+
+												$registro->verificado = 2;
+	
+												if(!$registro->save()){
+													$msg = print_r($registro->getErrors(),1);
+													throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+												}
+
+												$model->verificado = 1;
+					        				 	$model->monto_puja = 6454;//$imagen_modelo->actual;
+					        				 	$model->idusuario = $usuario_actual;
+
+					        					if(!$model->save())
+					        					{
+													$msg = print_r($model->getErrors(),1);
+													throw new CHttpException(400,'Registro Pujas data not saving: '.$msg );
+												}
+
+												if(!$imagen_modelo->save()){
+													$msg = print_r($imagen_modelo->getErrors(),1);
+													throw new CHttpException(400,'ImagenS data not saving: '.$msg );
+												}else{
+													echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+												}
+
+					        				}else{
+					        						// Si ya existe una puja maxima igual se la gana el que primero haya hecho la puja
+
+					        					$imagen_modelo->actual = $registro->maximo_dispuesto;
+					        					$registro->monto_puja = $imagen_modelo->actual;
+
+					        					
+												if(!$registro->save())
+					        					{
+													$msg = print_r($registro->getErrors(),1);
+													throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+												}else{
+
+													echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Tu puja ha sido superada.'));
+												}
+												// Se cambia a 2 porque el registro que ya estaba con el monto puja anterior debe quedar registrado
+												$registro->verificado = 2;
+					        				}
 				        				
 				        				
-				        				$registro->save();
+				        				
 				        					
 				        			}else
 				        			{
-
+										$model->verificado = 1;
 				        				// No hay otro pujador con puja maxima
 										$imagen_modelo->actual *= 1.1;
 
+			        					$model->idusuario = $usuario_actual;
+			        				 	$model->monto_puja = 6454;//$imagen_modelo->actual;
+
+			        					if(!$model->save())
+			        					{
+											$msg = print_r($model->getErrors(),1);
+											throw new CHttpException(400,'Registro Pujas data not saving: '.$msg );
+										}
+
+										if(!$imagen_modelo->save()){
+											$msg = print_r($imagen_modelo->getErrors(),1);
+											throw new CHttpException(400,'ImagenS data not saving: '.$msg );
+										}else{
+											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+										}
 				        			}
 
-				        			
-
-				        			//Usuariospujas::model()->findByPk();
-
-									if(!$imagen_modelo->save()){
-										$msg = print_r($imagen_modelo->getErrors(),1);
-										throw new CHttpException(400,'ImagenS data not saving: '.$msg );
-									}
 		        				
-		        					$model->idusuario = $usuario_actual;
-		        				 	$model->monto_puja = $imagen_modelo->actual;
-		        					if(!$model->insert())
-		        					{
-										$msg = print_r($model->getErrors(),1);
-										throw new CHttpException(400,'Registro Pujas data not saving: '.$msg );
-									}else{
 
-										echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
-									}
 								
 				        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
 				        			
@@ -823,38 +892,97 @@ class SiteController extends Controller
 
 			        		}else
 			        		{	// Puja simple
-			        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
-									array(
-									  ':imagen'=>$model->id_imagen_s,
-									  ':verificado'=>1,
-									  //':maxi' => NULL,
-									));
-									$imagen_modelo->actual *= 1.1;
+		        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
+								array(
+								  ':imagen'=>$model->id_imagen_s,
+								  ':verificado'=>1,
+								  //':maxi' => NULL,
+								));
 
-									if($registro){ //ya existe un usuario con puja maxima
+
+		        				// Puja siguiente
+								$imagen_modelo->actual *= 1.1;
+
+									if($registro)
+									{ //ya existe un usuario con puja maxima
+
+										$registro->paleta = 0;
+			        					$registro->codigo = 0;
+
 										if($registro->maximo_dispuesto > $imagen_modelo->actual){
 
-											// Se inserta otra vez con el monto puja nuevo
-											$registro->monto_puja = $imagen_modelo->actual;
-											if(!$registro->insert())
-				        					{
-												$msg = print_r($registro->getErrors(),1);
-												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
-											}else
-												echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Tu puja ha sido superada.'));
 											
+											// Se incrementa el valor y sigue con la pieza el mismo de maxima puja
+											$registro->monto_puja = $imagen_modelo->actual *= 1.1;	// Este es el historial
+											
+											//Esto es para que se guarde como nueva fila
+		        							//$registro->setIsNewRecord(false);
+											
+
+		        							$imagen_modelo->id_usuario = $registro->idusuario;
+
+					        				$model->idusuario = $usuario_actual;
+					        				$model->monto_puja = 65656556;//$imagen_modelo->actual;
+				        					if(!$model->save())
+				        					{
+												$msg = print_r($model->getErrors(),1);
+												throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
+											}
+
+											$nuevoregistro = new RegistroPujas();
+											$nuevoregistro->ids = $registro->ids;
+											$nuevoregistro->idusuario =$registro->idusuario;
+											$nuevoregistro->id_imagen_s =$registro->id_imagen_s;
+											$nuevoregistro->monto_puja = 65656;//$registro->monto_puja;
+											$nuevoregistro->maximo_dispuesto = $registro->maximo_dispuesto;
+											$nuevoregistro->verificado = 2;
+											$nuevoregistro->paleta = 0;
+											$nuevoregistro->codigo = 0;
+											if(!$nuevoregistro->save())
+				        					{
+												$msg = print_r($nuevoregistro->getErrors(),1);
+												throw new CHttpException(400,'RegistroPujas nuevoregistro: data not saving: '.$msg );
+											}
+
+											if(!$imagen_modelo->save()){
+												$msg = print_r($imagen_modelo->getErrors(),1);
+												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+											}else
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido superada.'));
+
+
 										}else{
-												$registro->verificado = 2;
+											$registro->verificado = 2;
+
+											//Esto es para que se guarde como nueva fila
+		        							//$registro->setIsNewRecord(false);
+
 										
 					        				$model->idusuario = $usuario_actual;
-					        				$model->monto_puja = $imagen_modelo->actual;
-				        					if(!$model->insert())
+					        				$model->monto_puja = 6565;//$imagen_modelo->actual;
+				        					if(!$model->save())
 				        					{
 												$msg = print_r($model->getErrors(),1);
 												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
-											}else
+											}
+											$registro->monto_puja = 4545;
+
+											if(!$registro->save())
+				        					{
+												$msg = print_r($registro->getErrors(),1);
+												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+											}												
+
+											if(!$imagen_modelo->save()){
+												$msg = print_r($imagen_modelo->getErrors(),1);
+												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+											}else{
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
+											}											
 										}
+				
+										
+
 
 									}else{
 
@@ -862,21 +990,22 @@ class SiteController extends Controller
 						        			
 					        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
 
+
 					        			$model->idusuario = $usuario_actual;
-				        				$model->monto_puja = $imagen_modelo->actual;
-			        					if(!$model->insert())
+				        				$model->monto_puja = 656;//$imagen_modelo->actual;
+			        					if(!$model->save())
 			        					{
 											$msg = print_r($model->getErrors(),1);
 											throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+										}
+										if(!$imagen_modelo->save()){
+											$msg = print_r($imagen_modelo->getErrors(),1);
+											throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 										}else{
-
 											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Tu puja ha sido exitosa.'));
 										}
 									}
-								if(!$imagen_modelo->save()){
-									$msg = print_r($imagen_modelo->getErrors(),1);
-									throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
-								}
+
 							
 			        		}
 		}
