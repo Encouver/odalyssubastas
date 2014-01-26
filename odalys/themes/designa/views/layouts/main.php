@@ -66,7 +66,7 @@
 	</header>
 
 
-<hr>
+   <hr style="clear:both">
 <div class = "alignleft">
 <w class="enbold">Subasta 215</w> En línea
 </div>
