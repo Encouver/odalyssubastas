@@ -58,7 +58,7 @@
 						array('label'=>'Iniciar sesión', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Cerrar sesión ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 						array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'], 'visible'=>!Yii::app()->user->isGuest),
-						array('label'=>'Mi cuenta ', 'url'=>'http://www.odalys.com/odalys/micuenta.php', 'visible'=>!Yii::app()->user->isGuest)
+						array('label'=>'Mi cuenta ', 'url'=>'http://www.odalys.com/odalys/micuenta.php', 'visible'=>!Yii::app()->user->isGuest, 'linkOptions'=>array('target'=>'_blank'))
 					),
 				)); ?>
 		</nav>	

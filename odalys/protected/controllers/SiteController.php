@@ -7,6 +7,7 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
+	public $imagenesDir;
 	public function actions()
 	{
 		return array(
@@ -29,6 +30,8 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$this->imagenesDir = 'http://www.odalys.com/odalys/';
+
 		$criteria = new CDbCriteria;
 
 		$criteria->condition = 'silenciosa=:silenciosa';
@@ -116,7 +119,7 @@ class SiteController extends Controller
 																	}',
 															       ), array('id'=> 'des_'.$value->id,'class'=>'iframe', 'rel'=>'gallery','href'=> '#data_'.$value->id));*/
 			//cambiar a *********ADMIN******
-			$imagenElement = CHtml::image('','',array('data-original'=>$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';', 'width'=>'auto','height'=>'auto'));
+			$imagenElement = CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';', 'width'=>'auto','height'=>'auto'));
 			if(Yii::app()->session['admin'])
 				$link = CHtml::ajaxLink( $imagenElement,
 								        $this->createUrl('site/pujaradmin'),
@@ -249,7 +252,7 @@ class SiteController extends Controller
 		foreach ($query as $key => $value) {
 			$con ++;
 			
-			$link = CHtml::link(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
+			$link = CHtml::link(CHtml::image($this->imagenesDir.$value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
 			
 			if($contador==6)
 			{
@@ -289,7 +292,7 @@ class SiteController extends Controller
 					   	 				 'fitToView'=>true,
 					   	 				 'aspectRatio'=>true,
 					   	 				 'title'=>'<p>'.$imagen->descri.'</p>',
-					   	 				 'href'=> Yii::app()->request->baseUrl.'/'.$imagen->imageng,
+					   	 				 'href'=> $this->imagenesDir.$imagen->imageng,
 					   	 				  'helpers' =>array('title'=>array('type'=>'inside'))),
 			));
 			/*Yii::app()->clientScript->registerScript( 'fancybox','
@@ -339,7 +342,7 @@ class SiteController extends Controller
 		if(isset($_POST['idimagen']))
 		{
 			$imagen = $this->validarImagenid($_POST['idimagen']);
-			echo CHtml::image($imagen->imageng).'<p>'.$imagen->descri.'</p>';
+			echo CHtml::image($this->imagenesDir.$imagen->imageng).'<p>'.$imagen->descri.'</p>';
 		}else
 			throw new Exception("Error Processing Request: id not found", 1);
 		
