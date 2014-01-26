@@ -119,7 +119,7 @@ class SiteController extends Controller
 																	}',
 															       ), array('id'=> 'des_'.$value->id,'class'=>'iframe', 'rel'=>'gallery','href'=> '#data_'.$value->id));*/
 			//cambiar a *********ADMIN******
-			$imagenElement = CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';', 'width'=>'auto','height'=>'auto'));
+			$imagenElement = CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'));
 			if(Yii::app()->session['admin'])
 				$link = CHtml::ajaxLink( $imagenElement,
 								        $this->createUrl('site/pujaradmin'),
@@ -154,12 +154,12 @@ class SiteController extends Controller
 				if($resultado)
 				{
 					
-					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
+					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio: '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
 					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])
-						$imprimir .='Paleta : '.$resultado['paleta'].'<br/>Precio : '.number_format($value->actual).'</div>';
+						$imprimir .='Paleta: '.$resultado['paleta'].'<br/>Precio: '.number_format($value->actual).'</div>';
 					else
-						$imprimir .= 'Precio : '.number_format($value->actual).'</div>';
+						$imprimir .= 'Precio: '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
@@ -167,7 +167,7 @@ class SiteController extends Controller
 				}else
 				{
 					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: '.number_format($value->actual).'</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -195,7 +195,7 @@ class SiteController extends Controller
 						$imprimir .= $pujarAjaxLink.'<BR/></td>';
 					}
 					else
-						$imprimir .= '<p style="color:red;font-size:100%;">.</p></td>';
+						$imprimir .= CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',array('style'=>'width: 5px;hight:5px;')).'</td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -252,7 +252,8 @@ class SiteController extends Controller
 		foreach ($query as $key => $value) {
 			$con ++;
 			
-			$link = CHtml::link(CHtml::image($this->imagenesDir.$value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
+			$link = CHtml::link(CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.data-original=\''.Yii::app()->request->baseUrl.'/images/3ba.jpg\';', 'width'=>'auto','height'=>'auto'))
+				,'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
 			
 			if($contador==6)
 			{
@@ -636,7 +637,7 @@ class SiteController extends Controller
 
 			        	// si el usuario va ganando la puja
 			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
-			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Estas a la cabeza en esta subasta '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
+			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Esta pieza ya es tuya '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
 			        	}elseif($subasta->silenciosa) //subasta silenciosa
 			        	{
 
@@ -665,7 +666,7 @@ class SiteController extends Controller
 
 					}else
 					{
-						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'.$upc->paleta));
+						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Error en el codigo o la paleta.'));
 					}
 
 				}else{
@@ -789,7 +790,6 @@ class SiteController extends Controller
 				        			{
 
 				        				// No hay otro pujador con puja maxima
-				        				echo 'Salvando';
 										$imagen_modelo->actual *= 1.1;
 
 				        			}

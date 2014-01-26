@@ -26,7 +26,7 @@
 </head>
 
 <body>
-	<div class="home-page main">
+	<div class="home-page main" style="font-family:‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;font-size:12px;">
 		<div class="grid col-full mq2-col-full">
 			<?php echo $content; ?>
 		</div>

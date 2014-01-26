@@ -150,9 +150,9 @@ $this->pageTitle=Yii::app()->name;
 									json.forEach(function(entry){
 											$("#imagen_"+entry["id"]).empty();
 											if(entry["paleta"])
-												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio : "+entry["actual"]);
+												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio: "+entry["actual"]);
 											else
-												$("#imagen_"+entry["id"]).html("Precio : "+entry["actual"]);
+												$("#imagen_"+entry["id"]).html("Precio: "+entry["actual"]);
 									});											 
 							 }
 				});
