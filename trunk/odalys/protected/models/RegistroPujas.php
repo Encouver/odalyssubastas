@@ -47,11 +47,11 @@ class RegistroPujas extends CActiveRecord
 		return array(
 			array('paleta, codigo', 'required'),
 			array('correo', 'email'),
-			array('ids, idusuario, id_imagen_s, monto_puja', 'numerical', 'integerOnly'=>true),
+			array('ids, idusuario, id_imagen_s, monto_puja, verificado', 'numerical', 'integerOnly'=>true),
 			array('maximo_dispuesto, paleta', 'match', 'pattern' => '/^[0-9]+$/', 'allowEmpty' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, ids, idusuario, id_imagen_s, monto_puja, maximo_dispuesto, fecha', 'safe', 'on'=>'search'),
+			array('id, ids, idusuario, id_imagen_s, monto_puja, maximo_dispuesto, fecha, verificado', 'safe', 'on'=>'search'),
 		);
 	}
 
