@@ -158,7 +158,7 @@
 															alert(data["msg"]);
 															if(data["success"]){
 																$("#pujaModal").dialog("close");
-																location.reload();
+																//location.reload();
 															}else
 																$("#pujaModal").html(data["responseText"]);
 																//$("#registro-pujas-pujar-form").attr("style","with:600px;");

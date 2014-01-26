@@ -154,8 +154,8 @@ $this->pageTitle=Yii::app()->name;
 											if(entry["actual"])
 												$("#imagen_"+entry["id"]).html("Precio: "+entry["actual"]);
 											if(entry["div"]){
-												$("div#"+entry["id"]).empty();
-												$("div#"+entry["id"]).html(entry["div"]);
+												$("div#"+entry["id"]+"a").empty();
+												$("div#"+entry["id"]+"a").html(entry["div"]);
 											}
 									});											 
 							 }

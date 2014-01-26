@@ -192,11 +192,11 @@ class SiteController extends Controller
 											        ),
 											        array('id'=>$value->id)
 												);
-						$imprimir .= $pujarAjaxLink.'<BR/></td>';
+						$imprimir .= '<div id="'.$value->id.'a">'.$pujarAjaxLink.'</div><BR/></td>';
 					}
 					else
-						$imprimir .= CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
-							array('style'=>'width: 5px;hight:5px;')).'</td>';
+						$imprimir .= '<div id="'.$value->id.'a">'.CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
+							array('style'=>'width: 5px;hight:5px;')).'</div> </td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -372,7 +372,7 @@ class SiteController extends Controller
 		$criteria = new CDbCriteria;
 
 		$criteria->condition = 'ids=:ids';
-		$criteria->select = 'id, actual, id_usuario';
+		//$criteria->select = 'id, actual, id_usuario';
 		$criteria->params = array(':ids'=>$subas['id']);
 
 		$query = ImagenS::model()->findAll($criteria);
@@ -392,8 +392,36 @@ class SiteController extends Controller
 			if($resultado){
 				if(Yii::app()->session['admin'])
 					$res[] =  array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>number_format($value->actual));	
-				else
-					$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual));
+				else{
+					//$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual));
+					if (!Yii::app()->session['id_usuario']) {
+						$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual));
+					}else
+						if($value->id_usuario == Yii::app()->session['id_usuario']){
+							$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual),
+								'div'=>CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
+									array('style'=>'width: 5px;hight:5px;')));
+						}else
+						{
+							$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual),
+								'div'=>CHtml::ajaxLink('Pujar',	$this->createUrl('site/pujar'), array(
+											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+											            //'update'=>'#pujaModal'
+											            'type'=>'POST',
+											            'data' => array('imagen_s'=> '0' ),
+											            'context'=>'js:this',
+											            'beforeSend'=>'function(xhr,settings){
+											            						settings.data = encodeURIComponent(\'imagen_s\')
+										          								+ \'=\'
+										          								+ encodeURIComponent($(this).attr(\'id\'));
+											            }',
+											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+											        ),
+											        array('id'=>$value->id)
+												));
+						}
+					
+				}
 				// number_format($value->actual,0,'.','') // entero sin coma
 			}
 		}
