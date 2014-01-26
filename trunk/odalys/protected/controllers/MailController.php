@@ -26,8 +26,8 @@ class MailController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('compradores', 'pujadores'),
-				'users'=>array('@'),
-				'expression' => '(Yii::app()->session["id_usuario"])'  //cambiar a admin
+				'users'=>array('*'),
+				//'expression' => '(Yii::app()->session["id_usuario"])'  //cambiar a admin
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -35,7 +35,7 @@ class MailController extends Controller
 		);
 	}
 
-	public function actionCompradores()
+	/*public function actionCompradores()
 	{
 		$arreglo = array();
 
@@ -166,9 +166,9 @@ class MailController extends Controller
 
 			}
 		}
-	}
+	}*/
 
-	public function actionPujadores($id, $descri)
+	public function Pujadores($id, $descri)
 	{
 
 		$silenciosa = Subastas::model()->find('silenciosa=:silenciosa', array(':silenciosa'=>1));
@@ -210,12 +210,12 @@ class MailController extends Controller
 		    if (mail($to, $subject, $message, $headers)) {
 		     	$this->layout='//layouts/column1';
 		    	$valor = true;
-				$this->render('index', array('valor'=>$valor));
+				$this->render('compradores', array('valor'=>$valor));
 		    } else {
 
 		    	$this->layout='//layouts/column1';
 		    	$valor = false;
-				$this->render('index', array('valor'=>$valor));
+				$this->render('compradores', array('valor'=>$valor));
 		    	
 		    }
 
