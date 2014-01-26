@@ -36,9 +36,9 @@ class LoginForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'rememberMe'=>'Mantener sesión.',
-			'username'=>'Correo',
-			'password'=>'Clave',
+			'rememberMe'=>'No cerrar sesión ',
+			'username'=>'Correo ',
+			'password'=>'Clave ',
 		);
 	}
 

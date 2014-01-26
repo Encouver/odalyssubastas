@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
 
 <p>Inicia sesión en odalys.com</p>
 
-<div class="form">
+<div class="form" style="width:350px;">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
 	'enableClientValidation'=>true,
@@ -21,31 +21,30 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 
-	<p class="note">Campos con <span class="required">*</span> son requeridos.</p>
 
-	<div class="row">
+	<div class="row" style="width:250px;">
 		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username'); ?>
+		<?php echo $form->textField($model,'username', array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password'); ?>
+	<br/>
+	<div class="row" style="width:250px;">
+		<?php echo $form->labelEx($model,'password', array('style' => 'font-size:14x;')); ?>
+		<?php echo $form->passwordField($model,'password', array('class'=>'form-control')); ?>
 		<?php echo $form->error($model,'password'); if(false){?>
 
-		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
-		</p>
+
 		<?php }?>
 	</div>
+		<br/>
+	<p class="note" style="font-size:11px;">Campos con <span class="required">*</span> son requeridos.</p>
 
 	<div class="row rememberMe">
 		<?php echo $form->checkBox($model,'rememberMe'); ?>
-		<?php echo $form->label($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe', array('style' => 'font-size:12x;font-weight:normal;')); ?>
 		<?php echo $form->error($model,'rememberMe'); ?>
 	</div>
-
+	<br/>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Iniciar sesión'); ?>
 	</div>
@@ -55,8 +54,7 @@ $this->breadcrumbs=array(
 <?php $this->endWidget(); ?>
 </div><!-- form -->
 <br/>
-	<br/><br/>
-	<br/>
+	
 <p>
 	¿Olvidaste tu clave? Recupérala <?php echo CHtml::link('aquí','http://odalys.com/odalys/recupera.php'); ?>
 	<br/>
