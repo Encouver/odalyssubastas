@@ -6,6 +6,8 @@
 		$model->id_imagen_s = $imagenid = $_POST['imagen_s'];
  	else
   		$imagenid = $model->id_imagen_s;
+  	$imagenesDir = 'http://www.odalys.com/odalys/';
+
 ?>
 
 	 <style type="text/css">
@@ -45,7 +47,7 @@
 											{
 												echo '<div id="imageng_'.$imagenid.' class="image"> 
 															<table>
-															<td  style="vertical-align:top"><img src="'.$imagen['imagen'].'"/></td>
+															<td  style="vertical-align:top"><img src="'.$imagenesDir.$imagen['imagen'].'"/></td>
 															<td style="padding-left:14px">
 																<p>'.$imagen['descri'].'</p> 
 																<BR/>
