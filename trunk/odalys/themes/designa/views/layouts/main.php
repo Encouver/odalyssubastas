@@ -55,7 +55,7 @@
 						//array('label'=>'Contact', 'url'=>array('/site/contact')),
 						// NOTA CAMBIAR A ************************** ADMIN ************************** CUANDO TERMINE DE TRABAJARSE
 						//array('label'=>'Puja asistida','url'=>array('site/pujaradmin'), 'visible'=>isset(Yii::app()->session['admin'])),
-						array('label'=>'Iniciar Sesión', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+						array('label'=>'Iniciar sesión', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 						array('label'=>'Cerrar sesión ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 						array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'], 'visible'=>!Yii::app()->user->isGuest),
 						array('label'=>'Mi cuenta ', 'url'=>'http://www.odalys.com/odalys/micuenta.php', 'visible'=>!Yii::app()->user->isGuest)
@@ -87,9 +87,10 @@
 			
 			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 				'links'=>$this->breadcrumbs,
-			)); ?><!-- breadcrumbs -->
-
-			<!--<a href="#" class="arrow fright"></a>-->
+			)); ?>
+			
+<!--
+			<a href="#" class="arrow fright"></a>-->
 		</header>
 		
 		<div class="grid col-full mq2-col-full">
