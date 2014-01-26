@@ -151,8 +151,12 @@ $this->pageTitle=Yii::app()->name;
 											$("#imagen_"+entry["id"]).empty();
 											if(entry["paleta"])
 												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio: "+entry["actual"]);
-											else
+											if(entry["actual"])
 												$("#imagen_"+entry["id"]).html("Precio: "+entry["actual"]);
+											if(entry["div"]){
+												$("div#"+entry["id"]).empty();
+												$("div#"+entry["id"]).html(entry["div"]);
+											}
 									});											 
 							 }
 				});
