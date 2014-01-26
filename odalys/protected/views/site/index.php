@@ -6,6 +6,7 @@ $this->pageTitle=Yii::app()->name;
 <?php
 	$baseUrl = Yii::app()->request->baseUrl;
 
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/plugin/fancybox/source/jquery.fancybox.pack.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/plugin/fancybox/lib/jquery.mousewheel-3.0.6.pack.js', CClientScript::POS_END);
 	
@@ -69,6 +70,7 @@ $this->pageTitle=Yii::app()->name;
 																	var url = "'.$this->createUrl('site/terminar').'";    
 																	$(location).attr("href",url);
 																}
+																var precio;
 													            ', 
 														CClientScript::POS_READY);
 
@@ -151,12 +153,20 @@ $this->pageTitle=Yii::app()->name;
 											$("#imagen_"+entry["id"]).empty();
 											if(entry["paleta"])
 												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio: "+entry["actual"]);
-											if(entry["actual"])
+											if(entry["actual"]){
 												$("#imagen_"+entry["id"]).html("Precio: "+entry["actual"]);
-											if(entry["div"]){
-												$("div#"+entry["id"]+"a").empty();
-												$("div#"+entry["id"]+"a").html(entry["div"]);
+												
+												precio = entry["actual"];
+												$("#pujaModal precio#"+entry["id"]).empty();
+												$("#pujaModal precio#"+entry["id"]).html( "Precio actual: "+number_format(precio)
+																				+"<BR>Puja siguiente: "+number_format(precio*1.1));
+												$("#pujaModal #precio").attr("value",precio);
 											}
+											if(entry["div"]){
+												$("w#"+entry["id"]+"a").empty();
+												$("w#"+entry["id"]+"a").html(entry["div"]);
+											}
+
 									});											 
 							 }
 				});

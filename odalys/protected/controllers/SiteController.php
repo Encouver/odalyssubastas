@@ -192,11 +192,11 @@ class SiteController extends Controller
 											        ),
 											        array('id'=>$value->id)
 												);
-						$imprimir .= '<div id="'.$value->id.'a">'.$pujarAjaxLink.'</div><BR/></td>';
+						$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></td>';
 					}
 					else
-						$imprimir .= '<div id="'.$value->id.'a">'.CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
-							array('style'=>'width: 5px;hight:5px;')).'</div> </td>';
+						$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
+							array('style'=>'width: 5px;hight:5px;')).'</w> </td>';
 				else
 				{
 					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
@@ -980,6 +980,9 @@ class SiteController extends Controller
 											}else
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
 
+											//Se le manda el correo
+											list($controlador) = Yii::app()->createController('Mail');
+											$controlador->Pujadores($usuario_actual,$imagen_modelo->descri);
 
 										}else{
 											$registro->verificado = 2;
