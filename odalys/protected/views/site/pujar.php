@@ -52,10 +52,9 @@
 																<p>'.$imagen['descri'].'</p> 
 																<BR/>
 																<precio id="'.$imagenid.'">
-																	Precio actual: '.number_format($imagen['actual']).'<BR>
-																	Puja siguiente: '.number_format($imagen['actual']*1.1).'
+																	Precio actual: <div> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'> <moneda>Bs.</moneda><BR> </div>
+																	Puja siguiente: <div> <siguiente_'.$imagenid.'>'.number_format($imagen['actual']*1.1).'</siguiente_'.$imagenid.'> <moneda>Bs.</moneda> </div>
 																<precio><BR> </td></table>
-																<!--Minimo Puja maxima: '.number_format($imagen['actual']*1.1*1.1).'-->
 													  </div>';
 											}else
 												throw new Exception("Error Processing Request: imagen no pertenece a subasta silenciosa activa.", 1);
@@ -102,11 +101,11 @@
 					<div class="row"><li>
 						<?php echo $form->labelEx($model,'maximo_dispuesto', array('class'=>'titulos')); ?>
 						<?php echo $form->textField($model,'maximo_dispuesto', 
-						array('class'=>'form-control','oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precio));')); ?>
+						array('class'=>'form-control','oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
 
-						<?php echo CHtml::hiddenField('precioboton_'.$imagen->id,$imagen->actual, 
+						<?php echo CHtml::hiddenField('precioboton_'.$imagen->id, $imagen->actual, 
 						array('id'=>'precioboton_'.$imagen->id,$imagen->actual,
-								'onchange'=>'js: alert(precio); precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar "+number_format(precio));')); ?>
+								'onchange'=>'js: alert(precio); precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
 
 						<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
@@ -143,7 +142,7 @@
 			  
 					<div>
 						<?php 	
-						echo CHtml::ajaxSubmitButton('Pujar '.$precioActual, '',
+						echo CHtml::ajaxSubmitButton('Pujar '.$precioActual.' Bs.', '',
 											 array('type'=>'POST',//'update'=>'#pujaModal', 
 												'dataType' => "json",
 												//'data' => '{imagen_ss: "0"}',
