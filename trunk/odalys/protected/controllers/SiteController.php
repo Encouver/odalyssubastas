@@ -7,7 +7,7 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
-	public $imagenesDir;
+	public $imagenesDir = 'http://www.odalys.com/odalys/';
 	public function actions()
 	{
 		return array(
@@ -30,7 +30,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->imagenesDir = 'http://www.odalys.com/odalys/';
+		//$this->imagenesDir;
 
 		$criteria = new CDbCriteria;
 
@@ -154,69 +154,70 @@ class SiteController extends Controller
 				if($resultado)
 				{
 					
-					//echo '<td><img src="images/3ba.jpg"><br/>'.$con.'<div id="imagen_'.$value->id.'">Paleta : '.$resultado['paleta'].'<br/>Precio: '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
 					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
-					if(Yii::app()->session['admin'])
-						$imprimir .='Paleta: '.$resultado['paleta'].'<br/>Precio: '.number_format($value->actual).'</div>';
-					else
-						$imprimir .= 'Precio: '.number_format($value->actual).'</div>';
+					if(Yii::app()->session['admin'])	//Vista del admin
+						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'><moneda>Bs.</moneda></div>';
+					else//vista del usuario normal
+						$imprimir .= 'Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
 
 				}else
 				{
-					//echo '<td><img src="images/3ba.jpg" onclick="$(\'#pujaModal\').dialog(\'open\'); return false;"><br/>'.$con.'<div id="imagen_'.$value->id.'">Precio : '.$value->actual.'</div><a href="?r=site/pujar">Pujar</a></td>';
-					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: '.number_format($value->actual).'</div>';
+					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'><moneda>Bs.</moneda></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
 				if(Yii::app()->session['id_usuario'])
-					if(!($value->id_usuario == Yii::app()->session['id_usuario']))
+				{
+					if(!Yii::app()->session['admin'])
+						if(!($value->id_usuario == Yii::app()->session['id_usuario']) )
+						{
+						
+							$pujarAjaxLink = CHtml::ajaxLink('Pujar',
+				        	$this->createUrl('site/pujar'), array(
+												            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+												            //'update'=>'#pujaModal'
+												            'type'=>'POST',
+												            'data' => array('imagen_s'=> '0' ),
+												            'context'=>'js:this',
+												            'beforeSend'=>'function(xhr,settings){
+												            						settings.data = encodeURIComponent(\'imagen_s\')
+											          								+ \'=\'
+											          								+ encodeURIComponent($(this).attr(\'id\'));
+												            }',
+												            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+												        ),
+												        array('id'=>$value->id)
+													);
+							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></td>';
+						}
+						else
+							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
+								array('style'=>'width: 5px;hight:5px;')).'</w> </td>';
+				}
+				elseif(!Yii::app()->session['admin'])
 					{
-					
+						//Ventana modal de login
 						$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-			        	$this->createUrl('site/pujar'), array(
+			        	$this->createUrl('site/login'), array(
 											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
 											            //'update'=>'#pujaModal'
 											            'type'=>'POST',
-											            'data' => array('imagen_s'=> '0' ),
+											            'data' => array('modal'=> true ),
 											            'context'=>'js:this',
 											            'beforeSend'=>'function(xhr,settings){
-											            						settings.data = encodeURIComponent(\'imagen_s\')
-										          								+ \'=\'
-										          								+ encodeURIComponent($(this).attr(\'id\'));
+
 											            }',
 											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 											        ),
 											        array('id'=>$value->id)
 												);
-						$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></td>';
+						$imprimir .= $pujarAjaxLink.'<BR/></td>';					
 					}
-					else
-						$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
-							array('style'=>'width: 5px;hight:5px;')).'</w> </td>';
-				else
-				{
-					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-		        	$this->createUrl('site/loginmodal'), array(
-										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
-										            //'update'=>'#pujaModal'
-										            'type'=>'POST',
-										            'data' => array('imagen_s'=> '0' ),
-										            'context'=>'js:this',
-										            'beforeSend'=>'function(xhr,settings){
-										            						settings.data = encodeURIComponent(\'imagen_s\')
-									          								+ \'=\'
-									          								+ encodeURIComponent($(this).attr(\'id\'));
-										            }',
-										            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
-										        ),
-										        array('id'=>$value->id)
-											);
-					$imprimir .= $pujarAjaxLink.'<BR/></td>';					
-				}
+				
 
 			if($contador==6)
 			{
@@ -249,11 +250,11 @@ class SiteController extends Controller
 		$con = 0;
 		$fancyElements = $imprimir = "";
 		//echo '<table width="80%"><tr>';
-		$imprimir = '<table width="100%" class="tablaresultado"><tr>';
+		$imprimir = '<table  width="100%" class="tablaresultado"><tr>';
 		foreach ($query as $key => $value) {
 			$con ++;
 			
-			$link = CHtml::link(CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.data-original=\''.Yii::app()->request->baseUrl.'/images/3ba.jpg\';', 'width'=>'auto','height'=>'auto'))
+			$link = CHtml::link(CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'))
 				,'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
 			
 			if($contador==6)
@@ -261,10 +262,16 @@ class SiteController extends Controller
 				$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
-				if($value->id_usuario)
+				if($value->id_usuario>0)
 				{
 					
-					$imprimir .=  '<td align="center" valign="bottom">'.$link.'<br>'.$con.' <span style="color:#f20000;">Vendido</span></td>';
+					$imprimir .=  '<td align="center" valign="bottom">'.$link.'<br>'.$con;
+					if(Yii::app()->session['id_usuario'])
+					{
+						$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario', array(':idusuario'=>$value->id_usuario));
+						$imprimir .= '<br> Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'>';
+					}
+					$imprimir .= ' <br><span style="color:#f20000;">Vendido</span></td>';
 
 				}else
 				{
@@ -399,7 +406,7 @@ class SiteController extends Controller
 					}else
 						if($value->id_usuario == Yii::app()->session['id_usuario']){
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual,
-								'div'=>CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
+								'div'=>CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 									array('style'=>'width: 5px;hight:5px;')));
 						}else
 						{
@@ -483,41 +490,33 @@ class SiteController extends Controller
 			Yii::app()->end();
 		}
 
-		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
-		}
-		// display the login form
-		$this->render('login',array('model'=>$model)); 
-	}
-
-	public function actionLoginmodal(){
-
-		$model=new LoginForm;
-
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
+		$modal = false;
 
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
 			$model->attributes=$_POST['LoginForm'];
+
+			$modal = $model->modal;
+			if($modal)
+				$this->layout='//layouts/column2';
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+				if(!$modal)
+					$this->redirect(Yii::app()->user->returnUrl);
+				else
+				{
+					echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Login correcto'));
+					return;
+				}
 		}
-		$this->layout='//layouts/column2';
+		
+		if(isset($_POST['modal'])){
+			$this->layout='//layouts/column2';
+			$modal = true;
+		}
 		// display the login form
-		$this->render('login',array('model'=>$model)); 
-
+		$this->render('login',array('model'=>$model,'modal'=>$modal)); 
 	}
 
 	/**
@@ -577,7 +576,7 @@ class SiteController extends Controller
 								$model->codigo = $upc->codigo;
 								$model->paleta = $upc->paleta;
 							}else
-							throw new Exception("Error Processing Request: Error recuperando datos del usuario ", 1);
+							throw new Exception("Error Processing Request: Recuperando datos del usuario ", 1);
 						
 
 
@@ -596,7 +595,6 @@ class SiteController extends Controller
 	           			}
 	           		//}
 	           		//else{
-					//$contenido = //$this->listaImagen($subas);
 	           			//echo json_encode(array('id'=>0,'success'=>false,'msg'=>'No se ha recibido correo.'));
 						//$model->maximo_dispuesto = 0;
 						$this->render('pujaradmin', array('usuarios' => $arreglo,'model'=>$model));

@@ -12,7 +12,8 @@ $this->pageTitle=Yii::app()->name;
 	
 	Yii::app()->clientScript->registerCssFile($baseUrl . '/plugin/fancybox/source/jquery.fancybox.css');
 
-
+/*
+	//Lazy load
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.lazyload.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScript('lazyload','// LAZY LOAD 
 														$(function() {
@@ -20,7 +21,7 @@ $this->pageTitle=Yii::app()->name;
 																					    threshold : 200
 																					});
 														});', 
-														CClientScript::POS_READY);
+														CClientScript::POS_READY);*/
 
 
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/plugin/kkcountdown/js/kkcountdown.min.js', CClientScript::POS_END);
@@ -150,27 +151,23 @@ $this->pageTitle=Yii::app()->name;
 							},
 							complete : function() { 
 									json.forEach(function(entry){
-											$("#imagen_"+entry["id"]).empty();
 											if(entry["paleta"])
-												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio: "+entry["actual"]);
+												$("paleta_"+entry["id"]).empty().html(entry["paleta"]);
+											
 											if(entry["actual"]){
-												$("#imagen_"+entry["id"]).html("Precio: "+number_format(entry["actual"]));
-												
+												$("cantidad_"+entry["id"]).empty().html(number_format(entry["actual"]));
+
 												//Actualizando la modal
-												//precio = entry["actual"];
-												$("#pujaModal precio#"+entry["id"]).empty();
-												//alert("actualizando precios");
-				
-												$("#pujaModal precio#"+entry["id"]).html( "Precio actual: "+number_format(entry["actual"])
+												$("#pujaModal precio#"+entry["id"]).empty().html( "Precio actual: "+number_format(entry["actual"])
 																						  +"<BR>Puja siguiente: "+number_format(entry["actual"]*1.1));
-												$("#pujaModal input[name=\'precioboton_\'+entry[\'id\']").val(entry["actual"]*1.1);
-												$("#pujaModal input[name=\'precioboton_\'+entry[\'id\']").change();
+												$("$pujaModal actual_"+entry["id"]).empty().html(entry["actual"]);
+												$("$pujaModal actual_"+entry["id"]).empty().html(number_format(entry["actual"]));
+												$("$pujaModal siguiente_"+entry["id"]).empty().html(number_format(entry["actual"]*1.1));
+												$("#pujaModal input[name=\'precioboton_\'+entry[\'id\']").val(entry["actual"]*1.1).change();
 
 											}
-											if(entry["div"]){
-												$("w#"+entry["id"]+"a").empty();
-												$("w#"+entry["id"]+"a").html(entry["div"]);
-											}
+											if(entry["div"])
+												$("w#"+entry["id"]+"a").empty().html(entry["div"]);
 
 									});											 
 							 }

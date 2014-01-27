@@ -251,7 +251,19 @@
 <!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/kkcountdown.min.js"></script>-->
 
 <!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.lwtCountdown-1.0.js"></script>-->
+					
+					<?php
+							//Lazy Load
+							Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/js/jquery.lazyload.min.js', CClientScript::POS_END);
+							Yii::app()->clientScript->registerScript('lazyload','// LAZY LOAD 
+																					$(function() {
+																						$("img.lazy").lazyload({
+																												    threshold : 200
+																												});
+																					});', 
+																					CClientScript::POS_READY);
 
+					?>
 
 <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID. -->
 <script>

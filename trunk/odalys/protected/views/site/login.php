@@ -3,10 +3,12 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle=Yii::app()->name . ' - Inicio de sesión';
-$this->breadcrumbs=array(
-	'Inicio de sesión',
-);
+if(!$modal){
+	$this->pageTitle=Yii::app()->name . ' - Inicio de sesión';
+	$this->breadcrumbs=array(
+		'Inicio de sesión',
+	);
+}
 ?>
 
 
@@ -46,7 +48,44 @@ $this->breadcrumbs=array(
 	</div>
 	<br/>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Iniciar sesión'); ?>
+
+		<?php if($modal) echo $form->hiddenField($model,'modal',array('value'=>true)); ?>
+
+
+		<?php 	if(!$modal)
+					echo CHtml::submitButton('Iniciar sesión'); 
+				else
+					echo CHtml::ajaxSubmitButton('Iniciar sesión', '',
+											 array('type'=>'POST',//'update'=>'#pujaModal', 
+												'dataType' => "json",
+												//'data' => '{modal: true}',
+												'error' =>'function(data){
+													//alert("Error");
+													//console.log(data);
+													if(data["status"] == 200){
+														$("#pujaModal").html(data["responseText"]);
+														//$("#pujaModal").attr("style","with:600px;");
+													}
+													else{
+														alert(data["responseText"]);
+													}
+												}',
+												'success' => 'function(data){
+														json = data;
+														$("#pujaModal").dialog("close");
+														location.reload();
+
+												}',
+												'context'=>'js:this',
+
+										        'beforeSend' => 'function(xhr,settings){
+		
+										        }',
+										        'complete' => 'function(){
+				
+										            }',
+										       ),
+								   		  array('class'=>'btn','style'=>'width:200px;','id'=>uniqid()));  ?>
 	</div>
 
 	<div></div>
