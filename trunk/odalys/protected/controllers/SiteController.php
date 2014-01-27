@@ -391,19 +391,19 @@ class SiteController extends Controller
 
 			if($resultado){
 				if(Yii::app()->session['admin'])
-					$res[] =  array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>number_format($value->actual));	
+					$res[] =  array('id'=>$value->id,'paleta'=>$resultado['paleta'], 'actual'=>$value->actual);	
 				else{
 					//$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual));
 					if (!Yii::app()->session['id_usuario']) {
-						$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual));
+						$res[] =  array('id'=>$value->id, 'actual'=>$value->actual);
 					}else
 						if($value->id_usuario == Yii::app()->session['id_usuario']){
-							$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual),
+							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual,
 								'div'=>CHtml::image(Yii::app()->request->baseUrl.'/images/vendido.png','',
 									array('style'=>'width: 5px;hight:5px;')));
 						}else
 						{
-							$res[] =  array('id'=>$value->id, 'actual'=>number_format($value->actual),
+							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual,
 								'div'=>CHtml::ajaxLink('Pujar',	$this->createUrl('site/pujar'), array(
 											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
 											            //'update'=>'#pujaModal'
