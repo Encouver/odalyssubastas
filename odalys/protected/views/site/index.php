@@ -154,13 +154,18 @@ $this->pageTitle=Yii::app()->name;
 											if(entry["paleta"])
 												$("#imagen_"+entry["id"]).html("Paleta : "+entry["paleta"]+"<br/>Precio: "+entry["actual"]);
 											if(entry["actual"]){
-												$("#imagen_"+entry["id"]).html("Precio: "+entry["actual"]);
+												$("#imagen_"+entry["id"]).html("Precio: "+number_format(entry["actual"]));
 												
-												precio = entry["actual"];
+												//Actualizando la modal
+												//precio = entry["actual"];
 												$("#pujaModal precio#"+entry["id"]).empty();
-												$("#pujaModal precio#"+entry["id"]).html( "Precio actual: "+number_format(precio)
-																				+"<BR>Puja siguiente: "+number_format(precio*1.1));
-												$("#pujaModal #precio").attr("value",precio);
+												//alert("actualizando precios");
+				
+												$("#pujaModal precio#"+entry["id"]).html( "Precio actual: "+number_format(entry["actual"])
+																						  +"<BR>Puja siguiente: "+number_format(entry["actual"]*1.1));
+												$("#pujaModal input[name=\'precioboton_\'+entry[\'id\']").val(entry["actual"]*1.1);
+												$("#pujaModal input[name=\'precioboton_\'+entry[\'id\']").change();
+
 											}
 											if(entry["div"]){
 												$("w#"+entry["id"]+"a").empty();

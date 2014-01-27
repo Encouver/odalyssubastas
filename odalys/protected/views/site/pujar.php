@@ -44,7 +44,7 @@
 
 											// Si la subasta esta activa
 											if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
-											{//<script type="text/javascript"> var precio='.$imagen->actual.';</script>
+											{
 												echo '<div id="imageng_'.$imagenid.' class="image"> 
 															<table>
 															<td  style="vertical-align:top"><img src="'.$imagenesDir.$imagen['imagen'].'"/></td>
@@ -97,14 +97,17 @@
 							$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
 
 							$baseUrl = Yii::app()->request->baseUrl;
-							Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
+							//Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
 						?>
 					<div class="row"><li>
 						<?php echo $form->labelEx($model,'maximo_dispuesto', array('class'=>'titulos')); ?>
 						<?php echo $form->textField($model,'maximo_dispuesto', 
-						array('class'=>'form-control','oninput'=>'js: precio = "'.$precioActual.'";  if($(this).val() != ""){ precioo = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precioo));')); ?>
-						
-						<?php echo CHtml::hiddenField('precio',$imagen->actual,array('id'=>'precio', 'value'=>$imagen->actual, 'onchange'=>'js:$(this).attr("value",precio); $("#'.$idsub.'").attr("value", "Pujar "+number_format(precio*1.1))')); ?>
+						array('class'=>'form-control','oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precio));')); ?>
+
+						<?php echo CHtml::hiddenField('precioboton_'.$imagen->id,$imagen->actual, 
+						array('id'=>'precioboton_'.$imagen->id,$imagen->actual,
+								'onchange'=>'js: alert(precio); precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar "+number_format(precio));')); ?>
+
 						<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
 					</div>
@@ -165,7 +168,6 @@
 															}else
 																$("#pujaModal").html(data["responseText"]);
 																//$("#registro-pujas-pujar-form").attr("style","with:600px;");
-
 														}else{
 
 															$("#pujaModal").html(data);
