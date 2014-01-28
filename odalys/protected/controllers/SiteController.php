@@ -24,6 +24,15 @@ class SiteController extends Controller
 		);
 	}
 
+	public function actionReporte()
+	{
+
+		$html2pdf = Yii::app()->ePdf->HTML2PDF();
+        $html2pdf->WriteHTML($this->renderPartial('reporte', array(), true));
+        $html2pdf->Output("repore.pdf");
+
+	}
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -49,7 +58,11 @@ class SiteController extends Controller
 			return;
 		}
 
-
+		//Yii::app()->runController('Mail');
+		
+		/*list($controlador) = Yii::app()->createController('Mail');
+		$controlador->Pujadores(1,"probando");
+*/
 		$imprimir = $this->listaImagen($subas);
 
 
