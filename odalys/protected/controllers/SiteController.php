@@ -154,7 +154,7 @@ class SiteController extends Controller
 				if($resultado)
 				{
 					
-					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/><br/><loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					else//vista del usuario normal
@@ -165,7 +165,7 @@ class SiteController extends Controller
 
 				}else
 				{
-					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/><br/><loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -190,7 +190,7 @@ class SiteController extends Controller
 												            }',
 												            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 												        ),
-												        array('id'=>$value->id)
+												        array('id'=>$value->id, 'style'=>'color: #014F92;')
 													);
 							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></td>';
 						}
@@ -213,7 +213,7 @@ class SiteController extends Controller
 											            }',
 											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 											        ),
-											        array('id'=>$value->id)
+											        array('id'=>$value->id, 'style'=>'color: #014F92;')
 												);
 						$imprimir .= $pujarAjaxLink.'<BR/></td>';					
 					}
@@ -265,7 +265,7 @@ class SiteController extends Controller
 				if($value->id_usuario>0)
 				{
 					
-					$imprimir .=  '<td align="center" valign="bottom">'.$link.'<br>'.$con;
+					$imprimir .=  '<td align="center" valign="bottom">'.$link.'<br/><br/><loteautor>'.$value->solonombre.'</loteautor>';
 					if(Yii::app()->session['id_usuario'])
 					{
 						$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
@@ -275,7 +275,7 @@ class SiteController extends Controller
 
 				}else
 				{
-					$imprimir .= '<td align="center" valign="bottom">'.$link.'<br>'.$con.'</td>';
+					$imprimir .= '<td align="center" valign="bottom">'.$link.'<br/><br/><loteautor>'.$value->solonombre.'</loteautor></td>';
 				}
 
 			if($contador==6)
