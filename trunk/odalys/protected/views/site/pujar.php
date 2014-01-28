@@ -52,9 +52,9 @@
 																<p>'.$imagen['descri'].'</p> 
 																<BR/>
 																<precio id="'.$imagenid.'">
-																	Precio actual: <div> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'> <moneda>Bs.</moneda><BR> </div>
-																	Puja siguiente: <div> <siguiente_'.$imagenid.'>'.number_format($imagen['actual']*1.1).'</siguiente_'.$imagenid.'> <moneda>Bs.</moneda> </div>
-																<precio><BR> </td></table>
+																	Precio actual: <div><moneda>Bs.</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
+																	Puja siguiente: <div><moneda>Bs.</moneda> <siguiente_'.$imagenid.'>'.number_format($imagen['actual']*1.1).'</siguiente_'.$imagenid.'></div>
+																</precio><BR> </td></table>
 													  </div>';
 											}else
 												throw new Exception("Error Processing Request: imagen no pertenece a subasta silenciosa activa.", 1);
@@ -102,11 +102,11 @@
 						<?php echo $form->labelEx($model,'maximo_dispuesto', array('class'=>'titulos')); ?>
 						<?php echo $form->textField($model,'maximo_dispuesto', 
 						array('id'=>'maxdis_'.$imagenid, 'class'=>'form-control',
-						'oninput'=>'js: var precio = 0;  if($(this).val() != ""){ precio = $(this).val();}else{ precio = $("#precioboton_'.$imagen->id.'").val(); } $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
+						'oninput'=>'js: var precio = 0;  if($(this).val() != ""){ precio = $(this).val();}else{ precio = $("#precioboton_'.$imagen->id.'").val(); } $("#'.$idsub.'").attr("value","Pujar Bs. "+number_format(precio));')); ?>
 
 						<?php echo CHtml::hiddenField('precioboton_'.$imagen->id, $imagen->actual, 
 						array('id'=>'precioboton_'.$imagen->id,	'onchange'=>'js: //alert($(this).val());
-						 if($("#maxdis_'.$imagenid.'").val() != "") precio = $("#maxdis_'.$imagenid.'").val(); else precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
+						 if($("#maxdis_'.$imagenid.'").val() != "") precio = $("#maxdis_'.$imagenid.'").val(); else precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar Bs. "+number_format(precio));')); ?>
 
 						<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
@@ -143,7 +143,7 @@
 			  
 					<div>
 						<?php 	
-						echo CHtml::ajaxSubmitButton('Pujar '.$precioActual.' Bs.', '',
+						echo CHtml::ajaxSubmitButton('Pujar Bs. '.$precioActual, '',
 											 array('type'=>'POST',//'update'=>'#pujaModal', 
 												'dataType' => "json",
 												//'data' => '{imagen_ss: "0"}',

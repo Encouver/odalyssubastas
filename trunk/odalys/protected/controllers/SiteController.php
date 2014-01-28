@@ -156,16 +156,16 @@ class SiteController extends Controller
 					
 					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
-						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
+						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					else//vista del usuario normal
-						$imprimir .= 'Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
+						$imprimir .= 'Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
 
 				}else
 				{
-					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
+					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -1088,7 +1088,7 @@ class SiteController extends Controller
 											$msg = print_r($model->getErrors(),1);
 											throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
 										}
-										
+
 										if(!$imagen_modelo->save()){
 											$msg = print_r($imagen_modelo->getErrors(),1);
 											throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
