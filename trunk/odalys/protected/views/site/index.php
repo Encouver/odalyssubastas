@@ -158,12 +158,11 @@ $this->pageTitle=Yii::app()->name;
 												$("cantidad_"+entry["id"]).empty().html(number_format(entry["actual"]));
 
 												//Actualizando la modal
-												$("#pujaModal precio#"+entry["id"]).empty().html( "Precio actual: "+number_format(entry["actual"])
-																						  +"<BR>Puja siguiente: "+number_format(entry["actual"]*1.1));
-												$("$pujaModal actual_"+entry["id"]).empty().html(entry["actual"]);
-												$("$pujaModal actual_"+entry["id"]).empty().html(number_format(entry["actual"]));
-												$("$pujaModal siguiente_"+entry["id"]).empty().html(number_format(entry["actual"]*1.1));
-												$("#pujaModal input[name=\'precioboton_\'+entry[\'id\']").val(entry["actual"]*1.1).change();
+												//$("#pujaModal precio#"+entry["id"]).empty().html( "Precio actual: "+number_format(entry["actual"])+"<BR>Puja siguiente: "+number_format(entry["actual"]*1.1));
+												//$("#pujaModal actual_"+entry["id"]).empty().html(entry["actual"]);
+												$("#pujaModal actual_"+entry["id"]).empty().html(number_format(entry["actual"]));
+												$("#pujaModal siguiente_"+entry["id"]).empty().html(number_format(entry["actual"]*1.1));
+												$("#pujaModal #precioboton_"+entry[\'id\']).val(entry["actual"]*1.1).change();
 
 											}
 											if(entry["div"])

@@ -156,7 +156,7 @@ class SiteController extends Controller
 					
 					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/>'.$con.'<div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
-						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'><moneda>Bs.</moneda></div>';
+						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
 					else//vista del usuario normal
 						$imprimir .= 'Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
 					
@@ -165,7 +165,7 @@ class SiteController extends Controller
 
 				}else
 				{
-					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'><moneda>Bs.</moneda></div>';
+					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/>'.$con.'<div id="imagen_'.$value->id.'">Precio: <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'> <moneda>Bs.</moneda></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -828,7 +828,11 @@ class SiteController extends Controller
 												$msg = print_r($imagen_modelo->getErrors(),1);
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 											}else
-												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));										
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));	
+
+											//Se le manda el correo
+											//list($controlador) = Yii::app()->createController('Mail');
+											//$controlador->Pujadores($registro->idusuario,$imagen_modelo->descri);
 
 				        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
 					        				{
@@ -863,8 +867,13 @@ class SiteController extends Controller
 													echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 												}
 
+												//Se le manda el correo
+												//list($controlador) = Yii::app()->createController('Mail');
+												//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
+
 					        				}else{
-					        						// Si ya existe una puja maxima igual se la gana el que primero haya hecho la puja
+
+					        					// Si ya existe una puja maxima igual se la gana el que primero haya hecho la puja
 
 					        					$imagen_modelo->actual = $registro->maximo_dispuesto;
 					        					$registro->monto_puja = intval($imagen_modelo->actual);
@@ -906,6 +915,10 @@ class SiteController extends Controller
 										}else{
 											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 										}
+
+										//Se le manda el correo
+										//list($controlador) = Yii::app()->createController('Mail');
+										//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
 				        			}
 
 		        				
@@ -979,8 +992,8 @@ class SiteController extends Controller
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
 
 											//Se le manda el correo
-											list($controlador) = Yii::app()->createController('Mail');
-											$controlador->Pujadores($usuario_actual,$imagen_modelo->descri);
+											//list($controlador) = Yii::app()->createController('Mail');
+											//$controlador->Pujadores($registro->idusuario,$imagen_modelo->descri);
 
 										}else{
 											$registro->verificado = 2;
@@ -1008,7 +1021,11 @@ class SiteController extends Controller
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 											}else{
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
-											}											
+											}	
+
+											//Se le manda el correo
+											//list($controlador) = Yii::app()->createController('Mail');
+											//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);										
 										}
 				
 										
@@ -1034,6 +1051,10 @@ class SiteController extends Controller
 										}else{
 											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 										}
+
+										//Se le manda el correo
+										//list($controlador) = Yii::app()->createController('Mail');
+										//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
 									}
 
 							
