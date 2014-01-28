@@ -154,7 +154,7 @@ class SiteController extends Controller
 				if($resultado)
 				{
 					
-					$imprimir .='<td align="center" valign="bottom">'.$link.' <br/><br/><loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+					$imprimir .='<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					else//vista del usuario normal
@@ -165,7 +165,7 @@ class SiteController extends Controller
 
 				}else
 				{
-					$imprimir .='<td align="center" valign="bottom">'.$link.'<br/><br/><loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+					$imprimir .='<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -265,17 +265,17 @@ class SiteController extends Controller
 				if($value->id_usuario>0)
 				{
 					
-					$imprimir .=  '<td align="center" valign="bottom">'.$link.'<br/><br/><loteautor>'.$value->solonombre.'</loteautor>';
-					if(Yii::app()->session['id_usuario'])
+					$imprimir .=  '<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor>';
+					if(Yii::app()->session['admin'])
 					{
 						$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
-						$imprimir .= '<br> Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'>';
+						$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'>';
 					}
-					$imprimir .= ' <br><span style="color:#f20000;">Vendido</span></td>';
+					$imprimir .= ' <br><span style="color:#f20000;">Vendido</span></div></td>';
 
 				}else
 				{
-					$imprimir .= '<td align="center" valign="bottom">'.$link.'<br/><br/><loteautor>'.$value->solonombre.'</loteautor></td>';
+					$imprimir .= '<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor></td>';
 				}
 
 			if($contador==6)
