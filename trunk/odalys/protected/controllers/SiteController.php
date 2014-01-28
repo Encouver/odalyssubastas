@@ -802,7 +802,7 @@ class SiteController extends Controller
 		        							$imagen_modelo->id_usuario = $registro->idusuario;
 
 					        				$model->idusuario = $usuario_actual;
-					        				$model->monto_puja = intval($imagen_modelo->actual);
+					        				//$model->monto_puja = intval($imagen_modelo->actual);
 				        					if(!$model->save())
 				        					{
 												$msg = print_r($model->getErrors(),1);
@@ -953,8 +953,7 @@ class SiteController extends Controller
 										if($registro->maximo_dispuesto > $imagen_modelo->actual){
 
 											
-											// Se incrementa el valor y sigue con la pieza el mismo de maxima puja
-											$registro->monto_puja = intval($imagen_modelo->actual *= 1.1);	// Este es el historial
+											// Se incrementa el valor y sigue con la pieza el mismo de maxima puj
 											
 											//Esto es para que se guarde como nueva fila
 		        							//$registro->setIsNewRecord(false);
@@ -970,6 +969,8 @@ class SiteController extends Controller
 												throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
 											}
 
+											$imagen_modelo->actual *= 1.1;
+											$registro->monto_puja = intval($imagen_modelo->actual);	// Este es el historial
 											$nuevoregistro = new RegistroPujas();
 											$nuevoregistro->ids = $registro->ids;
 											$nuevoregistro->idusuario =$registro->idusuario;
