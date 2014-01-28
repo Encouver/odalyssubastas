@@ -101,11 +101,12 @@
 					<div class="row"><li>
 						<?php echo $form->labelEx($model,'maximo_dispuesto', array('class'=>'titulos')); ?>
 						<?php echo $form->textField($model,'maximo_dispuesto', 
-						array('class'=>'form-control','oninput'=>'js: var precio = "'.$precioActual.'";  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
+						array('class'=>'form-control',
+						'oninput'=>'js: var precio = $("#precioboton_'.$imagen->id.'").val();  if($(this).val() != ""){ precio = $(this).val();} $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
 
 						<?php echo CHtml::hiddenField('precioboton_'.$imagen->id, $imagen->actual, 
-						array('id'=>'precioboton_'.$imagen->id,$imagen->actual,
-								'onchange'=>'js: alert(precio); precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
+						array('id'=>'precioboton_'.$imagen->id,	'onchange'=>'js: //alert($(this).val());
+						 precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar "+number_format(precio)+" Bs.");')); ?>
 
 						<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
