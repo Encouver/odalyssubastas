@@ -270,8 +270,17 @@ class SiteController extends Controller
 					{
 						$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
 						$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'>';
+
 					}
-					$imprimir .= ' <br><span style="color:#f20000;">Vendido</span></div></td>';
+					if(Yii::app()->session['id_usuario'] && Yii::app()->session['id_usuario'] == $value->id_usuario)
+					{
+						$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
+																			 array('style'=>'width: 5px;hight:5px;')).'</w> </td>';
+					}else
+					{
+						$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span></div></td>';
+					}
+					
 
 				}else
 				{
