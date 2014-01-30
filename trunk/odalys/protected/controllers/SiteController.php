@@ -846,8 +846,8 @@ class SiteController extends Controller
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));	
 
 											//Se le manda el correo al que perdio la puja
-											//list($controlador) = Yii::app()->createController('Mail');
-											//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
+											list($controlador) = Yii::app()->createController('Mail');
+											$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
 
 				        				}elseif($registro->maximo_dispuesto <  $model->maximo_dispuesto)
 					        				{
@@ -883,8 +883,8 @@ class SiteController extends Controller
 												}
 
 												//Se le manda el correo al que perdio la puja
-												//list($controlador) = Yii::app()->createController('Mail');
-												//$controlador->Pujadores($registro->idusuario,$imagen_modelo->descri);
+												list($controlador) = Yii::app()->createController('Mail');
+												$controlador->Pujadores($registro->idusuario,$imagen_modelo->descri);
 
 					        				}else{
 
@@ -936,8 +936,8 @@ class SiteController extends Controller
 
 
 												//Se le manda el correo al que perdio la puja
-												//list($controlador) = Yii::app()->createController('Mail');
-												//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
+												list($controlador) = Yii::app()->createController('Mail');
+												$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
 					        				}
 				        				
 		
@@ -945,10 +945,20 @@ class SiteController extends Controller
 				        			{
 				        				// No hay otro pujador con puja maxima
 
-										$model->verificado = 1;
+										//Verificando si existe algun pujador previo para enviarle el correo de perdidad de subasta
+										$criteria = new CDbCriteria;
+
+										$criteria->condition = 'ids=:ids && id_imagen_s=:id_imagen_s';
+										$criteria->params = array(':ids'=>$subasta->id,':id_imagen_s'=>$imagen_modelo->id);
+										$criteria->order = 'fecha DESC';
+
+										$pujaPrevia = RegistroPujas::model()->find($criteria);
+
+
 				        				
 										$imagen_modelo->actual *= 1.1;
 
+										$model->verificado = 1;
 			        					$model->idusuario = $usuario_actual;
 			        				 	$model->monto_puja = intval($imagen_modelo->actual);
 
@@ -963,6 +973,14 @@ class SiteController extends Controller
 											throw new CHttpException(400,'ImagenS data not saving: '.$msg );
 										}else{
 											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
+										}
+
+
+										// Si existe se manda el correo a ese usuario
+										if($pujaPrevia)
+										{
+											list($controlador) = Yii::app()->createController('Mail');
+											$controlador->Pujadores($pujaPrevia->idusuario, $imagen_modelo->descri);	
 										}
 
 				        			}
@@ -1010,7 +1028,11 @@ class SiteController extends Controller
 											}
 											
 											// Se incrementa el valor y sigue con la pieza el mismo de maxima puj
-											$imagen_modelo->actual *= 1.1;
+											if($registro->maximo_dispuesto >= $imagen_modelo->actual *= 1.1)
+												$imagen_modelo->actual *= 1.1;
+											else
+												$imagen_modelo->actual = $registro->maximo_dispuesto;
+
 											$imagen_modelo->id_usuario = $registro->idusuario;
 
 											$nuevoregistro = new RegistroPujas();
@@ -1043,8 +1065,8 @@ class SiteController extends Controller
 												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
 
 											//Se le manda el correo al que perdio la puja
-											//list($controlador) = Yii::app()->createController('Mail');
-											//$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
+											list($controlador) = Yii::app()->createController('Mail');
+											$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
 
 										}else{
 
@@ -1067,8 +1089,9 @@ class SiteController extends Controller
 				        					{
 												$msg = print_r($registro->getErrors(),1);
 												throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
-											}												
+											}			
 
+											$imagen_modelo->id_usuario = $usuario_actual;
 											if(!$imagen_modelo->save()){
 												$msg = print_r($imagen_modelo->getErrors(),1);
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
@@ -1077,8 +1100,8 @@ class SiteController extends Controller
 											}	
 
 											//Se le manda el correo al que perdio la puja
-											//list($controlador) = Yii::app()->createController('Mail');
-											//$controlador->Pujadores($registro->idusuario,$imagen_modelo->descri);									
+											list($controlador) = Yii::app()->createController('Mail');
+											$controlador->Pujadores($registro->idusuario,$imagen_modelo->descri);									
 										}
 				
 										
@@ -1090,6 +1113,16 @@ class SiteController extends Controller
 						        			
 					        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
 
+										//Verificando si existe algun pujador previo para enviarle el correo de perdidad de subasta
+										$criteria = new CDbCriteria;
+
+										$criteria->condition = 'ids=:ids && id_imagen_s=:id_imagen_s';
+										$criteria->params = array(':ids'=>$subasta->id,':id_imagen_s'=>$imagen_modelo->id);
+										$criteria->order = 'fecha DESC';
+
+										$pujaPrevia = RegistroPujas::model()->find($criteria);
+
+										// Insertando en registro_pujas (historial de pujas)
 					        			$model->idusuario = $usuario_actual;
 				        				$model->monto_puja = intval($imagen_modelo->actual);
 			        					if(!$model->save())
@@ -1098,6 +1131,8 @@ class SiteController extends Controller
 											throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
 										}
 
+										// Guardando en imagen_s (actualizando el id del usuario)
+										$imagen_modelo->id_usuario = $usuario_actual;
 										if(!$imagen_modelo->save()){
 											$msg = print_r($imagen_modelo->getErrors(),1);
 											throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
@@ -1105,7 +1140,12 @@ class SiteController extends Controller
 											echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido exitosa.'));
 										}
 
-
+										//Si existe se le manda el correo a ese usuario
+										if($pujaPrevia)
+										{
+											list($controlador) = Yii::app()->createController('Mail');
+											$controlador->Pujadores($pujaPrevia->idusuario, $imagen_modelo->descri);	
+										}
 									}
 
 							
