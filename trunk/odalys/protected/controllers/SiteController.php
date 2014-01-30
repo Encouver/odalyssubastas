@@ -65,11 +65,11 @@ class SiteController extends Controller
     <h5 style='text-align:left;'>Adjudicados</h5>
     <table class='page_header'>
 	<tr>
-    	<td style='width: 20%;'>Nombre y Apellido</td>
-        <td style='width: 5%;'>Paleta</td>
-        <td style='width: 35%;'>Lote</td>
-        <td style='width: 35%;'>Imagen</td>
-        <td style='width: 5%;'>Bs</td>
+    	<td  style='width: 15%;'>Nombre y Apellido</td>
+        <td  style='width: 5%;'>Paleta</td>
+        <td align='center' style='width: 15%;'>Lote</td>
+        <td  style='width: 20%;'>Imagen</td>
+        <td  style='width: 15%;'>Bs</td>
     </tr> ";
     foreach ($ganadores as $key => $value)
 		{
@@ -86,7 +86,7 @@ class SiteController extends Controller
 					<td>' .$paleta['paleta'].'</td>
 					<td>'.$value->descri.'</td>
 					<td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
-					<td>'.$value->actual.'Bs</td>
+					<td> Bs. '.number_format($value->actual).'</td>
 					</tr>
 				';				
 			}
