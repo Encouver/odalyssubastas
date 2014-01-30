@@ -208,12 +208,12 @@ class MailController extends Controller
 
 
 		    if (mail($to, $subject, $message, $headers)) {
-		     	$this->layout='//layouts/column1';
+		     	/*$this->layout='//layouts/column1';
 		    	$valor = true;
-				$this->render('compradores', array('valor'=>$valor));
+				$this->render('compradores', array('valor'=>$valor));*/
 		    } else {
 
-		    	$this->layout='//layouts/column1';
+		    	//$this->layout='//layouts/column1';
 		    	$valor = false;
 				$this->render('compradores', array('valor'=>$valor));
 		    	
