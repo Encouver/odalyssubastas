@@ -24,6 +24,87 @@ class SiteController extends Controller
 		);
 	}
 
+	public function actionReporte()
+	{
+
+		$arreglo = array();
+
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+		$criteria->params = array(':fuesilenciosa'=>1);
+		$criteria->order = 'id DESC';
+
+		$silenciosa = Subastas::model()->find($criteria);		
+			
+		$titulo = 'Informe de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
+
+		$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+
+		$contenido ="<html>
+<head>
+	<title>Probando</title>
+	 <style type='text/css'>
+<!--
+	table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+	h1 {color: #000033}
+	h2 {color: #000055}
+	h3 {color: #000077}
+	
+	div.standard
+	{
+		padding-left: 5mm;
+	}
+-->
+</style>
+</head>
+<body>
+	<div style='margin: 0px auto'>
+	<img src='http://odalys.com/odalys/images/log.png'/>
+    <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+    <h5 style='text-align:left;'>Adjudicados</h5>
+    <table class='page_header'>
+	<tr>
+    	<td style='width: 20%;'>Nombre y Apellido</td>
+        <td style='width: 5%;'>Paleta</td>
+        <td style='width: 35%;'>Lote</td>
+        <td style='width: 35%;'>Imagen</td>
+        <td style='width: 5%;'>Bs</td>
+    </tr> ";
+    foreach ($ganadores as $key => $value)
+		{
+			if($value->id_usuario)
+			{
+				$paleta = Usuariospujas::model()->find('idsubasta=:ids AND idusuario=:idusuario', array(':ids'=>$silenciosa['id'], ':idusuario' => $value->id_usuario));
+
+				$usuario = Usuarios::model()->find('id=:id', array('id'=>$value->id_usuario));
+
+				$contenido .=
+				'
+					<tr>
+				<td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
+					<td>' .$paleta['paleta'].'</td>
+					<td>'.$value->descri.'</td>
+					<td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
+					<td>'.$value->actual.'Bs</td>
+					</tr>
+				';				
+			}
+		}
+
+    $contenido .="
+	</table>
+    <h5 style='text-align:left;'>Pujas sin éxito</h5>
+    </div>
+</body>
+</html>";
+
+		$html2pdf = Yii::app()->ePdf->HTML2PDF();
+        $html2pdf->WriteHTML($contenido);
+        $html2pdf->Output("repore.pdf");
+
+	}
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
