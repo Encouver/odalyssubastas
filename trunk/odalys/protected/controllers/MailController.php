@@ -191,7 +191,7 @@ class MailController extends Controller
   				<title>'.$silenciosa['nombre'].' '.$silenciosa['nombrec'].' Casa de Subastas Odalys</title>
 			</head>
 				<body>
-					Estimado(a) '.$nombre.' '.$apellido.'<br><br>Ha sido superada la puja que realizÃ³ por el lote:<br> '.$descri.'<br/>
+					Estimado(a) '.$nombre.' '.$apellido.'<br><br>Ha sido superada la puja que realizá por el lote:<br> '.$descri.'<br/>
 					<br>Si desea puede hacer una puja por esta obra nuevamente. <a href="http://subastas.odalys.com/">Ir a la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'].'</a>
 					<br/>
 
