@@ -62,6 +62,7 @@ class MailController extends Controller
 
 				$usuariospuja = Usuariospujas::model()->find('idusuario=:idusuario and idsubasta=:idsubasta', array(':idusuario'=>$usuario['id'], ':idsubasta' => $silenciosa['id']));
 				//Metodo hacer invocado cada vez que un pujador pierda en la misma.
+				if(!$usuariospuja) continue;
 
 				$correo = $usuario['email'];
 				$nombre = $usuario['nombre'];
@@ -95,20 +96,20 @@ class MailController extends Controller
 				  		
 				  	$message .=
 				  		'
-						 "<tr>";
-						 "<td>";        
+						 <tr>
+						 <td>    
 					       '.$nombre.'
-					 "</td>";
-					"<td>";
+					 </td>
+					<td>
 					       '.$apellido.'
-					 "</td>";
-					 "<td>";
+					 </td>
+					 <td>
 					       '.$paleta.'
-					 "</td>";
+					 </td>
 
-					 "<td>";
+					 <td>
 					        '.$valor->descri.'
-					 "</td>"';
+					 </td>';
 
 					 $monto18 = $valor->actual*1.18;
 
@@ -116,14 +117,14 @@ class MailController extends Controller
 
 					 $total = $monto18 + $iva + $valor->actual;
 
-					 '"<td>";
-					  echo "Bs. '.$total.'";
-					 "</td>";
-					 "<td>";
-					  echo "<img src=http://odalys.com/odalys/"'.$valor->imagen.'">";
-					"</td>";
+					 '<td>
+					  echo Bs. '.$total.'
+					 </td>
+					 <td>
+					  echo <img src=http://odalys.com/odalys/'.$valor->imagen.'>
+					</td>
 
-					"</tr>"';
+					</tr>';
 
 				  }
 				
@@ -152,14 +153,15 @@ class MailController extends Controller
 
 
 		       if (mail($to, $subject, $message, $headers)) {
-			     	$this->layout='//layouts/column1';
-			    	$valor = true;
-					$this->render('index', array('valor'=>$valor));
+		       		echo $to;
+			     	//$this->layout='//layouts/column1';
+			    	//$valor = true;
+					//$this->render('index', array('valor'=>$valor));
 		    	} else {
-
-			    	$this->layout='//layouts/column1';
-			    	$valor = false;
-					$this->render('index', array('valor'=>$valor));
+					echo $to;
+					echo "<br>";
+			    	echo "error";
+					//$this->render('index', array('valor'=>$valor));
 		    	
 		   		 }
 
