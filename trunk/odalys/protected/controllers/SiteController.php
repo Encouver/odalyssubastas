@@ -100,7 +100,7 @@ class SiteController extends Controller
 
 			$html2pdf = Yii::app()->ePdf->HTML2PDF();
 	        $html2pdf->WriteHTML($contenido);
-	        $html2pdf->Output("repore.pdf");
+	        $html2pdf->Output("repore.pdf", 'D');
 
 		}
 
@@ -209,7 +209,7 @@ class SiteController extends Controller
 
 			$html2pdf = Yii::app()->ePdf->HTML2PDF();
 	        $html2pdf->WriteHTML($contenido);
-	        $html2pdf->Output("repore.pdf");
+	        $html2pdf->Output("repore.pdf", 'D');
 
 	        //$this->render('reporte', array('content'=>$contenido));
 
