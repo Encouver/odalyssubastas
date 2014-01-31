@@ -41,20 +41,23 @@ class MailController extends Controller
 
 		$criteria = new CDbCriteria;
 
+		//Tomo ultima silenciosa
 		$criteria->condition = 'fuesilenciosa=:fuesilenciosa';
 		$criteria->params = array(':fuesilenciosa'=>1);
 		$criteria->order = 'id DESC';
 
 		$silenciosa = Subastas::model()->find($criteria);		
 			
+		//construyo el titulo del mensaje
 		$subject = 'Resultados de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
 
+		//obtengo los resultados de las obras en la subasta finalizada.
 		$usuarios = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
 
 		
 		foreach ($usuarios as $key => $value)
 		{
-			
+			//valido que la obra la tenga un uuario y q no vuelva a entrar ese mismo usuario
 			if($value->id_usuario and !in_array($value->id_usuario, $arreglo))
 			{
 
@@ -90,7 +93,7 @@ class MailController extends Controller
 
 				  $arreglo[] = $value->id_usuario;
 
-				  $usuarios = ImagenS::model()->findAll('ids=:id_usuario', array(':id_usuario' => $value->id_usuario));
+				  $usuarios = ImagenS::model()->findAll('id_usuario=:id_usuario and ids=:idsubasta', array(':id_usuario' => $value->id_usuario, ':idsubasta'=> $silenciosa['id']));
 				 
 				  foreach ($usuarios as $ky => $valor) {
 				  		
@@ -107,25 +110,28 @@ class MailController extends Controller
 					       '.$paleta.'
 					 </td>
 
-					 <td>
+					 <td align="center">
 					        '.$valor->descri.'
 					 </td>';
 
+					 $monto18 = 0;
+
 					 $monto18 = $valor->actual*1.18;
 
+					 $iva = 0;
 					 $iva = $monto18*1.12;
 
 					 $total = $monto18 + $iva + $valor->actual;
-
+					 $message .= 
 					 '<td>
-					  echo Bs. '.$total.'
+					  Bs. '.number_format($total).'
 					 </td>
 					 <td>
-					  echo <img src=http://odalys.com/odalys/'.$valor->imagen.'>
+					  <img src="http://www.odalys.com/odalys/'.$valor->imagen.'"/>
 					</td>
 
 					</tr>';
-
+					$total = 0;
 				  }
 				
 					$message .=  '</tbody>
@@ -152,7 +158,7 @@ class MailController extends Controller
 		    'X-Mailer: PHP/' . phpversion();
 
 
-		       if (mail($to, $subject, $message, $headers)) {
+		      if (mail($to, $subject, $message, $headers)) {
 		       		echo $to;
 			     	//$this->layout='//layouts/column1';
 			    	//$valor = true;
@@ -164,6 +170,9 @@ class MailController extends Controller
 					//$this->render('index', array('valor'=>$valor));
 		    	
 		   		 }
+
+			//	$this->render('compradores', array('valor'=>$message));
+		   		 
 
 
 			}
