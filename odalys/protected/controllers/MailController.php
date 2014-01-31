@@ -85,6 +85,9 @@ class MailController extends Controller
 				      <th>Apellido</th>
 				      <th>Paleta</th>
 				      <th>Referencia</th>
+				      <th>Comision</th>
+				      <th>Iva</th>
+				      <th>Comision+iva</th>
 				      <th>Monto</th>
 				      <th>Lote</th>
 				    </tr>
@@ -114,19 +117,29 @@ class MailController extends Controller
 					        '.$valor->descri.'
 					 </td>';
 
+
 					 $monto18 = 0;
 
-					 $monto18 = $valor->actual*1.18;
+					 $monto18 = (($valor->actual*18)/100);
 
 					 $iva = 0;
-					 $iva = $monto18*1.12;
+					 $iva = (($monto18*12)/100);
 
-					 $total = $monto18 + $iva + $valor->actual;
+					 $total1 = 0;
+					 $total1 = $monto18 + $iva;
+
+					 $total = $total1 + $valor->actual;
 					 $message .= 
-					 '<td>
+
+					 '
+					 <td align="center">'.number_format($monto18).'</td>
+					 <td align="center">'.number_format($iva).'</td>
+					  <td align="center">'.number_format($total1).'</td>
+					 
+					 <td>
 					  Bs. '.number_format($total).'
 					 </td>
-					 <td>
+					 <td align="center">
 					  <img src="http://www.odalys.com/odalys/'.$valor->imagen.'"/>
 					</td>
 
@@ -158,7 +171,7 @@ class MailController extends Controller
 		    'X-Mailer: PHP/' . phpversion();
 
 
-		      if (mail($to, $subject, $message, $headers)) {
+		     if (mail($to, $subject, $message, $headers)) {
 		       		echo $to;
 			     	//$this->layout='//layouts/column1';
 			    	//$valor = true;
