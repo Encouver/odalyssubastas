@@ -60,7 +60,7 @@ class MailController extends Controller
 
 				$usuario = Usuarios::model()->find('id=:id', array(':id'=>$value->id_usuario));
 
-				$usuariospuja = Usuariospujas::model()->find('idusuario=:idusuario', array(':idusuario'=>$usuario['id']));
+				$usuariospuja = Usuariospujas::model()->find('idusuario=:idusuario and idsubasta=:idsubasta', array(':idusuario'=>$usuario['id'], ':idsubasta' => $silenciosa['id']));
 				//Metodo hacer invocado cada vez que un pujador pierda en la misma.
 
 				$correo = $usuario['email'];
