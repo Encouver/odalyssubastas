@@ -24,7 +24,7 @@ class SiteController extends Controller
 		);
 	}
 
-	public function actionReporte()
+	public function actionReporteresultados()
 	{
 
 		$arreglo = array();
@@ -42,68 +42,178 @@ class SiteController extends Controller
 		$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
 
 		$contenido ="<html>
-<head>
-	<title>Probando</title>
-	 <style type='text/css'>
-<!--
-	table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
-	h1 {color: #000033}
-	h2 {color: #000055}
-	h3 {color: #000077}
-	
-	div.standard
-	{
-		padding-left: 5mm;
-	}
--->
-</style>
-</head>
-<body>
-	<div style='margin: 0px auto'>
-	<img src='http://odalys.com/odalys/images/log.png'/>
-    <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
-    <h5 style='text-align:left;'>Adjudicados</h5>
-    <table class='page_header'>
-	<tr>
-    	<td  style='width: 15%;'>Nombre y Apellido</td>
-        <td  style='width: 5%;'>Paleta</td>
-        <td align='center' style='width: 15%;'>Lote</td>
-        <td  style='width: 20%;'>Imagen</td>
-        <td  style='width: 15%;'>Bs</td>
-    </tr> ";
-    foreach ($ganadores as $key => $value)
-		{
-			if($value->id_usuario)
+		<head>
+			<title>Probando</title>
+			 <style type='text/css'>
+		<!--
+			table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+			h1 {color: #000033}
+			h2 {color: #000055}
+			h3 {color: #000077}
+			
+			div.standard
 			{
-				$paleta = Usuariospujas::model()->find('idsubasta=:ids AND idusuario=:idusuario', array(':ids'=>$silenciosa['id'], ':idusuario' => $value->id_usuario));
-
-				$usuario = Usuarios::model()->find('id=:id', array('id'=>$value->id_usuario));
-
-				$contenido .=
-				'
-					<tr>
-				<td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
-					<td>' .$paleta['paleta'].'</td>
-					<td>'.$value->descri.'</td>
-					<td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
-					<td> Bs. '.number_format($value->actual).'</td>
-					</tr>
-				';				
+				padding-left: 5mm;
 			}
+		-->
+		</style>
+		</head>
+		<body>
+			<div style='margin: 0px auto'>
+			<img src='http://odalys.com/odalys/images/log.png'/>
+		    <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+		    <h5 style='text-align:left;'>Adjudicados</h5>
+		    <table class='page_header'>
+			<tr>
+		    	<td  style='width: 15%;'>Nombre y Apellido</td>
+		        <td  style='width: 5%;'>Paleta</td>
+		        <td align='center' style='width: 15%;'>Lote</td>
+		        <td  style='width: 20%;'>Imagen</td>
+		        <td  style='width: 15%;'>Bs</td>
+		    </tr> ";
+		    foreach ($ganadores as $key => $value)
+				{
+					if($value->id_usuario)
+					{
+						$paleta = Usuariospujas::model()->find('idsubasta=:ids AND idusuario=:idusuario', array(':ids'=>$silenciosa['id'], ':idusuario' => $value->id_usuario));
+
+						$usuario = Usuarios::model()->find('id=:id', array('id'=>$value->id_usuario));
+
+						$contenido .=
+						'
+							<tr>
+						<td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
+							<td>' .$paleta['paleta'].'</td>
+							<td>'.$value->descri.'</td>
+							<td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
+							<td> Bs. '.number_format($value->actual).'</td>
+							</tr>
+						';				
+					}
+				}
+
+   			 $contenido .="
+			</table>
+		    </div>
+			</body>
+			</html>";
+
+			$html2pdf = Yii::app()->ePdf->HTML2PDF();
+	        $html2pdf->WriteHTML($contenido);
+	        $html2pdf->Output("repore.pdf");
+
 		}
 
-    $contenido .="
-	</table>
-    <h5 style='text-align:left;'>Pujas sin éxito</h5>
-    </div>
-</body>
-</html>";
+	public function actionReportepujas()
+	{
 
-		$html2pdf = Yii::app()->ePdf->HTML2PDF();
-        $html2pdf->WriteHTML($contenido);
-        $html2pdf->Output("repore.pdf");
+		//$arreglo = array();
 
-	}
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+		$criteria->params = array(':fuesilenciosa'=>1);
+		$criteria->order = 'id DESC';
+
+		$silenciosa = Subastas::model()->find($criteria);		
+			
+		$titulo = 'Informe de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
+
+		$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+
+
+		$contenido ="<html>
+		<head>
+			<title>Probando</title>
+			 <style type='text/css'>
+		<!--
+			table
+			{
+			width: 100%;
+
+			}
+			table.page_header {border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+			h1 {color: #000033}
+			h2 {color: #000055}
+			h3 {color: #000077}
+			
+			div.standard
+			{
+				padding-left: 5mm;
+			}
+		-->
+		</style>
+		</head>
+		<body>
+			<div style='margin: 0px auto'>
+			<img src='http://odalys.com/odalys/images/log.png'/>
+		    <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+		    <h5 style='text-align:left;'>Pujadores</h5>
+		    ";
+
+		    
+		    foreach ($ganadores as $key => $value)
+				{
+					if($value->id_usuario)
+					{
+							$auxiliar = 0;
+							$contenido .= 
+						    "<table class='page_header'>
+							<tr>
+						    	<td  style='width: 50%;'><img src=\"http://www.odalys.com/odalys/$value->imagen\"/></td>
+						        <td  style='width: 50%;'>$value->descri</td>
+						    </tr></table> ";
+
+						$puja = RegistroPujas::model()->findAll('id_imagen_s=:id_imagen_s ORDER BY fecha ASC', array(':id_imagen_s'=>$value->id));
+
+						$contenido .= 
+						    "<table>
+							<tr>
+						    	<td  style='width: 35%;'>Nombre y Apellido</td>
+						        <td  style='width: 30%;'>Paleta</td>
+						        <td  style='width: 35%;'>Bs</td>
+						    </tr> ";
+
+
+						    foreach ($puja as $clave => $valor) 
+						    {
+						    
+						    	$paleta = Usuariospujas::model()->find('idsubasta=:ids AND idusuario=:idusuario', array(':ids'=>$silenciosa['id'], ':idusuario' => $valor->idusuario));
+
+								$usuario = Usuarios::model()->find('id=:id', array('id'=>$valor->idusuario));
+
+								$contenido .=
+										'
+											<tr>
+										<td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
+											<td>' .$paleta['paleta'].'</td>
+											<td> Bs. '.number_format($valor->monto_puja).'</td>
+											</tr>
+								';
+
+
+
+						    }
+
+						    $contenido .= "</table>";
+						
+						
+					}
+				}
+
+   			 $contenido .="
+		    </div>
+			</body>
+			</html>";
+
+
+			$html2pdf = Yii::app()->ePdf->HTML2PDF();
+	        $html2pdf->WriteHTML($contenido);
+	        $html2pdf->Output("repore.pdf");
+
+	        //$this->render('reporte', array('content'=>$contenido));
+
+		}
 
 	/**
 	 * This is the default 'index' action that is invoked
