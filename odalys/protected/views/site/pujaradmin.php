@@ -40,6 +40,8 @@
 	Yii::app()->clientscript->scriptMap['jquery-ui.js'] = false;
 	Yii::app()->clientscript->scriptMap['jquery.min.js'] = false;
 	Yii::app()->clientscript->scriptMap['jquery.js'] = false;*/
+	
+	$imagenesDir = 'http://www.odalys.com/odalys/';
 
 	Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 												'jquery-ui.js'=>false,
@@ -62,7 +64,7 @@
 				if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
 				{
 					echo '<div id="imageng_'.$_POST['imagen_s'].' class="image"> 
-								<td><img src="'.$imagen['imagen'].'"> 
+								<td><img src="'$imagenesDir.$imagen['imagen'].'"> 
 								</img></td><td>
 									<p>'.$imagen['descri'].'</p> 
 									<BR/> 
