@@ -3143,3 +3143,13 @@ REQUEST_URI=/odalyssubastas/odalys/index.php
 HTTP_REFERER=http://localhost/odalyssubastas/odalys/index.php?r=site/login
 ---
 2014/01/28 17:22:52 [error] [exception.CDbException] SQLSTATE[HY000] [1044] Access denied for user 'odalyscs_ed'@'%' to database 'odalyscs_edgar_debug'
+2014/02/01 14:31:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'El sistema no ha podido encontrar la acción "reporte" solicitada.' in C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CController.php(270): CController->missingAction('reporte')
+#1 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('reporte')
+#2 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/reporte')
+#3 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\yii\framework\base\CApplication.php(169): CWebApplication->processRequest()
+#4 C:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs\odalyssubastas\odalys\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/odalyssubastas/odalys/index.php?r=site/reporte
+---

@@ -76,20 +76,21 @@ class MailController extends Controller
 				$to = $correo;
 
 				$message = '
-		 <div style="padding-left:100px !important; padding-top:10px !important; float:left !important; padding-right:50px !important;">
-               <h2 style="padding-bottom:10px !important; font-size:14px !important;">Estimado cliente, la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'].' (Subasta Silenciosa) ha finalizado.</h2>   
-				<table class="table">
+		 <div style="padding-left:50px !important; padding-top:10px !important; float:left !important; padding-right:20px !important;">
+               <h2 style="padding-bottom:5px !important; font-size:14px !important;">Estimado(a) '.strtoupper($nombre).' '.strtoupper($apellido).', la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'].' ha finalizado a la 1:00 p.m. del día de hoy.</h2>
+               <h2 style="padding-bottom:10px !important; font-size:14px !important;">Se le han adjudicado los siguientes lotes:</h2><br/> 
+				<table width="100%">
 				  <thead>
 				    <tr>
-				      <th>Nombre</th>
-				      <th>Apellido</th>
-				      <th>Paleta</th>
-				      <th>Referencia</th>
-				      <th>Comision</th>
-				      <th>Iva</th>
-				      <th>Comision+iva</th>
-				      <th>Monto</th>
-				      <th>Lote</th>
+
+				      <th align="left">NOMBRE</th>
+				      <th align="left">PALETA</th>
+				      <th align="center" style="width: 200px;">LOTE</th>
+				      <th align="left">PRECIO DE VENTA DEL MARTILLO</th>
+				      <th align="left">COMISION DE LA CASA DE SUBASTA (18% )</th>
+				      <th align="left">IMPUESTO SOBRE LA COMISION (12%)</th>
+				      <th align="left">TOTAL A PAGAR</th>
+
 				    </tr>
 				  </thead>
 				  <tbody>';
@@ -103,21 +104,17 @@ class MailController extends Controller
 				  	$message .=
 				  		'
 						 <tr>
-						 <td>    
-					       '.$nombre.'
+						 <td align="left">    
+					       '.$nombre.' '.$apellido.'
 					 </td>
-					<td>
-					       '.$apellido.'
-					 </td>
-					 <td>
+
+					 <td align="left">
 					       '.$paleta.'
 					 </td>
-
-					 <td align="center">
-					        '.$valor->descri.'
-					 </td>';
-
-
+					 <td align="center" style="width: 200px;">
+					  <!--<img src="http://www.odalys.com/odalys/'.$valor->imagen.'" style="float:left;padding-right:20px;"/>-->
+					  '.$valor->descri.'
+					</td>';
 					 $monto18 = 0;
 
 					 $monto18 = (($valor->actual*18)/100);
@@ -132,16 +129,14 @@ class MailController extends Controller
 					 $message .= 
 
 					 '
-					 <td align="center">'.number_format($monto18).'</td>
-					 <td align="center">'.number_format($iva).'</td>
-					  <td align="center">'.number_format($total1).'</td>
+					 <td align="center">Bs. '.number_format($valor->actual).'</td>
+					 <td align="center">Bs. '.number_format($monto18).'</td>
+					 <td align="center">Bs. '.number_format($iva).'</td>
 					 
-					 <td>
+					 <td align="center">
 					  Bs. '.number_format($total).'
 					 </td>
-					 <td align="center">
-					  <img src="http://www.odalys.com/odalys/'.$valor->imagen.'"/>
-					</td>
+					 
 
 					</tr>';
 					$total = 0;
@@ -150,16 +145,17 @@ class MailController extends Controller
 					$message .=  '</tbody>
 				</table>
 				<hr>
-					Recuerde que las condiciones de la subasta establecen que tiene 7 días para cancelar sus piezas en los espacios de la Casa de Subastas en el Centro Comercial Concresa, PB en el horario de Martes a Sábado de 10:00 a.m. a 6:00 p.m.<br/>
+					Recuerde que las condiciones de la subasta establecen que tiene 7 días para cancelar sus piezas en los espacios de la Casa de Subastas en el Centro Comercial Concresa, PB en el horario de Martes a Sábado de 9:00 a.m. a 5:00 p.m.<br/>
 
-			Saludos,
-
-			Casa de Subastas Odalys
-			C. Comercial Concresa, Nivel PB. Local 
-			115 y 116, Prados del Este, Baruta 1080,
-			Estado Miranda, Venezuela
-			Telfs: +58 2129795942, +58 2129761773
-			Fax: +58 212 9794068
+					<br/>
+			Atentamente,<br/>
+			<br/>
+			Casa de Subastas Odalys<br/>
+			C. Comercial Concresa, Nivel PB. Local <br/>
+			115 y 116, Prados del Este, Baruta 1080,<br/>
+			Estado Miranda, Venezuela<br/>
+			Telfs: +58 2129795942, +58 2129761773<br/>
+			Fax: +58 212 9794068<br/>
 			odalys@odalys.com
     	</div> ';
 
@@ -172,7 +168,7 @@ class MailController extends Controller
 
 
 		     if (mail($to, $subject, $message, $headers)) {
-		       		echo $to;
+		       		echo $to.'<br/>';
 			     	//$this->layout='//layouts/column1';
 			    	//$valor = true;
 					//$this->render('index', array('valor'=>$valor));
