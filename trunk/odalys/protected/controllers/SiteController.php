@@ -24,6 +24,21 @@ class SiteController extends Controller
 		);
 	}
 
+	public function actionFiltro()
+	{
+		$layout='//layouts/column2';
+
+
+		$tabla = '<table>';
+
+
+
+
+		$tabla .= '</table>';
+
+
+
+	}
 	public function actionReporteresultados()
 	{
 
@@ -286,11 +301,9 @@ class SiteController extends Controller
 
 
 		$contador = 0;
-		$con = 0;
-		$imprimir ="";
-		//echo '<table width="80%"><tr>';
+		$con = 0;		
 		$fancyElements = '';
-		$imprimir = '<table width="100%" class="tablaresultado">';
+		$imprimir = '<table id="tabla_imagens" width="100%" class="tablaresultado"><tbody>';
 		foreach ($query as $key => $value) {
 			$con ++;
 
@@ -342,10 +355,12 @@ class SiteController extends Controller
 				$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
+				$imprimir .='<td align="center" valign="bottom" class="mix '.$value->solonombre.'">
+								<div style="padding-bottom: 8px;">';
 				if($resultado)
 				{
 					
-					$imprimir .='<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+					$imprimir .= $link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					else//vista del usuario normal
@@ -356,7 +371,7 @@ class SiteController extends Controller
 
 				}else
 				{
-					$imprimir .='<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+					$imprimir .= $link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -418,7 +433,7 @@ class SiteController extends Controller
 			}
 
 		}
-		return $imprimir .='</table>'.$fancyElements;
+		return $imprimir .='</tbody></table>'.$fancyElements;
 
 	}
 
@@ -441,7 +456,8 @@ class SiteController extends Controller
 		$con = 0;
 		$fancyElements = $imprimir = "";
 		//echo '<table width="80%"><tr>';
-		$imprimir = '<table  width="100%" class="tablaresultado"><tr>';
+		$imprimir = '<table id="tabla_imagens"  width="100%" class="tablaresultado">
+		<tbody><tr>';
 		foreach ($query as $key => $value) {
 			$con ++;
 			
@@ -488,7 +504,7 @@ class SiteController extends Controller
 
 		}
 
-		$imprimir .='</table>';
+		$imprimir .='</tbody></table>';
 		
 		$this->render('resultados', array('resultados'=>$imprimir));
 	}
