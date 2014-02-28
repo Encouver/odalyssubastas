@@ -75,7 +75,16 @@ $this->pageTitle=Yii::app()->name;
 													            ', 
 														CClientScript::POS_READY);
 
-	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.filtertable.min.js', CClientScript::POS_END);
+	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.quicksearch.js', CClientScript::POS_END);
+
+	Yii::app()->clientScript->registerScript('quicksearch','$(document).ready(function(){
+																$("input#id_search").quicksearch("");
+													        });
+												            ', 
+														CClientScript::POS_READY);
+
+
+	/*Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.filtertable.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.dataTables.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.mixitup.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScript('tablesorting','$(document).ready(function(){
@@ -83,7 +92,7 @@ $this->pageTitle=Yii::app()->name;
 													            });
 										
 													            ', 
-														CClientScript::POS_READY);
+														CClientScript::POS_READY);*/
 	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion']));
 	//echo 'Fecha Finalización: '.$fecha->format('d-m-Y h:i:s');
 /*$this->widget('ext.bcountdown.BCountdown', 
@@ -101,13 +110,13 @@ $this->pageTitle=Yii::app()->name;
         );
 */
 ?>
-<ul>
+<!--<ul>
     <li class="filter" data-filter="cualquiercosa">cualquiercosa</li>
-</ul>
+</ul>-->
 <style>
-	#tabla_imagens .mix{
+	/*#tabla_imagens .mix{
     opacity: 0;
-    display: none;
+    display: none;*/
 }
 </style> 
 
