@@ -79,8 +79,8 @@ $this->pageTitle=Yii::app()->name;
 
 	Yii::app()->clientScript->registerScript('quicksearch','$(document).ready(function(){
 
-																$(".tile:nth-child(3n+2)").css("margin-left","30px");
-																$(".tile:nth-child(3n+2)").css("margin-right","30px");
+																//$(".tile:nth-child(3n+2)").css("margin-left","30px");
+																//$(".tile:nth-child(3n+2)").css("margin-right","30px");
 
 																$("input#autorBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
 																$("input#precioBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
@@ -132,9 +132,11 @@ $this->pageTitle=Yii::app()->name;
 	overflow: hidden;
 }
 .tile{
-	width: 300px;
+	width: 120px;
 	height: 200px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
 	float: left;
 	overflow: hidden;
     //background-color: aqua;
