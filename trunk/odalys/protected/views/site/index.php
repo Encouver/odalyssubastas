@@ -144,7 +144,7 @@ $this->pageTitle=Yii::app()->name;
 </style> 
 
 <div style="text-align:center">
-	<span>Busqueda<input id="autorBusqueda"></input></span>
+	<span><input id="autorBusqueda" placeholder="Buscador por precio u autor" style="padding:0.5em !important; width:40% !important"></input></span>
 </div>
 
 <?php
