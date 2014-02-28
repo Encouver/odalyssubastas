@@ -78,7 +78,12 @@ $this->pageTitle=Yii::app()->name;
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.quicksearch.js', CClientScript::POS_END);
 
 	Yii::app()->clientScript->registerScript('quicksearch','$(document).ready(function(){
-																$("input#id_search").quicksearch("");
+
+																$(".tile:nth-child(3n+2)").css("margin-left","30px");
+																$(".tile:nth-child(3n+2)").css("margin-right","30px");
+
+																$("input#autorBusqueda").quicksearch("#tabla_imagens td");
+																$("input#precioBusqueda").quicksearch("#tabla_imagens td ");
 													        });
 												            ', 
 														CClientScript::POS_READY);
@@ -93,6 +98,7 @@ $this->pageTitle=Yii::app()->name;
 										
 													            ', 
 														CClientScript::POS_READY);*/
+
 	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion']));
 	//echo 'Fecha Finalización: '.$fecha->format('d-m-Y h:i:s');
 /*$this->widget('ext.bcountdown.BCountdown', 
@@ -116,9 +122,30 @@ $this->pageTitle=Yii::app()->name;
 <style>
 	/*#tabla_imagens .mix{
     opacity: 0;
-    display: none;*/
+    display: none;
+}*/
+/* TILES */
+#wrapper_imagens{
+	position: relative;
+	margin-top: 20px;
+	width: 960px;
+	overflow: hidden;
+}
+.tile{
+	width: 300px;
+	height: 200px;
+	margin-bottom: 20px;
+	float: left;
+	overflow: hidden;
+    //background-color: aqua;
 }
 </style> 
+
+<div>
+	<h3>Busqueda</h3><br>
+	Autor: <input id="autorBusqueda"></input> <br>
+	Precio hasta: <input id="precioBusqueda"></input>
+</div>
 
 <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
