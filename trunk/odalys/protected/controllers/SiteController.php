@@ -303,7 +303,7 @@ class SiteController extends Controller
 		$contador = 0;
 		$con = 0;		
 		$fancyElements = '';
-		$imprimir = '<table id="tabla_imagens" width="100%" class="tablaresultado"><tbody>';
+		$imprimir = '<div id="wrapper_imagens" width="100%" class="tablaresultado">';
 		foreach ($query as $key => $value) {
 			$con ++;
 
@@ -352,17 +352,18 @@ class SiteController extends Controller
 			{
 				//echo '<tr>';
 				
-				$imprimir .= '<tr align="center" valign="bottom">';
+				//$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
-				$imprimir .='<td align="center" valign="bottom" class="mix '.$value->solonombre.'">
+				$imprimir .='<div id="elementosImagens" align="center" valign="bottom" class="tile '.$value->solonombre.'">
 								<div style="padding-bottom: 8px;">';
 				if($resultado)
 				{
 					
 					$imprimir .= $link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
-						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>
+									  Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					else//vista del usuario normal
 						$imprimir .= 'Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
@@ -398,11 +399,11 @@ class SiteController extends Controller
 												        ),
 												        array('id'=>$value->id, 'style'=>'color: #014F92;')
 													);
-							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></td>';
+							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></div>';
 						}
 						else
 							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-								array('style'=>'width: 5px;hight:5px;')).'</w> </td>';
+								array('style'=>'width: 5px;hight:5px;')).'</w> </div>';
 				}
 				elseif(!Yii::app()->session['admin'])
 					{
@@ -421,19 +422,19 @@ class SiteController extends Controller
 											        ),
 											        array('id'=>$value->id, 'style'=>'color: #014F92;')
 												);
-						$imprimir .= $pujarAjaxLink.'<BR/></td>';					
+						$imprimir .= $pujarAjaxLink.'<BR/></div>';					
 					}
 				
 
 			if($contador==6)
 			{
 				//echo '</tr>';
-				$imprimir .='</tr>';
+				//$imprimir .='</tr>';
 				$contador=0;
 			}
 
 		}
-		return $imprimir .='</tbody></table>'.$fancyElements;
+		return $imprimir .='</div>'.$fancyElements;
 
 	}
 
