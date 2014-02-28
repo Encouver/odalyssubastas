@@ -82,8 +82,8 @@ $this->pageTitle=Yii::app()->name;
 																$(".tile:nth-child(3n+2)").css("margin-left","30px");
 																$(".tile:nth-child(3n+2)").css("margin-right","30px");
 
-																$("input#autorBusqueda").quicksearch("#tabla_imagens td");
-																$("input#precioBusqueda").quicksearch("#tabla_imagens td ");
+																$("input#autorBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
+																$("input#precioBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
 													        });
 												            ', 
 														CClientScript::POS_READY);
