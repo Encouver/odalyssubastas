@@ -83,7 +83,6 @@ $this->pageTitle=Yii::app()->name;
 																//$(".tile:nth-child(3n+2)").css("margin-right","30px");
 
 																$("input#autorBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
-																$("input#precioBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
 													        });
 												            ', 
 														CClientScript::POS_READY);
@@ -128,11 +127,12 @@ $this->pageTitle=Yii::app()->name;
 #wrapper_imagens{
 	position: relative;
 	margin-top: 20px;
-	width: 960px;
+	width: 100%;
+	margin: 0 auto;
 	overflow: hidden;
 }
 .tile{
-	width: 120px;
+	width: 110px;
 	height: 200px;
 	margin-bottom: 30px;
     margin-left: 20px;
@@ -143,10 +143,8 @@ $this->pageTitle=Yii::app()->name;
 }
 </style> 
 
-<div>
-	<h3>Busqueda</h3><br>
-	Autor: <input id="autorBusqueda"></input> <br>
-	Precio hasta: <input id="precioBusqueda"></input>
+<div style="text-align:center">
+	<span>Busqueda<input id="autorBusqueda"></input></span>
 </div>
 
 <?php
