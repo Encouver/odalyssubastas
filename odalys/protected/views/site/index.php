@@ -139,13 +139,9 @@ $this->pageTitle=Yii::app()->name;
     margin-right: 20px;
 	float: left;
 	overflow: hidden;
-    //background-color: aqua;
 }
 </style> 
 
-<div style="text-align:center">
-	<span><input id="autorBusqueda" placeholder="Buscador por precio u autor" style="padding:0.5em !important; width:40% !important"></input></span>
-</div>
 
 <?php
     $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
