@@ -20,7 +20,7 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<link rel="shortcut icon" type="image/png" href="favicon.png">
+	<!--<link rel="shortcut icon" type="image/png" href="favicon.png">-->
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/style.css">

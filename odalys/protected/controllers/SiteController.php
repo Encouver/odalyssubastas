@@ -930,7 +930,7 @@ class SiteController extends Controller
 
 			        	// si el usuario va ganando la puja
 			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
-			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Estas a la cabeza en esta subasta '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
+			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'La última puja por esta obra es suya.'.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
 			        	}elseif($subasta->silenciosa) //subasta silenciosa
 			        	{
 
@@ -997,7 +997,7 @@ class SiteController extends Controller
 									//Esto es para que se guarde como nueva fila
 									//$registro->setIsNewRecord(true);
 
-			        				// Existe otra pujador con maximo dispuesto
+			        				// Existe otra puja con maximo dispuesto
 			        				if($registro)
 			        				{
 					        					$registro->paleta = 0;
@@ -1096,7 +1096,7 @@ class SiteController extends Controller
 
 					        				}else{
 
-					        					// Si ya existe una puja maxima igual se la gana el que primero haya hecho la puja
+					        					// Existe una puja maxima igual, se la gana el que primero haya hecho la puja
 												
 												$imagen_modelo->id_usuario = $registro->idusuario;
 					        					$imagen_modelo->actual = $registro->maximo_dispuesto;
@@ -1153,7 +1153,7 @@ class SiteController extends Controller
 				        			{
 				        				// No hay otro pujador con puja maxima
 
-										//Verificando si existe algun pujador previo para enviarle el correo de perdidad de subasta
+										//Verificando si existe algun pujador previo para enviarle el correo de perdida de subasta
 										$criteria = new CDbCriteria;
 
 										$criteria->condition = 'ids=:ids && id_imagen_s=:id_imagen_s';
@@ -1163,8 +1163,19 @@ class SiteController extends Controller
 										$pujaPrevia = RegistroPujas::model()->find($criteria);
 
 
-				        				
-										$imagen_modelo->actual *= 1.1;
+				        				// Verificando si es primera puja
+				        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
+										array(
+										  ':imagen'=>$model->id_imagen_s,
+										  //':maxi' => NULL,
+										));
+
+				        				if(imgConPuja)
+											// Puja siguiente
+											$imagen_modelo->actual *= 1.1;	// se icrementa el valor de la imagen por 10%
+										else
+											$imagen_modelo->actual =  $imagen_modelo->base;
+
 
 										$model->verificado = 1;
 			        					$model->idusuario = $usuario_actual;
@@ -1210,11 +1221,13 @@ class SiteController extends Controller
 								));
 
 
-		        				// Puja siguiente
-								$imagen_modelo->actual *= 1.1;	// se icrementa el valor de la imagen por 10%
+
 
 									if($registro)
 									{ //ya existe un usuario con puja maxima
+		        						
+		        						// Puja siguiente
+										$imagen_modelo->actual *= 1.1;	// se icrementa el valor de la imagen por 10%
 
 										$registro->paleta = 0;
 			        					$registro->codigo = 0;
@@ -1318,7 +1331,21 @@ class SiteController extends Controller
 									}else{
 
 										// El usuario puja simple
-						        			
+
+										//Verificando si es primera puja
+				        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
+										array(
+										  ':imagen'=>$model->id_imagen_s,
+										  //':maxi' => NULL,
+										));
+
+				        				if(imgConPuja)
+											// Puja siguiente
+											$imagen_modelo->actual *= 1.1;	// se icrementa el valor de la imagen por 10%
+										else
+											$imagen_modelo->actual =  $imagen_modelo->base;
+
+
 					        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
 
 										//Verificando si existe algun pujador previo para enviarle el correo de perdidad de subasta
