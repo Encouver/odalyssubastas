@@ -401,9 +401,22 @@ class SiteController extends Controller
 													);
 							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w><BR/></div>';
 						}
-						else
+						else{
+							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
+							array(
+							  ':imagen'=>$value->id,
+							  ':verificado'=>1,
+							  'idusuario'=>$value->id_usuario,
+							  //':maxi' => NULL,
+							));
+							
 							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-								array('style'=>'width: 5px;hight:5px;')).'</w> </div>';
+								array('style'=>'width: 5px;hight:5px;'));
+							if($usuarioPM)
+								$imprimir .= ' hasta '.number_format($usuarioPM->maximo_dispuesto);
+							$imprimir .= '</w> </div>';
+
+						}
 				}
 				elseif(!Yii::app()->session['admin'])
 					{
@@ -457,8 +470,7 @@ class SiteController extends Controller
 		$con = 0;
 		$fancyElements = $imprimir = "";
 		//echo '<table width="80%"><tr>';
-		$imprimir = '<table id="tabla_imagens"  width="100%" class="tablaresultado">
-		<tbody><tr>';
+		$imprimir = '<div id="wrapper_imagens"  width="100%" class="tablaresultado">';
 		foreach ($query as $key => $value) {
 			$con ++;
 			
@@ -467,37 +479,38 @@ class SiteController extends Controller
 			
 			if($contador==6)
 			{
-				$imprimir .= '<tr align="center" valign="bottom">';
+				//$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
+				$imprimir .=  '<div id="elementosImagens" align="center" valign="bottom" class="tile '.$value->solonombre.'>';
 				if($value->id_usuario>0)
 				{
 					
-					$imprimir .=  '<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor>';
+					$imprimir .=  '<div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor>';
 					if(Yii::app()->session['admin'])
 					{
 						$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
-						$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'>';
+						$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'></div>';
 
 					}
 					if(Yii::app()->session['id_usuario'] && Yii::app()->session['id_usuario'] == $value->id_usuario)
 					{
 						$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-																			 array('style'=>'width: 5px;hight:5px;')).'</w> </td>';
+																			 array('style'=>'width: 5px;hight:5px;')).'</w> </div>';
 					}else
 					{
-						$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span></div></td>';
+						$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span></div>';
 					}
 					
 
 				}else
 				{
-					$imprimir .= '<td align="center" valign="bottom"><div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor></td>';
+					$imprimir .= '<div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor></div>';
 				}
 
 			if($contador==6)
 			{
-				$imprimir .='</tr>';
+				//$imprimir .='</tr>';
 				$contador=0;
 			}
 
@@ -505,7 +518,7 @@ class SiteController extends Controller
 
 		}
 
-		$imprimir .='</tbody></table>';
+		$imprimir .= '</div>';
 		
 		$this->render('resultados', array('resultados'=>$imprimir));
 	}
@@ -623,9 +636,20 @@ class SiteController extends Controller
 						$res[] =  array('id'=>$value->id, 'actual'=>$value->actual);
 					}else
 						if($value->id_usuario == Yii::app()->session['id_usuario']){
+
+							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
+							array(
+							  ':imagen'=>$value->id,
+							  ':verificado'=>1,
+							  'idusuario'=>$value->id_usuario,
+							  //':maxi' => NULL,
+							));
+							$hastaPM = '';
+							if($usuarioPM)
+								$hastaPM = ' hasta '.number_format($usuarioPM->maximo_dispuesto);
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual,
 								'div'=>CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-									array('style'=>'width: 5px;hight:5px;')));
+									array('style'=>'width: 5px;hight:5px;')).$hastaPM);
 						}else
 						{
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual,
@@ -930,7 +954,7 @@ class SiteController extends Controller
 
 			        	// si el usuario va ganando la puja
 			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
-			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'La última puja por esta obra es suya.'.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
+			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'La última puja por esta obra es suya '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']).'.');
 			        	}elseif($subasta->silenciosa) //subasta silenciosa
 			        	{
 
@@ -1170,7 +1194,7 @@ class SiteController extends Controller
 										  //':maxi' => NULL,
 										));
 
-				        				if(imgConPuja)
+				        				if($imgConPujas)
 											// Puja siguiente
 											$imagen_modelo->actual *= 1.1;	// se icrementa el valor de la imagen por 10%
 										else
@@ -1232,7 +1256,7 @@ class SiteController extends Controller
 										$registro->paleta = 0;
 			        					$registro->codigo = 0;
 
-										if($registro->maximo_dispuesto > $imagen_modelo->actual){
+										if($registro->maximo_dispuesto >= $imagen_modelo->actual){
 
 											//Gana el usuario con puja maxima que estaba en la bd
 											
@@ -1339,7 +1363,7 @@ class SiteController extends Controller
 										  //':maxi' => NULL,
 										));
 
-				        				if(imgConPuja)
+				        				if($imgConPujas)
 											// Puja siguiente
 											$imagen_modelo->actual *= 1.1;	// se icrementa el valor de la imagen por 10%
 										else
