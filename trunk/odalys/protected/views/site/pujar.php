@@ -53,7 +53,20 @@
 																<BR/>
 																<precio id="'.$imagenid.'">
 																	Precio actual: <div><moneda>Bs.</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
-																	Puja siguiente: <div><moneda>Bs.</moneda> <siguiente_'.$imagenid.'>'.number_format($imagen['actual']*1.1).'</siguiente_'.$imagenid.'></div>
+																	Puja siguiente: <div><moneda>Bs.</moneda> <siguiente_'.$imagenid.'>';
+
+												//Verificando si es primera puja
+						        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
+												array(
+												  ':imagen'=>$model->id_imagen_s,
+												));
+
+						        				if($imgConPujas)
+													echo number_format($imagen['actual']*1.1);
+												else
+													echo number_format($imagen['base']);
+
+												echo '</siguiente_'.$imagenid.'></div>
 																</precio><BR> </td></table>
 													  </div>';
 											}else
@@ -93,7 +106,10 @@
 							
 							$idsub = $imagenid.'_'.uniqid();
 
-							$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
+							if($imgConPujas)
+								$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
+							else
+								$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['base']);
 
 							$baseUrl = Yii::app()->request->baseUrl;
 							//Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
