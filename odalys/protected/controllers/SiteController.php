@@ -340,10 +340,10 @@ class SiteController extends Controller
 								            }',
 								            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 								        ),
-								        array('id'=>'admin_'.$value->id)
+								        array('id'=>'admin_'.$value->id,'style'=>'vertical-align: bottom;')
 									);
 			else//if(Yii::app()->session['id_usuario'])
-				$link = CHtml::link($imagenElement, '', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
+				$link = CHtml::link($imagenElement, '', array('class'=> 'des_'.$value->id,'rel'=>'gallery','style'=>'vertical-align: bottom;'));
 				//height="480"
 			// Fancybox
 			$this->mostrandoImagen($value);
@@ -355,12 +355,13 @@ class SiteController extends Controller
 				//$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
-				$imprimir .='<div id="elementosImagens" align="center" valign="bottom" class="tile '.$value->solonombre.'">
-								<div style="padding-bottom: 8px;">';
+				$imprimir .='<div id="elementosImagens" style="height: 160px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
+								<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
+								'.$link.'<div style="padding-bottom: 8px;"></div>';
 				if($resultado)
 				{
 					
-					$imprimir .= $link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>
 									  Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
@@ -372,7 +373,7 @@ class SiteController extends Controller
 
 				}else
 				{
-					$imprimir .= $link.'</div> <loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Precio: <moneda>Bs.</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -474,7 +475,7 @@ class SiteController extends Controller
 		foreach ($query as $key => $value) {
 			$con ++;
 			
-			$link = CHtml::link(CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'))
+			$link = CHtml::link(CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen,'style'=>'vertical-align: bottom;', 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'))
 				,'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
 			
 			if($contador==6)
@@ -482,32 +483,31 @@ class SiteController extends Controller
 				//$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
-				$imprimir .=  '<div id="elementosImagens" align="center" valign="bottom" class="tile '.$value->solonombre.'>';
-				if($value->id_usuario>0)
-				{
-					
-					$imprimir .=  '<div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor>';
-					if(Yii::app()->session['admin'])
+				$imprimir .=  '<div id="elementosImagens" style="height: 160px; text-align: center;" align="center" style="height: 180px;" class="tile '.$value->solonombre.'">';
+				
+				$imprimir .=  '<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
+										'.$link.'<div style="padding-bottom: 8px;"></div> <loteautor>'.$value->solonombre.'</loteautor>';
+					if($value->id_usuario>0)
 					{
-						$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
-						$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'></div>';
+						
+						
+						if(Yii::app()->session['admin'])
+						{
+							$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
+							$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'></div>';
 
+						}
+						if(Yii::app()->session['id_usuario'] && Yii::app()->session['id_usuario'] == $value->id_usuario)
+						{
+							$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
+																				 array('style'=>'width: 5px;hight:5px;')).'</w>';
+						}else
+						{
+							$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span>';
+						}
 					}
-					if(Yii::app()->session['id_usuario'] && Yii::app()->session['id_usuario'] == $value->id_usuario)
-					{
-						$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-																			 array('style'=>'width: 5px;hight:5px;')).'</w> </div>';
-					}else
-					{
-						$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span></div>';
-					}
-					
 
-				}else
-				{
-					$imprimir .= '<div style="padding-bottom: 8px;">'.$link.'</div> <loteautor>'.$value->solonombre.'</loteautor></div>';
-				}
-
+				$imprimir.='</div>';
 			if($contador==6)
 			{
 				//$imprimir .='</tr>';
@@ -876,12 +876,12 @@ class SiteController extends Controller
 	    if(isset($_POST['RegistroPujas'])){
 	        $model->attributes=$_POST['RegistroPujas'];
 
-
 	    	if(!$model->paleta  && isset(Yii::app()->request->cookies['up']))
 	    		$model->paleta = 0;
 			if(!$model->codigo && isset(Yii::app()->request->cookies['uc']))
 	    		$model->codigo = 0;
-	        if($model->validate())
+	    	//$auxidimagen = $model->id_imagen_s;
+	        if($model->validate($model,array('maximo_dispuesto','paleta','codigo')))
 	        { 	         // form inputs are valid, do something here		
 				$usuario_actual = Yii::app()->session['id_usuario'];
 
@@ -950,7 +950,6 @@ class SiteController extends Controller
 					{
 
 			        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
-			        	//if($model->id_imagen_s == 4593)
 
 			        	// si el usuario va ganando la puja
 			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
@@ -992,8 +991,9 @@ class SiteController extends Controller
 				}
 	            return;
 	        }
+	       //$model->id_imagen_s = $auxidimagen;
 
-	    }
+	    } 
 	    //$model->maximo_dispuesto = 0;
 	    $this->layout = '//layouts/modal';
 	    $this->render('pujar',array('model'=>$model));

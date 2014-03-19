@@ -5,10 +5,6 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 <style>
-	/*#tabla_imagens .mix{
-    opacity: 0;
-    display: none;
-}*/
 /* TILES */
 #wrapper_imagens{
 	position: relative;
@@ -40,12 +36,13 @@ $this->pageTitle=Yii::app()->name;
 
 																//$(".tile:nth-child(3n+2)").css("margin-left","30px");
 																//$(".tile:nth-child(3n+2)").css("margin-right","30px");
-
+																var barinput = "js: $(window).trigger(\'scroll\');";
+																$("span#barraBusqueda").empty().html(\'<input id="autorBusqueda" onkeyup="\'+barinput+\'" oninput="\'+barinput+\'" placeholder="Busqueda por autor" style="padding:0.5em !important; width:40% !important"></input>\');
 																$("input#autorBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
 													        });
 												            ', 
 														CClientScript::POS_READY);
 
 echo $resultados;
-//print_r($resultados);
+
 ?>

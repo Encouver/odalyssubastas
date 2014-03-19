@@ -40,7 +40,11 @@
 	Yii::app()->clientscript->scriptMap['jquery-ui.js'] = false;
 	Yii::app()->clientscript->scriptMap['jquery.min.js'] = false;
 	Yii::app()->clientscript->scriptMap['jquery.js'] = false;*/
-	
+
+	if(isset($_POST['imagen_s']))
+		$model->id_imagen_s = $imagenid = $_POST['imagen_s'];
+ 	else
+  		$imagenid = $model->id_imagen_s;	
 	$imagenesDir = 'http://www.odalys.com/odalys/';
 
 	Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
@@ -48,39 +52,46 @@
 												'jquery.min.js'=>false,
 												'jquery.js'=>false, );
 
-			if(isset($_POST['imagen_s']))
-			{
 
-				$criteria = new CDbCriteria;
+	$criteria = new CDbCriteria;
 
-				$criteria->condition = 'id=:id';
-				$criteria->select = '*';
-				$criteria->params = array('id'=>$_POST['imagen_s']);
+	$criteria->condition = 'id=:id';
+	$criteria->select = '*';
+	$criteria->params = array('id'=>$imagenid);
 
-				$imagen = ImagenS::model()->find($criteria);
+	$imagen = ImagenS::model()->find($criteria);
 
 
-				// Si la subasta esta activa
-				if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
-				{
-					echo '<div id="imageng_'.$_POST['imagen_s'].' class="image"> 
-								<td><img src="'$imagenesDir.$imagen['imagen'].'"> 
-								</img></td><td>
-									<p>'.$imagen['descri'].'</p> 
-									<BR/> 
-									Precio actual: '.number_format($imagen['actual']).'<BR>
-									Puja siguiente: '.number_format($imagen['actual']*1.1).'<BR> </td>
-									<!--Minimo Puja maxima: '.number_format($imagen['actual']*1.1*1.1).'-->
-						  </div>';
-				}else
-				{
-					echo 'La imágen no pertenece a la subasta silenciosa. Se recibio: '.$_POST['imagen_s'];
-				}
+	// Si la subasta esta activa
+	if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
+	{
+		echo '<div id="imageng_'.$imagenid.' class="image"> 
+					<table>
+					<td  style="vertical-align:top"><img src="'.$imagenesDir.$imagen['imagen'].'"/></td>
+					<td style="padding-left:14px">
+						<p>'.$imagen['descri'].'</p> 
+						<BR/>
+						<precio id="'.$imagenid.'">
+							Precio actual: <div><moneda>Bs.</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
+							Puja siguiente: <div><moneda>Bs.</moneda> <siguiente_'.$imagenid.'>';
 
-			}else
-			{
-				//echo 'Error recibiendo el identificador de la imágen.';
-			}
+		//Verificando si es primera puja
+		$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
+		array(
+		  ':imagen'=>$model->id_imagen_s,
+		));
+
+		if($imgConPujas)
+			echo number_format($imagen['actual']*1.1);
+		else
+			echo number_format($imagen['base']);
+
+		echo '</siguiente_'.$imagenid.'></div>
+						</precio><BR> </td></table>
+			  </div>';
+	}else
+		throw new Exception("Error Processing Request: imagen no pertenece a subasta silenciosa activa.".$model->id_imagen_s, 1);
+
 
 
 	?>
@@ -133,17 +144,14 @@
 			<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
 			<?php echo $form->textField($model,'maximo_dispuesto',array('value'=> '0')); ?>
 
-			<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
+			<?php echo $form->hiddenField($model,'id_imagen_s',array('value'=>$imagenid])); ?>
 			<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
 		</div>
   
 </ul>
 		<div class="row buttons">
 			<?php //echo CHtml::submitButton('Submit'); ?>
-			<?php if(isset($_POST['imagen_s']))
-						$imagenid = $_POST['imagen_s'];
-				  else
-				  		$imagenid = $model->id_imagen_s;
+			<?php 
 						echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
 																		'dataType' => "json",
 																		//'data' => '{imagen_ss: "0"}',

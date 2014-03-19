@@ -70,7 +70,7 @@
 																</precio><BR> </td></table>
 													  </div>';
 											}else
-												throw new Exception("Error Processing Request: imagen no pertenece a subasta silenciosa activa.", 1);
+												throw new Exception("Error Processing Request: imagen no pertenece a subasta silenciosa activa.".$model->id_imagen_s, 1);
 												
 
 										//}else
@@ -124,7 +124,7 @@
 						array('id'=>'precioboton_'.$imagen->id,	'onchange'=>'js: //alert($(this).val());
 						 if($("#maxdis_'.$imagenid.'").val() != "") precio = $("#maxdis_'.$imagenid.'").val(); else precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar Bs. "+number_format(precio));')); ?>
 
-						<?php if(isset($_POST['imagen_s'])) echo $form->hiddenField($model,'id_imagen_s',array('value'=>$_POST['imagen_s'])); ?>
+						<?php echo $form->hiddenField($model,'id_imagen_s',array('value'=>$imagenid)); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
 					</div>
 						 		<p class="note" style="font-size:10px">Campos con <span class="required">*</span> son requeridos.</p> 

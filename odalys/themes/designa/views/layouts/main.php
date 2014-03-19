@@ -81,7 +81,7 @@
 <w class="enbold">Subasta 215</w> En línea
 </div>
 
-	<span style="text-align:center"><input id="autorBusqueda" placeholder="Buscar por precio o autor" style="padding:0.5em !important; width:40% !important"></input></span>
+	<span id="barraBusqueda" style="text-align:center"></span>
 
 		<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
 	<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
