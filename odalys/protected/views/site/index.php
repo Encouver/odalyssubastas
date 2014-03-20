@@ -205,15 +205,20 @@ $this->pageTitle=Yii::app()->name;
 											
 											if(entry["actual"]){
 												$("cantidad_"+entry["id"]).empty().html(number_format(entry["actual"]));
+												
+												//Actualizando la modal
+												$("#pujaModal actual_"+entry["id"]).empty().html(number_format(entry["actual"]));
+											}
+
+											if(entry["siguiente"])
+											{
+												$("siguientei_"+entry["id"]).empty().html(number_format(entry["siguiente"]));
 
 												//Actualizando la modal
-												//$("#pujaModal precio#"+entry["id"]).empty().html( "Precio actual: "+number_format(entry["actual"])+"<BR>Puja siguiente: "+number_format(entry["actual"]*1.1));
-												//$("#pujaModal actual_"+entry["id"]).empty().html(entry["actual"]);
-												$("#pujaModal actual_"+entry["id"]).empty().html(number_format(entry["actual"]));
-												$("#pujaModal siguiente_"+entry["id"]).empty().html(number_format(entry["actual"]*1.1));
-												$("#pujaModal #precioboton_"+entry[\'id\']).val(entry["actual"]*1.1).change();
-
+												$("#pujaModal siguiente_"+entry["id"]).empty().html(number_format(entry["siguiente"]));
+												$("#pujaModal #precioboton_"+entry[\'id\']).val(entry["siguiente"]).change();
 											}
+
 											if(entry["div"])
 												$("w#"+entry["id"]+"a").empty().html(entry["div"]);
 
