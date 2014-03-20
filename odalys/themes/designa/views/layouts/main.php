@@ -50,7 +50,25 @@
 		<nav class="fright">
 				<?php 
 
-				//if(Yii::app()->session['admin'] || Yii::app()->session['id_usuario'])
+				if(Yii::app()->session['id_usuario'])
+				{
+					$this->widget('zii.widgets.CMenu',array(
+						'items'=>array(
+							array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']),
+							array('label'=>'Mi cuenta ', 'url'=>'http://www.odalys.com/odalys/micuenta.php', 'linkOptions'=>array('target'=>'_blank')),
+							array('label'=>'Condiciones de la subasta', 'url'=>'http://odalys.com/odalys/condiciones_silenciosa.php', 'linkOptions'=>array('target'=>'_blank') ),
+							array('label'=>'Volver a  odalys.com', 'url'=>'http://www.odalys.com', 'linkOptions'=>array('target'=>'_blank') ),
+							array('label'=>'Cerrar sesión ('.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'].')', 'url'=>array('/site/logout')),
+							//array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
+							//array('label'=>'Contact', 'url'=>array('/site/contact')),
+							// NOTA CAMBIAR A ************************** ADMIN ************************** CUANDO TERMINE DE TRABAJARSE
+							//array('label'=>'Puja asistida','url'=>array('site/pujaradmin'), 'visible'=>isset(Yii::app()->session['admin'])),						
+							
+						),
+					));
+				}else
+				{
+					
 					$this->widget('zii.widgets.CMenu',array(
 						'items'=>array(
 							array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'], 'visible'=>!Yii::app()->user->isGuest),
@@ -67,6 +85,7 @@
 						),
 					));
 				
+				}
 
 
 
