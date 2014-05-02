@@ -3,12 +3,12 @@
 	if($valor == TRUE)
 	{
 
-		echo "Envio";
+		//echo "Envio";
 
 	}else
 	{
 
-		echo "Malo";
+		//echo "Malo";
 	}
 
 ?>

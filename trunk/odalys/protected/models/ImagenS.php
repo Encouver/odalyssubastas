@@ -14,6 +14,7 @@
  * @property string $base
  * @property string $actual
  * @property string $id_usuario
+ * @property string $puja_indefinida
  */
 class ImagenS extends CActiveRecord
 {
@@ -48,7 +49,7 @@ class ImagenS extends CActiveRecord
 			array('imagen, imageng, descri, solonombre, monto, base, actual, id_usuario', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, ids, imagen, imageng, descri, solonombre, monto, base, actual, id_usuario', 'safe', 'on'=>'search'),
+			array('id, ids, imagen, imageng, descri, solonombre, monto, base, actual, id_usuario, puja_indefinida', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,6 +80,7 @@ class ImagenS extends CActiveRecord
 			'base' => 'Base',
 			'actual' => 'Actual',
 			'id_usuario' => 'Id Usuario',
+			'puja_indefinida' => 'Puja Indefinida',
 		);
 	}
 
@@ -103,6 +105,7 @@ class ImagenS extends CActiveRecord
 		$criteria->compare('base',$this->base,true);
 		$criteria->compare('actual',$this->actual,true);
 		$criteria->compare('id_usuario',$this->id_usuario,true);
+		$criteria->compare('puja_indefinida',$this->id_usuario,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

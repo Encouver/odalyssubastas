@@ -355,7 +355,7 @@ class SiteController extends Controller
 				//$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
-				$imprimir .='<div id="elementosImagens" style="height: 160px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
+				$imprimir .='<div id="elementosImagens" style="height: 180px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
 								<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
 								'.$link.'<div style="padding-bottom: 8px;"></div>';
 				if($resultado)
@@ -395,7 +395,7 @@ class SiteController extends Controller
 								// Puja siguiente
 								$siguiente = $value->actual*1.1;	// se icrementa el valor de la imagen por 10%
 							else
-								$siguiente = $value->base;	
+								$siguiente = $value->base;
 
 							$pujarAjaxLink = CHtml::ajaxLink('Pujar',
 				        	$this->createUrl('site/pujar'), array(
@@ -1028,6 +1028,7 @@ class SiteController extends Controller
 
 	function validaciones($model, $imagen_modelo, $subasta, $usuario_actual){
 
+
 						
 			        		if($model->maximo_dispuesto) 
 			        		{
@@ -1051,6 +1052,50 @@ class SiteController extends Controller
 		 						//aqui va puja maxima
 			        			if($model->maximo_dispuesto >= $puja_siguiente)
 			        			{
+
+
+
+
+							//El usuario pierde ante la puja ilimitada del usuario actual que posee la imágen
+							if($imagen_modelo->puja_indefinida == 1)		
+							{
+									$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
+
+
+									$model->verificado=2;
+			        				$model->idusuario = $usuario_actual;
+			        				//$model->monto_puja = intval($imagen_modelo->actual);
+		        					if(!$model->save())
+		        					{
+										$msg = print_r($model->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
+									}
+
+									$nuevoregistro = new RegistroPujas();
+									$nuevoregistro->ids = $imagen_modelo->ids;
+									$nuevoregistro->idusuario = $imagen_modelo->id_usuario;
+									$nuevoregistro->id_imagen_s = $imagen_modelo->id;
+									$nuevoregistro->monto_puja = intval($imagen_modelo->actual);
+									$nuevoregistro->paleta = 0;
+									$nuevoregistro->codigo = 0;
+									if(!$nuevoregistro->save())
+		        					{
+										$msg = print_r($nuevoregistro->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas nuevoregistro: data not saving: '.$msg );
+									}
+
+									if(!$imagen_modelo->save()){
+										$msg = print_r($imagen_modelo->getErrors(),1);
+										throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+									}else
+										echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con éxito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));	
+
+									//Se le manda el correo al que perdio la puja
+									list($controlador) = Yii::app()->createController('Mail');
+									$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
+
+									return;
+							}
 
 			        				$registro = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado',
 									array(
@@ -1284,8 +1329,46 @@ class SiteController extends Controller
 								  //':maxi' => NULL,
 								));
 
+							//El usuario pierde ante la puja ilimitada del usuario actual que posee la imágen
+							if($imagen_modelo->puja_indefinida == 1)		
+							{
+
+									$imagen_modelo->actual *= 1.1;
 
 
+									$model->verificado=2;
+			        				$model->idusuario = $usuario_actual;
+			        				$model->monto_puja = intval($imagen_modelo->actual);
+		        					if(!$model->save())
+		        					{
+										$msg = print_r($model->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
+									}
+
+									$nuevoregistro = new RegistroPujas();
+									$nuevoregistro->ids = $imagen_modelo->ids;
+									$nuevoregistro->idusuario = $imagen_modelo->id_usuario;
+									$nuevoregistro->id_imagen_s = $imagen_modelo->id;
+									$nuevoregistro->monto_puja = intval($imagen_modelo->actual);
+									$nuevoregistro->paleta = 0;
+									$nuevoregistro->codigo = 0;
+									if(!$nuevoregistro->save())
+		        					{
+										$msg = print_r($nuevoregistro->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas nuevoregistro: data not saving: '.$msg );
+									}
+
+									if(!$imagen_modelo->save()){
+										$msg = print_r($imagen_modelo->getErrors(),1);
+										throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+									}else
+										echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con éxito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));	
+
+		        					//Se le manda el correo al que perdio la puja
+									list($controlador) = Yii::app()->createController('Mail');
+									$controlador->Pujadores($model->idusuario,$imagen_modelo->descri);
+				        		return;
+							}
 
 									if($registro)
 									{ //ya existe un usuario con puja maxima

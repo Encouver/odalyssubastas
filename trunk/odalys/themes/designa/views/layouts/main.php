@@ -21,7 +21,7 @@
 	
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<!--<link rel="shortcut icon" type="image/png" href="favicon.png">-->
-	
+	a
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/style.css">
 
@@ -97,7 +97,7 @@
 
    <hr style="clear:both">
 <div class = "alignleft">
-<w class="enbold">Subasta 215</w> En línea
+<w class="enbold">Subasta 216</w> En línea - Maestros Venezolanos
 </div>
 
 	<span id="barraBusqueda" style="text-align:center"></span>
