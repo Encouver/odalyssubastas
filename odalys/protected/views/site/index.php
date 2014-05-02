@@ -82,7 +82,7 @@ $this->pageTitle=Yii::app()->name;
 																//$(".tile:nth-child(3n+2)").css("margin-left","30px");
 																//$(".tile:nth-child(3n+2)").css("margin-right","30px");
 																var barinput = "js: $(window).trigger(\'scroll\');";
-																$("span#barraBusqueda").empty().html(\'<input id="autorBusqueda" onkeyup="\'+barinput+\'" oninput="\'+barinput+\'" placeholder="Busqueda por autor" style="padding:0.5em !important; width:40% !important"></input>\');
+																$("span#barraBusqueda").empty().html(\'<input id="autorBusqueda" onkeyup="\'+barinput+\'" oninput="\'+barinput+\'" placeholder="Búsqueda por artista" style="padding:0.5em !important; width:40% !important"></input>\');
 																$("input#autorBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
 													        });
 												            ', 
