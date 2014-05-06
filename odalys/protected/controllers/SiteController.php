@@ -245,6 +245,7 @@ class SiteController extends Controller
 
 		$subas = Subastas::model()->find($criteria);
 
+
 		if(!$subas)
 		{
 
@@ -264,7 +265,7 @@ class SiteController extends Controller
 		//$imprimir ="Hola";
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php1'
-		$this->render('index', array('imprimir'=>$imprimir));
+		$this->render('index', array('imprimir'=>$imprimir,'subasta'=>$subas));
 
 	}
 
@@ -378,6 +379,9 @@ class SiteController extends Controller
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
+
+					
+
 				if(Yii::app()->session['id_usuario'])
 				{
 					if(!Yii::app()->session['admin'])
@@ -414,7 +418,7 @@ class SiteController extends Controller
 												        array('id'=>$value->id, 'style'=>'color: #014F92;')
 													);
 							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w> <moneda>Bs.</moneda> 
-										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><BR/></div>';
+										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><BR/>';
 						}
 						else{
 							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
@@ -429,30 +433,30 @@ class SiteController extends Controller
 								array('style'=>'width: 5px;hight:5px;'));
 							if($usuarioPM)
 								$imprimir .= '<p style="color: red;"> Hasta <moneda>Bs.</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
-							$imprimir .= '</w> </div>';
+							$imprimir .= '</w>';
 
 						}
 				}
 				elseif(!Yii::app()->session['admin'])
-					{
-						//Ventana modal de login
-						$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-			        	$this->createUrl('site/login'), array(
-											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
-											            //'update'=>'#pujaModal'
-											            'type'=>'POST',
-											            'data' => array('modal'=> true ),
-											            'context'=>'js:this',
-											            'beforeSend'=>'function(xhr,settings){
+				{
+					//Ventana modal de login
+					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
+		        	$this->createUrl('site/login'), array(
+										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+										            //'update'=>'#pujaModal'
+										            'type'=>'POST',
+										            'data' => array('modal'=> true ),
+										            'context'=>'js:this',
+										            'beforeSend'=>'function(xhr,settings){
 
-											            }',
-											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
-											        ),
-											        array('id'=>$value->id, 'style'=>'color: #014F92;')
-												);
-						$imprimir .= $pujarAjaxLink.'<BR/></div>';					
-					}
-				
+										            }',
+										            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+										        ),
+										        array('id'=>$value->id, 'style'=>'color: #014F92;')
+											);
+					$imprimir .= $pujarAjaxLink.'<BR/>';					
+				}
+				$imprimir .= '</div>';
 
 			if($contador==6)
 			{
@@ -533,8 +537,9 @@ class SiteController extends Controller
 		}
 
 		$imprimir .= '</div>';
+
 		
-		$this->render('resultados', array('resultados'=>$imprimir));
+		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$resultados));
 	}
 
 	public function mostrandoImagen($imagen){
@@ -803,69 +808,94 @@ class SiteController extends Controller
 	{
 		$model=new RegistroPujas;
 
-		// NOTA CAMBIAR A ************************** ADMIN ************************** CUANDO TERMINE DE TRABAJARSE
-		if(Yii::app()->session['admin']){
+		$imagen = new ImagenS;
 
-			$this->layout='//layouts/pujaadmin';
+		
+		if(Yii::app()->session['admin'])
+		{
 
-			
+				$this->layout='//layouts/pujaadmin';
 
-			$subas = Subastas::model()->find('silenciosa=:silenciosa',array(':silenciosa'=>1));
+				
 
-
-			$usuarios_puja = Usuariospujas::model()->findAll('idsubasta=:subasta', array(':subasta'=>$subas['id']));
-
-			foreach ($usuarios_puja as $key => $value) {
-
-				$usuarios = Usuarios::model()->find('id=:usuario',array(':usuario'=>$value->idusuario));
-
-				$arreglo[$usuarios['email']] = $usuarios['email'];
-
-				//echo $usuarios['email'].'<br>';
-
-			}
+				$subas = Subastas::model()->find('silenciosa=:silenciosa',array(':silenciosa'=>1));
 
 
-					//if(isset($_POST['correo']))
-					//{
-						//$model->correo = $_POST['correo'];
+				$usuarios_puja = Usuariospujas::model()->findAll('idsubasta=:subasta', array(':subasta'=>$subas['id']));
 
-						
+				foreach ($usuarios_puja as $key => $value) {
+
+					$usuarios = Usuarios::model()->find('id=:usuario',array(':usuario'=>$value->idusuario));
+
+					$arreglo[$usuarios['email']] = $usuarios['email'];
+
+					//echo $usuarios['email'].'<br>';
+
+				}
+
+
+						//if(isset($_POST['correo']))
+						//{
+							//$model->correo = $_POST['correo'];
+
+
 					
- 						if(isset($_POST['RegistroPujas'])){
- 							$model->attributes=$_POST['RegistroPujas'];
+				if(isset($_POST['RegistroPujas']))
+				{
+					$model->attributes=$_POST['RegistroPujas'];
 
- 							$usuario_actual = Usuarios::model()->find('email=:correo',array(':correo'=>$model->correo))['id'];
+					$usuario_actual = Usuarios::model()->find('email=:correo',array(':correo'=>$model->correo))['id'];
 
-							$upc = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array('idusuario'=> $usuario_actual, ':idsubasta'=>$subas->id));
+					$upc = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array('idusuario'=> $usuario_actual, ':idsubasta'=>$subas->id));
 
-							if($upc){
-								$model->codigo = $upc->codigo;
-								$model->paleta = $upc->paleta;
-							}else
-							throw new Exception("Error Processing Request: Recuperando datos del usuario ", 1);
+					if($upc){
+						$model->codigo = $upc->codigo;
+						$model->paleta = $upc->paleta;
+					}else
+					throw new Exception("Error Processing Request: Recuperando datos del usuario ", 1);
 						
+					if(isset($_POST['ImagenS']))
+						$imagen->attributes = $_POST['ImagenS'];
+					$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
+			
+					$soloDesactivarPuInd = false;
+
+					if($imagen_modelo->puja_indefinida == 1)
+						$soloDesactivarPuInd = true;
+
+					$imagen_modelo->puja_indefinida = $imagen->puja_indefinida;
+/*
+					if($soloDesactivarPuInd)
+					{
+						if(!$imagen_modelo->save()){
+							$msg = print_r($imagen_modelo->getErrors(),1);
+							throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+						}else{
+							echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Se desactivo la puja ilimitada para esta imágen.'));
+						}
+						return;
+					}*/
+
+	    			$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
+
+	    			//$imagen_modelo->puja_indefinida = $_POST['puja_indefinida'];
+					//print_r($_POST['ImagenS']);
+					if($model->validate())
+					{
+	        			$model->ids = $subasta->id;
+		        		$imagen_modelo->id_usuario = $upc->idusuario;
 
 
-							$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
-			    			$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
-
- 							if($model->validate()){
-	
-			        			$model->ids = $subasta->id;
-				        		$imagen_modelo->id_usuario = $upc->idusuario;
-
-
-		           				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
-		           				return;
-	           				}
-	           			}
-	           		//}
-	           		//else{
-	           			//echo json_encode(array('id'=>0,'success'=>false,'msg'=>'No se ha recibido correo.'));
-						//$model->maximo_dispuesto = 0;
-						$this->render('pujaradmin', array('usuarios' => $arreglo,'model'=>$model));
-					//}
+	       				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
+	       				return;
+	   				}
+	   			}
+	       		//}
+	       		//else{
+	       			//echo json_encode(array('id'=>0,'success'=>false,'msg'=>'No se ha recibido correo.'));
+					//$model->maximo_dispuesto = 0;
+					$this->render('pujaradmin', array('usuarios' => $arreglo,'model'=>$model));
+				//}
 
 
 		}else
@@ -1057,7 +1087,7 @@ class SiteController extends Controller
 
 
 							//El usuario pierde ante la puja ilimitada del usuario actual que posee la imágen
-							if($imagen_modelo->puja_indefinida == 1)		
+							if($imagen_modelo->puja_indefinida == 1 && $usuario_actual != $imagen_modelo->id_usuario)		
 							{
 									$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
 
@@ -1330,7 +1360,7 @@ class SiteController extends Controller
 								));
 
 							//El usuario pierde ante la puja ilimitada del usuario actual que posee la imágen
-							if($imagen_modelo->puja_indefinida == 1)		
+							if($imagen_modelo->puja_indefinida == 1 && $usuario_actual != $imagen_modelo->id_usuario)		
 							{
 
 									$imagen_modelo->actual *= 1.1;

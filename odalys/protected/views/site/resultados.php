@@ -43,6 +43,14 @@ $this->pageTitle=Yii::app()->name;
 												            ', 
 														CClientScript::POS_READY);
 
+	
+	Yii::app()->clientScript->registerScript('nombre_subasta','$(document).ready(function(){
+																$("nombresubasta").empty().html("'.$subasta->nombre.'");
+																$("nombrecsubasta").empty().html("'.$subasta->nombrec.'");
+													        });
+												            ', 
+														CClientScript::POS_READY);
+
 echo $resultados;
 
 ?>

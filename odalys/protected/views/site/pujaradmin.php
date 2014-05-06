@@ -53,13 +53,7 @@
 												'jquery.js'=>false, );
 
 
-	$criteria = new CDbCriteria;
-
-	$criteria->condition = 'id=:id';
-	$criteria->select = '*';
-	$criteria->params = array('id'=>$imagenid);
-
-	$imagen = ImagenS::model()->find($criteria);
+	$imagen = ImagenS::model()->find('id=:id',array(':id'=>$imagenid));
 
 
 	// Si la subasta esta activa
@@ -133,19 +127,38 @@
 
 		<?php echo $form->errorSummary($model); ?>
 
-		<?php if(Yii::app()->session['id_usuario']){
+		<?php if(Yii::app()->session['admin']){
 
 		?>
  		<p class="note">Campos con <span class="required">*</span> son requeridos.</p>  
  		<?php } ?>
 <ul>
   
-		<div class="row"><li>
-			<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
-			<?php echo $form->textField($model,'maximo_dispuesto',array('value'=> '0')); ?>
+		<div class="row">
+			<li>
+				<?php echo $form->labelEx($model,'maximo_dispuesto'); ?>
+				<?php echo $form->textField($model,'maximo_dispuesto',array('value'=> '0')); ?>
+				<?php echo $form->error($model,'maximo_dispuesto'); ?>
+			</li>
+			<?php echo $form->hiddenField($model,'id_imagen_s',array('value'=>$imagenid)); ?>
 
-			<?php echo $form->hiddenField($model,'id_imagen_s',array('value'=>$imagenid])); ?>
-			<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
+			
+		</div>
+
+		<div class="row">
+			<?php 
+				$usuario_pujaindefinida = Usuarios::model()->find('id=:id',array(':id'=>$imagen->id_usuario));
+				if($imagen->puja_indefinida == 0)
+					echo '<p>La puja indefinida para esta imagen esta actualmente inactiva.</p>';
+				else
+					echo '<p>La puja indefinida para esta imagen se encuentra activa para el usuario: '.$usuario_pujaindefinida->email.' </p>';
+						
+				
+				//echo $form->checkBox($imagen,'puja_indefinida',array('checked'=>''));
+				echo CHtml::activelabelEx($imagen,'puja_indefinida');
+				echo CHtml::activeCheckBox($imagen,'puja_indefinida',array('checked'=>''));
+				echo CHtml::error($imagen,'puja_indefinida');
+			?>
 		</div>
   
 </ul>

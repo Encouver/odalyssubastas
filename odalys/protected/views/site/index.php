@@ -88,7 +88,13 @@ $this->pageTitle=Yii::app()->name;
 												            ', 
 														CClientScript::POS_READY);
 
-
+	//$subasta = Subastas::model()->find('silenciosa=1');
+	Yii::app()->clientScript->registerScript('nombresubasta','$(document).ready(function(){
+																$("nombresubasta").empty().html("'.$subasta->nombre.'");
+																$("nombrecsubasta").empty().html("'.$subasta->nombrec.'");
+													        });
+												            ', 
+														CClientScript::POS_READY);
 	/*Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.filtertable.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.dataTables.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.mixitup.min.js', CClientScript::POS_END);
@@ -228,7 +234,13 @@ $this->pageTitle=Yii::app()->name;
        		}
 		}); 
 	});';
-    Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
+
+
+	// Usuario activo que tiene paleta y codigo asignado en esta subasta
+	$usuario_activo = Yii::app()->session['id_usuario'] && Usuariospujas::model()->find('idusuario=:idusuario AND idsubasta=:idsubasta', array(':idsubasta'=>$subasta->id,':idusuario'=>Yii::app()->session['id_usuario']));
+	
+	if ($usuario_activo)
+    	Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 
 ?>
 
