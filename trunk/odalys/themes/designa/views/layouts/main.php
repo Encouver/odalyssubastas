@@ -97,7 +97,7 @@
 
    <hr style="clear:both">
 <div class = "alignleft">
-<w class="enbold">Subasta 216</w> En línea - Maestros Venezolanos
+<w class="enbold"><nombresubasta>Subasta</nombresubasta></w> En línea - <nombrecsubasta></nombrecsubasta>
 </div>
 
 	<span id="barraBusqueda" style="text-align:center"></span>

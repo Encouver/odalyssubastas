@@ -45,7 +45,7 @@ class ImagenS extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id, ids, imagen, imageng, descri, monto, base, actual, id_usuario', 'required'),
-			array('id, ids', 'numerical', 'integerOnly'=>true),
+			array('id, ids, puja_indefinida', 'numerical', 'integerOnly'=>true),
 			array('imagen, imageng, descri, solonombre, monto, base, actual, id_usuario', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
