@@ -301,28 +301,14 @@ class SiteController extends Controller
 		$query = ImagenS::model()->findAll('ids=:ids', array(':ids'=>$subas['id']));
 
 
-		$contador = 0;
-		$con = 0;		
 		$fancyElements = '';
 		$imprimir = '<div id="wrapper_imagens" width="100%" class="tablaresultado">';
 		foreach ($query as $key => $value) {
-			$con ++;
-
+			
+			// El usuario de la imágen en value tiene paleta y código asignados esta subasta
 			$resultado= Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=> $subas->id));
 			
 			
-
-			/*$ajaxLink = CHtml::ajaxLink(CHtml::image($value->imagen,'',array('onError'=>'this.onerror=null;this.src=\'images/3ba.jpg\';')),'?r=site/imagen',array(
-																	'type'=>'POST',
-																	'dataType' => "html",
-																	'data' => array('idimagen'=>$value->id),//'{imagen_ss: "0"}',
-																	'context'=>'js:this',
-																	'success'=> 'function(data){
-																			$("#data_'.$value->id.'").empty();
-																			$("#data_'.$value->id.'").html(data);
-																			//$(".data_'.$value->id.'").fancybox();
-																	}',
-															       ), array('id'=> 'des_'.$value->id,'class'=>'iframe', 'rel'=>'gallery','href'=> '#data_'.$value->id));*/
 			//cambiar a *********ADMIN******
 			$imagenElement = CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'));
 			if(Yii::app()->session['admin'])
@@ -349,61 +335,70 @@ class SiteController extends Controller
 			// Fancybox
 			$this->mostrandoImagen($value);
 
-			if($contador==6)
-			{
-				//echo '<tr>';
-				
-				//$imprimir .= '<tr align="center" valign="bottom">';
-			}
-				$contador++;
-				$imprimir .='<div id="elementosImagens" style="height: 180px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
+
+				$imprimir .='<div id="elementosImagens" style="height: 210px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
 								<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
 								'.$link.'<div style="padding-bottom: 8px;"></div>';
 						
-				// Usuario activo que tiene paleta y codigo asignado en esta subasta
-				//$usuario_activo = Yii::app()->session['id_usuario'] && Usuariospujas::model()->find('idusuario=:idusuario AND idsubasta=:idsubasta', array(':idsubasta'=>$subasta->id,':idusuario'=>Yii::app()->session['id_usuario']));
+				// Usuario activo que tiene paleta y codigo asignado en esta subasta o es administrador
+				$usuario_activo = Yii::app()->session['admin'] ||
+								 	(Yii::app()->session['id_usuario'] &&
+								 	 Usuariospujas::model()->find(' idsubasta=:idsubasta AND idusuario=:idusuario', array(':idsubasta'=>$subas->id,':idusuario'=>Yii::app()->session['id_usuario'])));
 				
-				if($resultado)
-				{
 
-					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+				$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+				if($resultado)
+				{//La imágen tiene un pujador
+					
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>
 									  Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
 					else //vista del usuario normal
-						//if ($usuario_activo)
+						if ($usuario_activo)	//Solo los usuarios activos pueden ver el precio actual
 							$imprimir .= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
 
-					$imprimir .= '</div>';
-					
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
 
 				}else
-				{
-
-					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
-					//if ($usuario_activo)
-					$imprimir.= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+				{//La imágen no tiene puja
+					if ($usuario_activo)	//Solo los usuarios activos pueden ver el precio actual
+						$imprimir.= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
-
+				$imprimir .= '</div>';
 					
 
 				if(Yii::app()->session['id_usuario'])
 				{
+					$etiqueta = 'Pujar';
+					if($value->id_usuario == Yii::app()->session['id_usuario'])
+						$etiqueta = 'Actualizar';
+					$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+		       										$this->createUrl('site/pujar'), array(
+										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+										            //'update'=>'#pujaModal'
+										            'type'=>'POST',
+										            'data' => array('imagen_s'=> '0' ),
+										            'context'=>'js:this',
+										            'beforeSend'=>'function(xhr,settings){
+										            						settings.data = encodeURIComponent(\'imagen_s\')
+									          								+ \'=\'
+									          								+ encodeURIComponent($(this).attr(\'id\'));
+										            }',
+										            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+										        ),
+										        array('id'=>$value->id, 'style'=>'color: #014F92;')
+											);
+
 					if(!Yii::app()->session['admin'])
 						if(!($value->id_usuario == Yii::app()->session['id_usuario']) )
 						{
 
 	        				// Verificando si es primera puja
-	        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
-							array(
-							  ':imagen'=>$value->id,
-							  //':maxi' => NULL,
-							));
+	        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen', array(':imagen'=>$value->id,));
 
 	        				if($imgConPujas)
 								// Puja siguiente
@@ -411,22 +406,7 @@ class SiteController extends Controller
 							else
 								$siguiente = $value->base;
 
-							$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-				        	$this->createUrl('site/pujar'), array(
-												            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
-												            //'update'=>'#pujaModal'
-												            'type'=>'POST',
-												            'data' => array('imagen_s'=> '0' ),
-												            'context'=>'js:this',
-												            'beforeSend'=>'function(xhr,settings){
-												            						settings.data = encodeURIComponent(\'imagen_s\')
-											          								+ \'=\'
-											          								+ encodeURIComponent($(this).attr(\'id\'));
-												            }',
-												            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
-												        ),
-												        array('id'=>$value->id, 'style'=>'color: #014F92;')
-													);
+
 							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w> <moneda>'.$subas->moneda.'</moneda> 
 										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><BR/>';
 						}
@@ -436,14 +416,13 @@ class SiteController extends Controller
 							  ':imagen'=>$value->id,
 							  ':verificado'=>1,
 							  'idusuario'=>$value->id_usuario,
-							  //':maxi' => NULL,
 							));
 							
 							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 								array('style'=>'width: 5px;hight:5px;'));
 							if($usuarioPM)
 								$imprimir .= '<p style="color: red;"> Hasta <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
-							$imprimir .= '</w>';
+							$imprimir .= '</w><br>'.$pujarAjaxLink;
 
 						}
 				}
@@ -468,12 +447,7 @@ class SiteController extends Controller
 				}
 				$imprimir .= '</div>';
 
-			if($contador==6)
-			{
-				//echo '</tr>';
-				//$imprimir .='</tr>';
-				$contador=0;
-			}
+
 
 		}
 		return $imprimir .='</div>'.$fancyElements;
