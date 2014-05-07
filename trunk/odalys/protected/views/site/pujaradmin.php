@@ -57,7 +57,8 @@
 
 
 	// Si la subasta esta activa
-	if (Subastas::model()->findByPk($imagen['ids'])['silenciosa'])
+	$subas = Subastas::model()->findByPk($imagen['ids']);
+	if ($subas['silenciosa'])
 	{
 		echo '<div id="imageng_'.$imagenid.' class="image"> 
 					<table>
@@ -66,8 +67,8 @@
 						<p>'.$imagen['descri'].'</p> 
 						<BR/>
 						<precio id="'.$imagenid.'">
-							Precio actual: <div><moneda>Bs.</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
-							Puja siguiente: <div><moneda>Bs.</moneda> <siguiente_'.$imagenid.'>';
+							Precio actual: <div><moneda>'.$subas->moneda.'</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
+							Puja siguiente: <div><moneda>'.$subas->moneda.'</moneda> <siguiente_'.$imagenid.'>';
 
 		//Verificando si es primera puja
 		$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
@@ -147,17 +148,25 @@
 
 		<div class="row">
 			<?php 
-				$usuario_pujaindefinida = Usuarios::model()->find('id=:id',array(':id'=>$imagen->id_usuario));
+				//$usuario_pujaindefinida = Usuarios::model()->find('id=:id',array(':id'=>$imagen->id_usuario));
 				if($imagen->puja_indefinida == 0)
 					echo '<p>La puja indefinida para esta imagen esta actualmente inactiva.</p>';
 				else
-					echo '<p>La puja indefinida para esta imagen se encuentra activa para el usuario: '.$usuario_pujaindefinida->email.' </p>';
+					echo '<p>La puja indefinida para esta imagen se encuentra activa </p>';
+					//echo '<p>La puja indefinida para esta imagen se encuentra activa para el usuario: '.$usuario_pujaindefinida->email.' </p>';
 						
 				
 				//echo $form->checkBox($imagen,'puja_indefinida',array('checked'=>''));
-				echo CHtml::activelabelEx($imagen,'puja_indefinida');
+				/*echo CHtml::activelabelEx($imagen,'puja_indefinida');
 				echo CHtml::activeCheckBox($imagen,'puja_indefinida',array('checked'=>''));
-				echo CHtml::error($imagen,'puja_indefinida');
+				echo CHtml::error($imagen,'puja_indefinida');*/
+			?>
+		</div>
+
+		<div class="row">
+			<?php 
+
+				echo CHtml::activeHiddenField($imagen,'puja_indefinida',array('value'=>0,'id'=>'pujailimitada'));
 			?>
 		</div>
   
@@ -165,6 +174,37 @@
 		<div class="row buttons">
 			<?php //echo CHtml::submitButton('Submit'); ?>
 			<?php 
+
+						echo CHtml::ajaxSubmitButton('Puja Ilimitada', '', array('type'=>'POST',
+																		'dataType' => "json",
+																		'error' =>'function(data){
+																			if(data["status"] == 200){
+																				$("#registro-pujas-pujar-form").html(data["responseText"]);
+																			}else{
+																				alert(data["responseText"]);
+																			}
+																		}',
+																		'success' => 'function(data){
+																			json = data;//$("#pujaModal").dialog("close");
+																				if(data[\'id\']){
+																					alert(data["msg"]);
+																					if(data["success"]){
+																						$("#pujaModal").dialog("close");
+																					}else{
+																						$("#registro-pujas-pujar-form").html(data);
+																				}
+																			}
+																				
+																		}',
+																		'context'=>'js:this',
+																        'beforeSend' => 'function(xhr,settings){
+																        	$("input#pujailimitada").attr("value",1);
+																        	alert($("input#pujailimitada").attr("value"));
+																        }',
+																        'complete' => 'function(){
+																         }',
+																       ),
+														   		  array('id'=>$imagenid.'_'.uniqid())); 
 						echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
 																		'dataType' => "json",
 																		//'data' => '{imagen_ss: "0"}',
