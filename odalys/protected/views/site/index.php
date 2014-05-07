@@ -237,7 +237,7 @@ $this->pageTitle=Yii::app()->name;
 
 
 	// Usuario activo que tiene paleta y codigo asignado en esta subasta
-	$usuario_activo = Yii::app()->session['id_usuario'] && Usuariospujas::model()->find('idusuario=:idusuario AND idsubasta=:idsubasta', array(':idsubasta'=>$subasta->id,':idusuario'=>Yii::app()->session['id_usuario']));
+	$usuario_activo = Yii::app()->session['admin'] || (Yii::app()->session['id_usuario'] && Usuariospujas::model()->find('idusuario=:idusuario AND idsubasta=:idsubasta', array(':idsubasta'=>$subasta->id,':idusuario'=>Yii::app()->session['id_usuario'])));
 	
 	if ($usuario_activo)
     	Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);

@@ -359,22 +359,32 @@ class SiteController extends Controller
 				$imprimir .='<div id="elementosImagens" style="height: 180px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
 								<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
 								'.$link.'<div style="padding-bottom: 8px;"></div>';
+						
+				// Usuario activo que tiene paleta y codigo asignado en esta subasta
+				//$usuario_activo = Yii::app()->session['id_usuario'] && Usuariospujas::model()->find('idusuario=:idusuario AND idsubasta=:idsubasta', array(':idsubasta'=>$subasta->id,':idusuario'=>Yii::app()->session['id_usuario']));
+				
 				if($resultado)
 				{
-					
+
 					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>
-									  Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
-					else//vista del usuario normal
-						$imprimir .= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+									  Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
+					else //vista del usuario normal
+						//if ($usuario_activo)
+							$imprimir .= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
+
+					$imprimir .= '</div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
 
 				}else
 				{
-					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
+
+					$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+					//if ($usuario_activo)
+					$imprimir.= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></div>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
@@ -417,7 +427,7 @@ class SiteController extends Controller
 												        ),
 												        array('id'=>$value->id, 'style'=>'color: #014F92;')
 													);
-							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w> <moneda>Bs.</moneda> 
+							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w> <moneda>'.$subas->moneda.'</moneda> 
 										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><BR/>';
 						}
 						else{
@@ -432,7 +442,7 @@ class SiteController extends Controller
 							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 								array('style'=>'width: 5px;hight:5px;'));
 							if($usuarioPM)
-								$imprimir .= '<p style="color: red;"> Hasta <moneda>Bs.</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
+								$imprimir .= '<p style="color: red;"> Hasta <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
 							$imprimir .= '</w>';
 
 						}
@@ -806,7 +816,7 @@ class SiteController extends Controller
 	}
 	public function actionPujaradmin()
 	{
-		$model=new RegistroPujas;
+		$model = new RegistroPujas;
 
 		$imagen = new ImagenS;
 
@@ -844,46 +854,35 @@ class SiteController extends Controller
 				{
 					$model->attributes=$_POST['RegistroPujas'];
 
-					$usuario_actual = Usuarios::model()->find('email=:correo',array(':correo'=>$model->correo))['id'];
-
-					$upc = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array('idusuario'=> $usuario_actual, ':idsubasta'=>$subas->id));
-
-					if($upc){
-						$model->codigo = $upc->codigo;
-						$model->paleta = $upc->paleta;
-					}else
-					throw new Exception("Error Processing Request: Recuperando datos del usuario ", 1);
-						
 					if(isset($_POST['ImagenS']))
 						$imagen->attributes = $_POST['ImagenS'];
+
 					$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
 			
-					$soloDesactivarPuInd = false;
-
-					if($imagen_modelo->puja_indefinida == 1)
-						$soloDesactivarPuInd = true;
 
 					$imagen_modelo->puja_indefinida = $imagen->puja_indefinida;
-/*
-					if($soloDesactivarPuInd)
+					print_r($_POST['ImagenS']);
+					if($imagen_modelo->puja_indefinida == 1)
+						$usuario_actual = Yii::app()->session['admin'];
+					else
 					{
-						if(!$imagen_modelo->save()){
-							$msg = print_r($imagen_modelo->getErrors(),1);
-							throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
-						}else{
-							echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Se desactivo la puja ilimitada para esta imágen.'));
-						}
-						return;
-					}*/
+						$usuario_actual = Usuarios::model()->find('email=:correo',array(':correo'=>$model->correo))['id'];
+
+						$upc = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array('idusuario'=> $usuario_actual, ':idsubasta'=>$subas->id));
+
+						if($upc){
+							$model->codigo = $upc->codigo;
+							$model->paleta = $upc->paleta;
+						}else
+						throw new Exception("Error Processing Request: Recuperando datos del usuario ", 1);
+					} 	
 
 	    			$subasta = Subastas::model()->findByPk($imagen_modelo->ids);
 
-	    			//$imagen_modelo->puja_indefinida = $_POST['puja_indefinida'];
-					//print_r($_POST['ImagenS']);
 					if($model->validate())
 					{
 	        			$model->ids = $subasta->id;
-		        		$imagen_modelo->id_usuario = $upc->idusuario;
+		        		$imagen_modelo->id_usuario = $usuario_actual;
 
 
 	       				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);

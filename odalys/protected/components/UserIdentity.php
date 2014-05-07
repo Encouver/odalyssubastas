@@ -36,7 +36,7 @@ class UserIdentity extends CUserIdentity
 			 	$this->_id=$user->id;
 			 	$this->username=$user->email;
 			 	$this->errorCode=self::ERROR_NONE;
-			 	Yii::app()->session['id_usuario'] = $user->id;
+			 	Yii::app()->session['admin'] = $user->id;
 			 	Yii::app()->session['nombre_usuario'] = $user->nombre;
 			 	Yii::app()->session['apellido_usuario'] = $user->apellido;
 			}
