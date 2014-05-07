@@ -1,5 +1,5 @@
 <?php
-
+/*
 	if($valor == TRUE)
 	{
 
@@ -10,5 +10,8 @@
 
 		//echo "Malo";
 	}
+*/
 
+
+	//echo $valor;
 ?>
