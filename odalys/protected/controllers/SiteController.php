@@ -83,9 +83,10 @@ class SiteController extends Controller
 		    	<td  style='width: 15%;'>Nombre y Apellido</td>
 		        <td  style='width: 5%;'>Paleta</td>
 		        <td align='center' style='width: 15%;'>Lote</td>
-		        <td  style='width: 20%;'>Imagen</td>
-		        <td  style='width: 15%;'>Bs</td>
-		    </tr> ";
+		        <td  style='width: 20%;'>Imagen</td>";
+		        $contenido .= "<td  style='width: 15%;'>";
+		        $contenido .=  $silenciosa['moneda'];
+		         $contenido .= "</td></tr> ";
 		    foreach ($ganadores as $key => $value)
 				{
 					if($value->id_usuario)
@@ -101,7 +102,7 @@ class SiteController extends Controller
 							<td>' .$paleta['paleta'].'</td>
 							<td>'.$value->descri.'</td>
 							<td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
-							<td> Bs. '.number_format($value->actual).'</td>
+							<td>'.$silenciosa['moneda'].' '.number_format($value->actual).'</td>
 							</tr>
 						';				
 					}
@@ -181,12 +182,13 @@ class SiteController extends Controller
 
 						$puja = RegistroPujas::model()->findAll('id_imagen_s=:id_imagen_s ORDER BY fecha ASC', array(':id_imagen_s'=>$value->id));
 
+						$money = $silenciosa['moneda'];
 						$contenido .= 
 						    "<table>
 							<tr>
 						    	<td  style='width: 35%;'>Nombre y Apellido</td>
 						        <td  style='width: 30%;'>Paleta</td>
-						        <td  style='width: 35%;'>Bs</td>
+						        <td  style='width: 35%;'>$money</td>
 						    </tr> ";
 
 
@@ -202,7 +204,7 @@ class SiteController extends Controller
 											<tr>
 										<td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
 											<td>' .$paleta['paleta'].'</td>
-											<td> Bs. '.number_format($valor->monto_puja).'</td>
+											<td> $money. '.number_format($valor->monto_puja).'</td>
 											</tr>
 								';
 
@@ -661,7 +663,7 @@ class SiteController extends Controller
 							));
 							$hastaPM = '';
 							if($usuarioPM)
-								$hastaPM = '<p style="color: red;"> Hasta <moneda>Bs.</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
+								$hastaPM = '<p style="color: red;"> Hasta <moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
 								'div'=>CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 									array('style'=>'width: 5px;hight:5px;')).$hastaPM);
