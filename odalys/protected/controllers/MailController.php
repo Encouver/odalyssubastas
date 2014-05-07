@@ -46,7 +46,9 @@ class MailController extends Controller
 		$criteria->params = array(':fuesilenciosa'=>1);
 		$criteria->order = 'id DESC';
 
-		$silenciosa = Subastas::model()->find($criteria);		
+		$silenciosa = Subastas::model()->find($criteria);	
+
+		$footer = Correos::model()->find('id=:id', array('id'=>1));	
 			
 		//construyo el titulo del mensaje
 		$subject = 'Resultados de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
@@ -144,21 +146,8 @@ class MailController extends Controller
 				
 					$message .=  '</tbody>
 				</table>
-				<hr>
-					Recuerde que las condiciones de la subasta establecen que tiene 7 días para cancelar sus piezas en los espacios de la Casa de Subastas en el Centro Comercial Concresa, PB en el horario de Martes a Sábado de 9:00 a.m. a 5:00 p.m.<br/>
-
-					<br/>
-			Atentamente,<br/>
-			<br/>
-			Casa de Subastas Odalys<br/>
-			C. Comercial Concresa, Nivel PB. Local <br/>
-			115 y 116, Prados del Este, Baruta 1080,<br/>
-			Estado Miranda, Venezuela<br/>
-			Telfs: +58 2129795942, +58 2129761773<br/>
-			Fax: +58 212 9794068<br/>
-			odalys@odalys.com
-    	</div> ';
-
+				<hr>';
+				$message .= $footer['footer'].'</div>';
 
     		$headers  = 'MIME-Version: 1.0' ."\r\n";
 			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
