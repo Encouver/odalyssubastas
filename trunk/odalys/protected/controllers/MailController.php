@@ -129,12 +129,12 @@ class MailController extends Controller
 					 $message .= 
 
 					 '
-					 <td align="center">Bs. '.number_format($valor->actual).'</td>
-					 <td align="center">Bs. '.number_format($monto18).'</td>
-					 <td align="center">Bs. '.number_format($iva).'</td>
+					 <td align="center">'.$silenciosa['moneda'].' '.number_format($valor->actual).'</td>
+					 <td align="center">'.$silenciosa['moneda'].' '.number_format($monto18).'</td>
+					 <td align="center">'.$silenciosa['moneda'].' '.number_format($iva).'</td>
 					 
 					 <td align="center">
-					  Bs. '.number_format($total).'
+					  '.$silenciosa['moneda'].' '.number_format($total).'
 					 </td>
 					 
 
