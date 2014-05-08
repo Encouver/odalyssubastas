@@ -377,7 +377,7 @@ class SiteController extends Controller
 				{
 					$etiqueta = 'Pujar';
 					if($value->id_usuario == Yii::app()->session['id_usuario'])
-						$etiqueta = 'Actualizar';
+						$etiqueta = 'Modificar';
 					$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
 		       										$this->createUrl('site/pujar'), array(
 										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
@@ -409,8 +409,8 @@ class SiteController extends Controller
 								$siguiente = $value->base;
 
 
-							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.'</w> <moneda>'.$subas->moneda.'</moneda> 
-										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><BR/>';
+							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.' <moneda>'.$subas->moneda.'</moneda> 
+										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'></w><BR/>';
 						}
 						else{
 							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
@@ -421,10 +421,10 @@ class SiteController extends Controller
 							));
 							
 							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-								array('style'=>'width: 5px;hight:5px;'));
+																					array('style'=>'width: 5px;hight:5px;'));
 							if($usuarioPM)
-								$imprimir .= '<p style="color: red;"> Hasta <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
-							$imprimir .= '</w><br>'.$pujarAjaxLink;
+								$imprimir .= '<span style="color: red;"><p> Hasta <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+							$imprimir .=  ' '.$pujarAjaxLink.'</w>';
 
 						}
 				}
@@ -652,25 +652,12 @@ class SiteController extends Controller
 					if (!Yii::app()->session['id_usuario']) {
 						$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente);
 					}else
-						if($value->id_usuario == Yii::app()->session['id_usuario']){
-
-							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
-							array(
-							  ':imagen'=>$value->id,
-							  ':verificado'=>1,
-							  'idusuario'=>$value->id_usuario,
-							  //':maxi' => NULL,
-							));
-							$hastaPM = '';
-							if($usuarioPM)
-								$hastaPM = '<p style="color: red;"> Hasta <moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p>';
-							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
-								'div'=>CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-									array('style'=>'width: 5px;hight:5px;')).$hastaPM);
-						}else
-						{
-							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
-								'div'=>CHtml::ajaxLink('Pujar',	$this->createUrl('site/pujar'), array(
+					{
+						$etiqueta = 'Pujar';
+						if($value->id_usuario == Yii::app()->session['id_usuario'])
+							$etiqueta = 'Modificar';
+						$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+			       										$this->createUrl('site/pujar'), array(
 											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
 											            //'update'=>'#pujaModal'
 											            'type'=>'POST',
@@ -683,10 +670,28 @@ class SiteController extends Controller
 											            }',
 											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 											        ),
-											        array('id'=>$value->id)
-												));
+											        array('id'=>$value->id, 'style'=>'color: #014F92;')
+												);
+						if($value->id_usuario == Yii::app()->session['id_usuario']){ // Si la imágen pertenece al usuario actual
+
+							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario ORDER BY fecha',
+							array(
+							  ':imagen'=>$value->id,
+							  ':verificado'=>1,
+							  'idusuario'=>$value->id_usuario,
+							  //':maxi' => NULL,
+							));
+							$hastaPM = '';
+							if($usuarioPM)
+								$hastaPM = '<span style="color: red;"><p> Hasta <moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
+								'div'=>CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',array('style'=>'width: 5px;hight:5px;')).$hastaPM.' '.$pujarAjaxLink);
+						}else
+						{
+							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
+								'div'=>$pujarAjaxLink );
 						}
-					
+					}
 				}
 				// number_format($value->actual,0,'.','') // entero sin coma
 			}
@@ -819,12 +824,6 @@ class SiteController extends Controller
 
 				}
 
-
-						//if(isset($_POST['correo']))
-						//{
-							//$model->correo = $_POST['correo'];
-
-
 					
 				if(isset($_POST['RegistroPujas']))
 				{
@@ -835,11 +834,17 @@ class SiteController extends Controller
 
 					$imagen_modelo = ImagenS::model()->findByPk($model->id_imagen_s);
 			
+					if($imagen_modelo->puja_indefinida == 1 && $imagen->puja_indefinida == 1)
+						throw new Exception("Error Processing Request: Puja Ilimitada ya existente", 1);
 
-					$imagen_modelo->puja_indefinida = $imagen->puja_indefinida;
-					print_r($_POST['ImagenS']);
-					if($imagen_modelo->puja_indefinida == 1)
+
+						
+					if($imagen->puja_indefinida == 1 && $imagen_modelo->puja_indefinida == 0){
 						$usuario_actual = Yii::app()->session['admin'];
+						$model->codigo = 0;
+						$model->paleta = 0;
+						$imagen_modelo->puja_indefinida = 1;
+					}
 					else
 					{
 						$usuario_actual = Usuarios::model()->find('email=:correo',array(':correo'=>$model->correo))['id'];
@@ -858,8 +863,6 @@ class SiteController extends Controller
 					if($model->validate())
 					{
 	        			$model->ids = $subasta->id;
-		        		$imagen_modelo->id_usuario = $usuario_actual;
-
 
 	       				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
 	       				return;
@@ -886,6 +889,7 @@ class SiteController extends Controller
 	public function actionPujar()
 	{
 	    $model=new RegistroPujas;
+
 
 
 	    // uncomment the following code to enable ajax-based validation
@@ -925,8 +929,10 @@ class SiteController extends Controller
 
 				$upc = Usuariospujas::model()->find('idsubasta=:idsubasta AND idusuario=:idusuario',
 													array(':idsubasta'=>$subasta->id, ':idusuario'=>$usuario_actual));
+
 				
-				
+				$paletaYcodigoVerificado = false;
+
 
 				if( !Yii::app()->request->cookies['up'] && !Yii::app()->request->cookies['uc'])
 				{
@@ -937,91 +943,57 @@ class SiteController extends Controller
 						Yii::app()->request->cookies['up'] = new CHttpCookie('up', md5($upc['paleta']));
 						Yii::app()->request->cookies['uc'] = new CHttpCookie('uc', md5($upc['codigo']));
 
-		        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
-			        	//if($model->id_imagen_s == 4593)
-
-			        	// si el usuario va ganando la puja
-			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
-			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Esta pieza ya es tuya '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']));
-			        	}elseif($subasta->silenciosa) //subasta silenciosa
-			        	{
-
-			        		$model->ids = $subasta->id;
-			        		$imagen_modelo->id_usuario = $usuario_actual;
-
-
-	           				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
-
-				        	//$_SESSION['admin']	//caso especial
-				        	
-				        	//$_SESSION['id_usuario']
-			        		
-
-
-			        		//ImagenS::model()->updateByPk($imagenId,array('actual'=>$model->maximo_dispuesto));
-
-			        		//Hay que hacer un trigger en la bd que al actualizar el maximo_dispuesto de la tabla registro_pujas,
-			        		//actualice el monto actual de la imagen_s correspondiente a ese registro, al minimo valor de puja siguiente (tomando
-			        		// en cuenta los maximos_dispuestos de los otros usuarios que hayan de esa imagen_s) y que se genere 
-			        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
-
-			        	}else{
-			        		echo json_encode(array('id'=>1,'success'=>false,'msg'=>'La subasta correspondiente a la imagen recibida no es silenciosa'));
-			        	}
-
+						$paletaYcodigoVerificado = true;
 					}else
 					{
 						echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Error en el código o la paleta.'));
+						return;
 					}
 
 				}else{
+				
 					// Verificando que el codigo y paleta almacenados en cookie sean las correctas.
 					if(Yii::app()->request->cookies['uc']->value == md5($upc->codigo)
 						&& Yii::app()->request->cookies['up']->value == md5($upc->paleta))
 					{
-
-			        	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
-
-			        	// si el usuario va ganando la puja
-			        	if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'])	{
-			        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'La última puja por esta obra es suya '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']).'.');
-			        	}elseif($subasta->silenciosa) //subasta silenciosa
-			        	{
-
-			        		$model->ids = $subasta->id;
-			        		$model->idusuario = $usuario_actual;
-
-			        		$imagen_modelo->id_usuario = Yii::app()->session['id_usuario'];
-
-
-	           				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
-
-				        	//$_SESSION['admin']	//caso especial
-				        	
-				        	//$_SESSION['id_usuario']
-			        		
-
-
-			        		//ImagenS::model()->updateByPk($imagenId,array('actual'=>$model->maximo_dispuesto));
-
-			        		//Hay que hacer un trigger en la bd que al actualizar el maximo_dispuesto de la tabla registro_pujas,
-			        		//actualice el monto actual de la imagen_s correspondiente a ese registro, al minimo valor de puja siguiente (tomando
-			        		// en cuenta los maximos_dispuestos de los otros usuarios que hayan de esa imagen_s) y que se genere 
-			        		//el aviso para enviar el correo al usuario que ha sido superado en la puja
-
-			        	}else{
-			        		echo json_encode(array('id'=>1,'success'=>true,'msg'=>'La subasta correspondiente a la imagen recibida no es silenciosa'));
-			        	}
+						$paletaYcodigoVerificado = true;
 
 					}else{
 						// La cookie no corresponde
 						unset(Yii::app()->request->cookies['uc']);
 						unset(Yii::app()->request->cookies['up']);
 						echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Se ha detectado una falla de seguridad, introduzca de nuevo su paleta y codigo.'));
+						return;
 					}
 				}
+
+				if($paletaYcodigoVerificado)
+				{
+
+				   	//Aqui se va a verificar el monto maximo de la puja y hacer todo lo relacionado con la puja
+
+		        	// si el usuario va ganando la puja
+		        	/*if($imagen_modelo->id_usuario == Yii::app()->session['id_usuario'] && !$model->maximo_dispuesto)	{
+		        		echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'La última puja por esta obra es suya '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario'].'.'));
+		        		//echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Debe introducir una puja máxima para realizar la modificación.'));
+		        	}else*/if($subasta->silenciosa) //subasta silenciosa
+		        	{
+
+
+		        		$model->ids = $subasta->id;
+		        		$model->idusuario = $usuario_actual;
+
+
+           				$this->validaciones($model, $imagen_modelo, $subasta, $usuario_actual);
+
+		        	}else{
+		        		echo json_encode(array('id'=>1,'success'=>true,'msg'=>'La subasta correspondiente a la imagen recibida no es silenciosa'));
+		        	}
+
+				}
+
 	            return;
-	        }
+	        }	//Fin de validate
 	       //$model->id_imagen_s = $auxidimagen;
 
 	    } 
@@ -1032,9 +1004,87 @@ class SiteController extends Controller
 	
 
 	function validaciones($model, $imagen_modelo, $subasta, $usuario_actual){
+/*
+$transaction = Yii::app()->db->beginTransaction();
+try {
 
+	$transaction->commit();
+} catch (Exception $e) {
+	$transaction->rollBack();
+	throw new CHttpException(null,"No se pudo completar la transacción.", $e->getMessage());
+}*/
 
-						
+//Una de las restricciones, es que el usuario que puja no puede ser el mismo que el que ya posee la imágen, en tal caso de que esto ocurra, es para modificación de la puja maxima
+				if($usuario_actual  === $imagen_modelo->id_usuario)
+				{
+					if($model->maximo_dispuesto)
+					{ 
+	
+	        			$puja_siguiente = $imagen_modelo->actual*1.1;
+							
+							//aqui va puja maxima
+	        			if($model->maximo_dispuesto >= $puja_siguiente)
+	        			{
+							$transaction = $model->dbConnection->beginTransaction();// o  = Yii::app()->db->beginTransaction();	
+							try {
+								
+								//$imagen_modelo->actual = $model->maximo_dispuesto;
+
+								// Ultimo registro de este usuario con esta imagen y verificado 1
+								$registro = RegistroPujas::model()->find('id_imagen_s=:id_imagen_s AND verificado=:verificado AND idusuario=:idusuario ORDER BY fecha DESC',
+																array(
+																  ':id_imagen_s'=>$model->id_imagen_s,
+																  ':verificado'=>1,
+																  ':idusuario' => $usuario_actual,
+																));
+
+								$model->idusuario = $usuario_actual;
+								$model->monto_puja = intval($imagen_modelo->actual);
+								$model->verificado = 1;
+								if(!$model->save())
+								{
+									$msg = print_r($model->getErrors(),1);
+									$transaction->rollBack();
+									throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
+								}
+
+								if($registro)
+								{
+									//print_r($registro);
+									// Se cambia a 2 porque el registro que ya estaba con el monto puja anterior debe quedar registrado
+		        					$registro->verificado = 2;
+									if(!$registro->update())
+		        					{
+		        						$transaction->rollBack();
+										$msg = print_r($registro->getErrors(),1);
+										throw new CHttpException(400,'RegistroPujas: data not saving: '.$msg );
+									}	
+								}
+
+								$imagen_modelo->id_usuario = $usuario_actual;
+								if(!$imagen_modelo->save()){
+									$msg = print_r($imagen_modelo->getErrors(),1);
+									$transaction->rollBack();
+									throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
+								}else
+									echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido modificada.'));
+
+								$transaction->commit();
+							} catch (Exception $e) {
+								$transaction->rollBack();
+								throw new CHttpException(null,"No se pudo completar la transacción.", $e->getMessage());
+							}
+						}else
+	        			{
+	        				echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Puja maxima debe ser mayor a el 10% del precio actual'));
+	        			}
+					}else
+						echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Debe introducir un monto de puja máxima. La última puja por esta obra es suya, por esto solo puede modificar la puja máxima.'));
+				}
+				else
+				{
+					
+//Si hay una imagen con puja indefinida se atiende este caso especial ganando siempre el usuario que tiene la puja(que es un admin)
 			        		if($model->maximo_dispuesto) 
 			        		{
 			        			//Puja maxima
@@ -1054,7 +1104,7 @@ class SiteController extends Controller
 
 			        			$puja_siguiente = $imagen_modelo->actual;
 		 						
-		 						//aqui va puja maxima
+		 						//Se verifica primero que el maximo dispuesto sea mayor o igual que la puja siguiente de la imágen
 			        			if($model->maximo_dispuesto >= $puja_siguiente)
 			        			{
 
@@ -1062,20 +1112,20 @@ class SiteController extends Controller
 
 
 							//El usuario pierde ante la puja ilimitada del usuario actual que posee la imágen
-							if($imagen_modelo->puja_indefinida == 1 && $usuario_actual != $imagen_modelo->id_usuario)		
+							if($imagen_modelo->puja_indefinida == 1)		
 							{
-									$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
 
+									$imagen_modelo->actual = $model->maximo_dispuesto * 1.1;
 
 									$model->verificado=2;
 			        				$model->idusuario = $usuario_actual;
-			        				//$model->monto_puja = intval($imagen_modelo->actual);
+			        				$model->monto_puja = intval($imagen_modelo->actual);
 		        					if(!$model->save())
 		        					{
 										$msg = print_r($model->getErrors(),1);
 										throw new CHttpException(400,'RegistroPujas model: data not saving: '.$msg );
 									}
-
+									//throw new CHttpException(400,'RegistroPujas model: data not saving: ' );
 									$nuevoregistro = new RegistroPujas();
 									$nuevoregistro->ids = $imagen_modelo->ids;
 									$nuevoregistro->idusuario = $imagen_modelo->id_usuario;
@@ -1301,6 +1351,7 @@ class SiteController extends Controller
 											throw new CHttpException(400,'Registro Pujas data not saving: '.$msg );
 										}
 
+										$imagen_modelo->id_usuario = $usuario_actual;
 										if(!$imagen_modelo->save()){
 											$msg = print_r($imagen_modelo->getErrors(),1);
 											throw new CHttpException(400,'ImagenS data not saving: '.$msg );
@@ -1322,7 +1373,7 @@ class SiteController extends Controller
 				        			
 			        			}else
 			        			{
-			        				echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Puja maxima debe ser mayor a el 10% del precio actual'));
+			        				echo json_encode(array('id'=>1, 'success'=>false,'msg'=>'Puja maxima debe ser mayor a el 10% del precio actual'));
 			        			}
 
 			        		}else
@@ -1335,7 +1386,7 @@ class SiteController extends Controller
 								));
 
 							//El usuario pierde ante la puja ilimitada del usuario actual que posee la imágen
-							if($imagen_modelo->puja_indefinida == 1 && $usuario_actual != $imagen_modelo->id_usuario)		
+							if($imagen_modelo->puja_indefinida == 1)		
 							{
 
 									$imagen_modelo->actual *= 1.1;
@@ -1500,7 +1551,7 @@ class SiteController extends Controller
 
 					        			//$model->save(true,array('idusuario'=>Yii::app()->session['id_usuario'],));
 
-										//Verificando si existe algun pujador previo para enviarle el correo de perdidad de subasta
+										//Verificando si existe algun pujador previo para enviarle el correo de perdida de subasta
 										$criteria = new CDbCriteria;
 
 										$criteria->condition = 'ids=:ids && id_imagen_s=:id_imagen_s';
@@ -1537,6 +1588,7 @@ class SiteController extends Controller
 
 							
 			        		}
+				}
 		}
 
 } //Cierra la clase
