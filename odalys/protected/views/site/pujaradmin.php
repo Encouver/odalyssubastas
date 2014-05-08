@@ -175,75 +175,56 @@
 			<?php //echo CHtml::submitButton('Submit'); ?>
 			<?php 
 
-						echo CHtml::ajaxSubmitButton('Puja Ilimitada', '', array('type'=>'POST',
-																		'dataType' => "json",
-																		'error' =>'function(data){
-																			if(data["status"] == 200){
-																				$("#registro-pujas-pujar-form").html(data["responseText"]);
-																			}else{
-																				alert(data["responseText"]);
-																			}
-																		}',
-																		'success' => 'function(data){
-																			json = data;//$("#pujaModal").dialog("close");
-																				if(data[\'id\']){
-																					alert(data["msg"]);
-																					if(data["success"]){
-																						$("#pujaModal").dialog("close");
-																					}else{
-																						$("#registro-pujas-pujar-form").html(data);
-																				}
-																			}
-																				
-																		}',
-																		'context'=>'js:this',
-																        'beforeSend' => 'function(xhr,settings){
-																        	$("input#pujailimitada").attr("value",1);
-																        	alert($("input#pujailimitada").attr("value"));
-																        }',
-																        'complete' => 'function(){
-																         }',
-																       ),
-														   		  array('id'=>$imagenid.'_'.uniqid())); 
-						echo CHtml::ajaxSubmitButton('Pujar', '', array('type'=>'POST',//'update'=>'#pujaModal', 
-																		'dataType' => "json",
-																		//'data' => '{imagen_ss: "0"}',
-																		'error' =>'function(data){
-																			//alert("Error");
-																			console.log(data);
-																			if(data["status"] == 200){
-																			//	$("#registro-pujas-pujar-form").empty();
-																				$("#registro-pujas-pujar-form").html(data["responseText"]);
-																			}else{
-																				alert(data["responseText"]);
-																			}
-																		}',
-																		'success' => 'function(data){
-																			json = data;//$("#pujaModal").dialog("close");
-																			//console.log(data);
-																			//alert(data);
-																				if(data[\'id\']){
-																					alert(data["msg"]);
-																					if(data["success"]){
-																						$("#pujaModal").dialog("close");
-																					}else{
-																					//$("#registro-pujas-pujar-form").empty();
-																					$("#registro-pujas-pujar-form").html(data);
-																				}
-																			}
-																				//return false;
-																		}',
-																		'context'=>'js:this',
+					$submitButtonId = $imagenid.'_'.uniqid();
+					$ajaxPujar = array('type'=>'POST',//'update'=>'#pujaModal', 
+														'dataType' => "json",
+														//'data' => '{imagen_ss: "0"}',
+														'error' =>'function(data){
+															//alert("Error");
+															console.log(data);
+															if(data["status"] == 200){
+															//	$("#registro-pujas-pujar-form").empty();
+																$("#registro-pujas-pujar-form").html(data["responseText"]);
+															}else{
+																alert(data["responseText"]);
+															}
+														}',
+														'success' => 'function(data){
+															json = data;//$("#pujaModal").dialog("close");
+															//console.log(data);
+															//alert(data);
+																if(data[\'id\']){
+																	alert(data["msg"]);
+																	if(data["success"]){
+																		$("#pujaModal").dialog("close");
+																	}else{
+																	//$("#registro-pujas-pujar-form").empty();
+																	$("#registro-pujas-pujar-form").html(data);
+																}
+															}
+																//return false;
+														}',
+														'context'=>'js:this',
 
-																        'beforeSend' => 'function(xhr,settings){
-																        }',
-																        'complete' => 'function(){
-																        	//$("#pujaModal").html(json);
-																        	//$("#pujaModal").dialog("close");
-																            //alert("Puja exitosa!");
-																            }',
-																       ),
-														   		  array('id'=>$imagenid.'_'.uniqid())); 
+												        'beforeSend' => 'function(xhr,settings){
+												        }',
+												        'complete' => 'function(){
+												        	//$("#pujaModal").html(json);
+												        	//$("#pujaModal").dialog("close");
+												            //alert("Puja exitosa!");
+												            }',
+												       );
+					if($imagen->puja_indefinida == 0)
+						echo CHtml::Button('Puja Ilimitada',
+													array('onclick'=>'
+														if(confirm("¿Esta seguro que desea realizar un puja ilimitada por esta obra?")){
+																		$("input#pujailimitada").attr("value",1);
+																		$("#'.$submitButtonId.'").trigger("click");
+																	}
+																    //alert($("input#pujailimitada").attr("value"));'));
+
+						echo CHtml::ajaxSubmitButton('Pujar', '', $ajaxPujar,
+														   		  array('id'=>$submitButtonId)); 
 	   		  ?>
 
 		</div>
