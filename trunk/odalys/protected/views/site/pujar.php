@@ -52,9 +52,7 @@
 															<td style="padding-left:14px">
 																<p>'.$imagen['descri'].'</p> 
 																<BR/>
-																<precio id="'.$imagenid.'">
-																	Precio actual: <div><moneda>'.$subas->moneda.'</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
-																	Puja siguiente: <div><moneda>'.$subas->moneda.'</moneda> <siguiente_'.$imagenid.'>';
+																<precio id="'.$imagenid.'">';
 
 												//Verificando si es primera puja
 						        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen',
@@ -62,10 +60,21 @@
 												  ':imagen'=>$model->id_imagen_s,
 												));
 
-						        				if($imgConPujas)
-													echo number_format($imagen['actual']*1.1);
-												else
-													echo number_format($imagen['base']);
+												// Usuario activo que tiene paleta y codigo asignado en esta subasta o es administrador
+												$usuario_activo = Yii::app()->session['admin'] ||
+																 	(Yii::app()->session['id_usuario'] &&
+																 	 Usuariospujas::model()->find(' idsubasta=:idsubasta AND idusuario=:idusuario', array(':idsubasta'=>$subas->id,':idusuario'=>Yii::app()->session['id_usuario'])));
+												if($usuario_activo)
+												{
+													echo 'Precio actual: <div><moneda>'.$subas->moneda.'</moneda> <actual_'.$imagenid.'>'.number_format($imagen['actual']).'</actual_'.$imagenid.'><BR></div>
+														  Puja siguiente: <div><moneda>'.$subas->moneda.'</moneda> <siguiente_'.$imagenid.'>';
+
+
+							        				if($imgConPujas)
+														echo number_format($imagen['actual']*1.1);
+													else
+														echo number_format($imagen['base']);
+												}
 
 												echo '</siguiente_'.$imagenid.'></div>
 																</precio><BR> </td></table>
@@ -105,13 +114,14 @@
 				<ul>
 						 <?php  
 							
+							$precioActual = '';
+							if($usuario_activo)
+								if($imgConPujas)
+									$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
+								else
+									$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['base']);
+							
 							$idsub = $imagenid.'_'.uniqid();
-
-							if($imgConPujas)
-								$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['actual']*1.1);
-							else
-								$precioActual = number_format(ImagenS::model()->find('id=:id', array(':id'=>$imagenid))['base']);
-
 							$baseUrl = Yii::app()->request->baseUrl;
 							//Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
 						?>
@@ -121,7 +131,9 @@
 						array('id'=>'maxdis_'.$imagenid, 'class'=>'form-control',
 						'oninput'=>'js: var precio = 0;  if($(this).val() != ""){ precio = $(this).val();}else{ precio = $("#precioboton_'.$imagen->id.'").val(); } $("#'.$idsub.'").attr("value","Pujar '.$subas->moneda.' "+number_format(precio));')); ?>
 
-						<?php echo CHtml::hiddenField('precioboton_'.$imagen->id, $imagen->actual, 
+						<?php 
+
+						echo CHtml::hiddenField('precioboton_'.$imagen->id, $precioActual/*imagen->actual*/, 
 						array('id'=>'precioboton_'.$imagen->id,	'onchange'=>'js: //alert($(this).val());
 						 if($("#maxdis_'.$imagenid.'").val() != "") precio = $("#maxdis_'.$imagenid.'").val(); else precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar '.$subas->moneda.' "+number_format(precio));')); ?>
 
