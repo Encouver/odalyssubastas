@@ -42,7 +42,7 @@ if(!$modal){
 	<p class="note" style="font-size:11px;">Campos con <span class="required">*</span> son requeridos.</p>
 
 	<div class="row rememberMe">
-		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->checkBox($model,'rememberMe',array('checked' => true)); ?>
 		<?php echo $form->label($model,'rememberMe', array('style' => 'font-size:12x;font-weight:normal;')); ?>
 		<?php echo $form->error($model,'rememberMe'); ?>
 	</div>
