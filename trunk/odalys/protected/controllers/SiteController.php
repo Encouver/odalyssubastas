@@ -302,11 +302,11 @@ class SiteController extends Controller
 		
 		$query = ImagenS::model()->findAll('ids=:ids', array(':ids'=>$subas['id']));
 
-
+		$numero = 0;
 		$fancyElements = '';
 		$imprimir = '<div id="wrapper_imagens" width="100%" class="tablaresultado">';
 		foreach ($query as $key => $value) {
-			
+			$numero++;
 			// El usuario de la imágen en value tiene paleta y código asignados esta subasta
 			$resultado= Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=> $subas->id));
 			
@@ -338,7 +338,7 @@ class SiteController extends Controller
 			$this->mostrandoImagen($value);
 
 
-				$imprimir .='<div id="elementosImagens" style="height: 210px; text-align: center;" align="center" class="tile '.$value->solonombre.'">
+				$imprimir .='<div id="elementosImagens" style="height: 270px; text-align: center;" align="center" class="tile '.$value->solonombre.'" data-nombres="'.$value->nombres.'" data-apellidos="'.$value->apellidos.'" data-numero="'.$numero.'">
 								<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
 								'.$link.'<div style="padding-bottom: 8px;"></div>';
 						
@@ -347,17 +347,20 @@ class SiteController extends Controller
 								 	(Yii::app()->session['id_usuario'] &&
 								 	 Usuariospujas::model()->find(' idsubasta=:idsubasta AND idusuario=:idusuario', array(':idsubasta'=>$subas->id,':idusuario'=>Yii::app()->session['id_usuario'])));
 				
-
-				$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><div id="imagen_'.$value->id.'">';
+				$colorActual = '';
+				if($value->id_usuario == Yii::app()->session['id_usuario'])
+					$colorActual = 'red';
+				$imprimir .= '<loteautor>'.$value->solonombre.'</loteautor><br><span id="imagen_'.$value->id.'">';
 				if($resultado)
 				{//La imágen tiene un pujador
 					
 					if(Yii::app()->session['admin'])	//Vista del admin
 						$imprimir .= 'Paleta: <paleta_'.$value->id.'>'.$resultado['paleta'].'</paleta_'.$value->id.'><br/>
-									  Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
+									  <span style="color: '.$colorActual.';">Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></span>';
 					else //vista del usuario normal
 						if ($usuario_activo)	//Solo los usuarios activos pueden ver el precio actual
-							$imprimir .= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
+							$imprimir .= '<span style="color: '.$colorActual.';">
+										  Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></span>';
 
 					// number_format($value->actual,0,'.','') // entero sin coma
 					// '.$value->imagen.'						//imagen pequeña
@@ -365,19 +368,31 @@ class SiteController extends Controller
 				}else
 				{//La imágen no tiene puja
 					if ($usuario_activo)	//Solo los usuarios activos pueden ver el precio actual
-						$imprimir.= 'Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'>';
+						$imprimir.= '<span style="color: '.$colorActual.';">
+									  Actual: <moneda>'.$subas->moneda.'</moneda> <cantidad_'.$value->id.'>'.number_format($value->actual).'</cantidad_'.$value->id.'></span>';
 					
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
-				$imprimir .= '</div>';
-					
+				$imprimir .= '</span> ';
+
+
 
 				if(Yii::app()->session['id_usuario'])
 				{
+					//Verificando si la imágen tiene puja máxima
+					$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
+					array(
+					  ':imagen'=>$value->id,
+					  ':verificado'=>1,
+					  'idusuario'=>$value->id_usuario,
+					));
+
 					$etiqueta = 'Pujar';
-					if($value->id_usuario == Yii::app()->session['id_usuario'])
-						$etiqueta = 'Modificar';
+					if($value->id_usuario == Yii::app()->session['id_usuario'] && !$usuarioPM)
+						$etiqueta = 'Realizar puja máxima';
+					if($value->id_usuario == Yii::app()->session['id_usuario'] && $usuarioPM)
+						$etiqueta = '(modificar puja máxima)';
 					$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
 		       										$this->createUrl('site/pujar'), array(
 										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
@@ -395,63 +410,61 @@ class SiteController extends Controller
 										        array('id'=>$value->id, 'style'=>'color: #014F92;')
 											);
 
+    				// Verificando si es primera puja
+    				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen', array(':imagen'=>$value->id,));
+
+    				if($imgConPujas)
+						// Puja siguiente
+						$siguiente = $value->actual*1.1;	// se icrementa el valor de la imagen por 10%
+					else
+						$siguiente = $value->base;
+
 					if(!Yii::app()->session['admin'])
-						if(!($value->id_usuario == Yii::app()->session['id_usuario']) )
-						{
+					
+							if(!($value->id_usuario == Yii::app()->session['id_usuario']) )
+							{
 
-	        				// Verificando si es primera puja
-	        				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen', array(':imagen'=>$value->id,));
+								$imprimir .= '<br><w id="'.$value->id.'a">'.$pujarAjaxLink.' <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink></w><BR/>';
+							}
+							else{
+			
+								$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
+																						array('style'=>'width: 5px;hight:5px;'));
+								$imprimir .= '<br>Prox. Puja: <br><pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
+								if($usuarioPM)
+									$imprimir .= '<span style="color: red;"><p> Puja máxima: <br><moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+								else
+									$imprimir .= '<br>';
+								$imprimir .=  $pujarAjaxLink.'</w>';
 
-	        				if($imgConPujas)
-								// Puja siguiente
-								$siguiente = $value->actual*1.1;	// se icrementa el valor de la imagen por 10%
-							else
-								$siguiente = $value->base;
+							}
+					}
+					elseif(!Yii::app()->session['admin'])
+					{
+						//Ventana modal de login
+						$pujarAjaxLink = CHtml::ajaxLink('Pujar',
+			        	$this->createUrl('site/login'), array(
+											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+											            //'update'=>'#pujaModal'
+											            'type'=>'POST',
+											            'data' => array('modal'=> true ),
+											            'context'=>'js:this',
+											            'beforeSend'=>'function(xhr,settings){
 
-
-							$imprimir .= '<w id="'.$value->id.'a">'.$pujarAjaxLink.' <moneda>'.$subas->moneda.'</moneda> 
-										  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'></w><BR/>';
-						}
-						else{
-							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario',
-							array(
-							  ':imagen'=>$value->id,
-							  ':verificado'=>1,
-							  'idusuario'=>$value->id_usuario,
-							));
-							
-							$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-																					array('style'=>'width: 5px;hight:5px;'));
-							if($usuarioPM)
-								$imprimir .= '<span style="color: red;"><p> Hasta <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
-							$imprimir .=  ' '.$pujarAjaxLink.'</w>';
-
-						}
-				}
-				elseif(!Yii::app()->session['admin'])
-				{
-					//Ventana modal de login
-					$pujarAjaxLink = CHtml::ajaxLink('Pujar',
-		        	$this->createUrl('site/login'), array(
-										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
-										            //'update'=>'#pujaModal'
-										            'type'=>'POST',
-										            'data' => array('modal'=> true ),
-										            'context'=>'js:this',
-										            'beforeSend'=>'function(xhr,settings){
-
-										            }',
-										            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
-										        ),
-										        array('id'=>$value->id, 'style'=>'color: #014F92;')
-											);
-					$imprimir .= $pujarAjaxLink.'<BR/>';					
-				}
+											            }',
+											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+											        ),
+											        array('id'=>$value->id, 'style'=>'color: #014F92;')
+												);
+						$imprimir .= $pujarAjaxLink.'<BR/>';					
+					}
 				$imprimir .= '</div>';
 
 
 
-		}
+				}
 		return $imprimir .='</div>'.$fancyElements;
 
 	}
@@ -653,9 +666,18 @@ class SiteController extends Controller
 						$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente);
 					}else
 					{
+						$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario ORDER BY fecha',
+							array(
+							  ':imagen'=>$value->id,
+							  ':verificado'=>1,
+							  'idusuario'=>$value->id_usuario,
+							  //':maxi' => NULL,
+							));
 						$etiqueta = 'Pujar';
-						if($value->id_usuario == Yii::app()->session['id_usuario'])
-							$etiqueta = 'Modificar';
+						if($value->id_usuario == Yii::app()->session['id_usuario'] && !$usuarioPM)
+							$etiqueta = 'Realizar puja máxima';
+						if($value->id_usuario == Yii::app()->session['id_usuario'] && $usuarioPM)
+							$etiqueta = '(modificar puja máxima)';
 						$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
 			       										$this->createUrl('site/pujar'), array(
 											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
@@ -674,22 +696,22 @@ class SiteController extends Controller
 												);
 						if($value->id_usuario == Yii::app()->session['id_usuario']){ // Si la imágen pertenece al usuario actual
 
-							$usuarioPM = RegistroPujas::model()->find('id_imagen_s=:imagen AND verificado=:verificado AND idusuario=:idusuario ORDER BY fecha',
-							array(
-							  ':imagen'=>$value->id,
-							  ':verificado'=>1,
-							  'idusuario'=>$value->id_usuario,
-							  //':maxi' => NULL,
-							));
-							$hastaPM = '';
+
+							$proxPuja = '<br>Prox. Puja: <br><pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+						  	<siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
+							$hastaPM = $proxPuja;
 							if($usuarioPM)
-								$hastaPM = '<span style="color: red;"><p> Hasta <moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+								$hastaPM .= '<span style="color: red;"><p> Puja máxima: <br><moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+							else
+								$hastaPM .= '<br>';
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
 								'div'=>CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',array('style'=>'width: 5px;hight:5px;')).$hastaPM.' '.$pujarAjaxLink);
 						}else
 						{
+							$pujaSiguiente = ' <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
-								'div'=>$pujarAjaxLink );
+								'div'=>$pujarAjaxLink.$pujaSiguiente );
 						}
 					}
 				}
@@ -1139,6 +1161,7 @@ try {
 										throw new CHttpException(400,'RegistroPujas nuevoregistro: data not saving: '.$msg );
 									}
 
+									$imagen_modelo->id_usuario = $usuario_actual;
 									if(!$imagen_modelo->save()){
 										$msg = print_r($imagen_modelo->getErrors(),1);
 										throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
@@ -1247,6 +1270,7 @@ try {
 													throw new CHttpException(400,'Registro Pujas data not saving: '.$msg );
 												}
 
+												$imagen_modelo->id_usuario = $usuario_actual;
 												if(!$imagen_modelo->save()){
 													$msg = print_r($imagen_modelo->getErrors(),1);
 													throw new CHttpException(400,'ImagenS data not saving: '.$msg );
@@ -1304,7 +1328,7 @@ try {
 													$msg = print_r($imagen_modelo->getErrors(),1);
 													throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 												}else
-													echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));	
+													echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con éxito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));	
 
 
 												//Se le manda el correo al que perdio la puja
@@ -1414,6 +1438,7 @@ try {
 										throw new CHttpException(400,'RegistroPujas nuevoregistro: data not saving: '.$msg );
 									}
 
+									$imagen_modelo->id_usuario = $usuario_actual;
 									if(!$imagen_modelo->save()){
 										$msg = print_r($imagen_modelo->getErrors(),1);
 										throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
@@ -1486,7 +1511,7 @@ try {
 												$msg = print_r($imagen_modelo->getErrors(),1);
 												throw new CHttpException(400,'ImagenS: data not saving: '.$msg );
 											}else
-												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con exito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
+												echo json_encode(array('id'=>1, 'success'=>true,'msg'=>'Su puja ha sido realizada con éxito pero fue superada, debido a que existe una puja máxima superior de otro postor.'));
 
 											//Se le manda el correo al que perdio la puja
 											list($controlador) = Yii::app()->createController('Mail');

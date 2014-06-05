@@ -209,7 +209,8 @@ $this->pageTitle=Yii::app()->name;
 											if(entry["paleta"])
 												$("paleta_"+entry["id"]).empty().html(entry["paleta"]);
 											
-											if(entry["actual"]){
+											if(entry["actual"])
+											{
 												$("cantidad_"+entry["id"]).empty().html(number_format(entry["actual"]));
 												
 												//Actualizando la modal
@@ -223,6 +224,9 @@ $this->pageTitle=Yii::app()->name;
 												//Actualizando la modal
 												$("#pujaModal siguiente_"+entry["id"]).empty().html(number_format(entry["siguiente"]));
 												$("#pujaModal #precioboton_"+entry[\'id\']).val(entry["siguiente"]).change();
+											}else
+											{
+												//$("pujasiguienteafterlink").empty();
 											}
 
 											if(entry["div"])
@@ -243,7 +247,32 @@ $this->pageTitle=Yii::app()->name;
     	Yii::app()->clientScript->registerScript('autorefresh',$ourscript,CClientScript::POS_READY);
 
 ?>
+<?php
 
+
+	$filtro = "<p>Organizar por: </p>"; 
+	$filtro .= CHtml::link("Número","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
+																							    					return $(a).attr('data-numero') - $(b).attr('data-numero');
+																										} ) 
+																				)"));
+	$filtro .= "   |   ";
+	$filtro .= CHtml::link("Nombre","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
+																													if ($(a).attr('data-nombres') < $(b).attr('data-nombres')) return -1;
+																													if ($(a).attr('data-nombres') > $(b).attr('data-nombres')) return 1;
+																													return 0;
+																											} ) 
+																				)"));
+	$filtro .= "   |   ";
+	$filtro .= CHtml::link("Apellido","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
+																													if ($(a).attr('data-apellidos') < $(b).attr('data-apellidos')) return -1;
+																													if ($(a).attr('data-apellidos') > $(b).attr('data-apellidos')) return 1;
+																													return 0;
+																											} ) 
+																				)"));
+
+	$imprimir = $filtro.$imprimir;
+
+?>
 <p id="refreshData">
 	<?php
 		echo $imprimir;
