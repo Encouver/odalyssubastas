@@ -250,13 +250,13 @@ $this->pageTitle=Yii::app()->name;
 <?php
 
 
-	$filtro = "<p>Organizar por: </p>"; 
+	$filtro = "<p>Filtrar por: </p>"; 
 	$filtro .= CHtml::link("Número","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
 																							    					return $(a).attr('data-numero') - $(b).attr('data-numero');
 																										} ) 
 																				)"));
 	$filtro .= "   |   ";
-	$filtro .= CHtml::link("Nombre","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
+	$filtro .= CHtml::link("Nombre","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {																												
 																													if ($(a).attr('data-nombres') < $(b).attr('data-nombres')) return -1;
 																													if ($(a).attr('data-nombres') > $(b).attr('data-nombres')) return 1;
 																													return 0;
