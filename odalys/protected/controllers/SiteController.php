@@ -478,19 +478,19 @@ class SiteController extends Controller
 		$criteria->params = array(':fuesilenciosa'=>1);
 		$criteria->order = 'id DESC';
 
-		$resultados = Subastas::model()->find($criteria);
+		$ultimaSubastaSilenciosa = Subastas::model()->find($criteria);
 
 
-		$query = ImagenS::model()->findAll('ids=:ids',array(':ids'=>$resultados['id']));
+		$query = ImagenS::model()->findAll('ids=:ids',array(':ids'=>$ultimaSubastaSilenciosa['id']));
 
 
 		$contador = 0;
-		$con = 0;
+		$numero = 0;
 		$fancyElements = $imprimir = "";
 		//echo '<table width="80%"><tr>';
 		$imprimir = '<div id="wrapper_imagens"  width="100%" class="tablaresultado">';
 		foreach ($query as $key => $value) {
-			$con ++;
+			$numero ++;
 			
 			$link = CHtml::link(CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen,'style'=>'vertical-align: bottom;', 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'))
 				,'', array('class'=> 'des_'.$value->id,'rel'=>'gallery'));
@@ -500,7 +500,7 @@ class SiteController extends Controller
 				//$imprimir .= '<tr align="center" valign="bottom">';
 			}
 				$contador++;
-				$imprimir .=  '<div id="elementosImagens" style="height: 160px; text-align: center;" align="center" style="height: 180px;" class="tile '.$value->solonombre.'">';
+				$imprimir .=  '<div id="elementosImagens" style="height: 160px; text-align: center;" align="center" style="height: 180px;" class="tile '.$value->solonombre.'" data-nombres="'.$value->nombres.'" data-apellidos="'.$value->apellidos.'" data-numero="'.$numero.'">';
 				
 				$imprimir .=  '<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
 										'.$link.'<div style="padding-bottom: 8px;"></div> <loteautor>'.$value->solonombre.'</loteautor>';
@@ -510,7 +510,7 @@ class SiteController extends Controller
 						
 						if(Yii::app()->session['admin'])
 						{
-							$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$resultados->id));
+							$ganador_imagen = Usuariospujas::model()->find('idusuario=:idusuario && idsubasta=:idsubasta', array(':idusuario'=>$value->id_usuario, ':idsubasta'=>$ultimaSubastaSilenciosa->id));
 							$imprimir .= '<div>Paleta <paleta_'.$value->id.'>'.$ganador_imagen['paleta'].'</paleta_'.$value->id.'></div>';
 
 						}
@@ -538,7 +538,7 @@ class SiteController extends Controller
 		$imprimir .= '</div>';
 
 		
-		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$resultados));
+		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$ultimaSubastaSilenciosa));
 	}
 
 	public function mostrandoImagen($imagen){
