@@ -38,9 +38,9 @@ return array(
 		),
 		'clientScript' => array(
 	        'scriptMap' => array(
-	            'jquery.js'=>false,  //disable default implementation of jquery
+	            'jquery.js'=>true,  //enable default implementation of jquery
 	            'jquery-ui.js'=>false,
-	            'jquery.min.js'=>false,  //desable any others default implementation
+	            'jquery.min.js'=>true,  //enable any others default implementation
 	            'jquery-ui.min.cs'=>false,
 	            'core.css'=>false, //disable
 	            'styles.css'=>false,  //disable
