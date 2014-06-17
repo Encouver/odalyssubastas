@@ -1,4 +1,4 @@
-	<?php //Yii::app()->clientScript->registerCoreScript('jquery');
+<?php //Yii::app()->clientScript->registerCoreScript('jquery');
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
@@ -273,6 +273,8 @@ $this->pageTitle=Yii::app()->name;
 	$imprimir = $filtro.$imprimir;
 
 ?>
+
+
 <p id="refreshData">
 	<?php
 		echo $imprimir;

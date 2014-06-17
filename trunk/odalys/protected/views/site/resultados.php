@@ -71,6 +71,8 @@ $this->pageTitle=Yii::app()->name;
 																											} ) 
 																				)"));
 
+
+
 echo $filtro.$resultados;
 
 ?>
