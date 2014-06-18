@@ -295,17 +295,7 @@
 																					CClientScript::POS_READY);
 
 					?>
-<?php 
 
-	$this->beginWidget('application.extensions.sidebar.Sidebar', array('title' => 'Carrito', 'collapsed' => false, 'position'=>'right'));
-		//here you display a cmenu or gridview or any other thing as per your needs.
-		//or you can simply display contents form variable like below
-		$carrito = "Hola";
-		echo $carrito;
-		 
-		 
-		$this->endWidget();
-?>
 <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID. -->
 <script>
   var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];

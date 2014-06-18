@@ -267,7 +267,7 @@ class SiteController extends Controller
 		//$imprimir ="Hola";
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php1'
-		$this->render('index', array('imprimir'=>$imprimir,'subasta'=>$subas));
+		$this->render('index', array('imprimir'=>$imprimir,'subasta'=>$subas,'imagenesDir'=>$this->imagenesDir));
 
 	}
 
