@@ -538,7 +538,7 @@ class SiteController extends Controller
 		$imprimir .= '</div>';
 
 		
-		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$ultimaSubastaSilenciosa));
+		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$ultimaSubastaSilenciosa,'imagenesDir'=>$this->imagenesDir));
 	}
 
 	public function mostrandoImagen($imagen){

@@ -51,45 +51,46 @@ $this->pageTitle=Yii::app()->name;
 												            ', 
 														CClientScript::POS_READY);
 
-	$filtro = "<p>Filtrar por: </p>"; 
-	$filtro .= CHtml::link("Número","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
+	$filtro = "<p>Ordenar por: </p>"; 
+	$filtro .= CHtml::link("Lote","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
 																							    					return $(a).attr('data-numero') - $(b).attr('data-numero');
 																										} ) 
 																				)"));
-	$filtro .= "   |   ";
+	/*$filtro .= "   |   ";
 	$filtro .= CHtml::link("Nombre","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {																												
 																													if ($(a).attr('data-nombres') < $(b).attr('data-nombres')) return -1;
 																													if ($(a).attr('data-nombres') > $(b).attr('data-nombres')) return 1;
 																													return 0;
 																											} ) 
-																				)"));
+																				)"));*/
 	$filtro .= "   |   ";
-	$filtro .= CHtml::link("Apellido","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
+	$filtro .= CHtml::link("Artista","",array("onclick"=>" $('.tablaresultado').html($('div#elementosImagens').sort(function(a, b) {
 																													if ($(a).attr('data-apellidos') < $(b).attr('data-apellidos')) return -1;
 																													if ($(a).attr('data-apellidos') > $(b).attr('data-apellidos')) return 1;
 																													return 0;
 																											} ) 
 																				)"));
 
+	if(Yii::app()->session['id_usuario']){
+		$carrito = '';
+		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subasta->id, ':id_usuario' => Yii::app()->session['id_usuario']));
+		if($mispujas)
+			foreach ($mispujas as $key => $puja) {
+				$carrito .= '<div><img src="'.$imagenesDir.$puja->imagen.'"></img><br><span style="color: red;">
+							'.$puja->solonombre.'</span></div>';
+							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
+			}
+		else
+			$carrito = 'No posee obras';
 
-	$carrito = '';
-	$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subasta->id, ':id_usuario' => Yii::app()->session['id_usuario']));
-	if($mispujas)
-		foreach ($mispujas as $key => $puja) {
-			$carrito .= '<div><img src="'.$imagenesDir.$puja->imagen.'"></img><br><span style="color: red;">
-						'.$puja->solonombre.'</span></div>';
-						//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
-		}
-	else
-		$carrito = 'No posee obras';
-
-	$this->beginWidget('application.extensions.sidebar.Sidebar', array('title' => 'Carrito', 'collapsed' => false, 'position'=>'right'));
-	//here you display a cmenu or gridview or any other thing as per your needs.
-	//or you can simply display contents form variable like below
-	//$carrito = "Hola";
-	echo $carrito;
-	
-	$this->endWidget();
+		$this->beginWidget('application.extensions.sidebar.Sidebar', array('title' => 'Mis pujas', 'collapsed' => false, 'position'=>'right'));
+		//here you display a cmenu or gridview or any other thing as per your needs.
+		//or you can simply display contents form variable like below
+		//$carrito = "Hola";
+		echo $carrito;
+		
+		$this->endWidget();
+	}
 
 echo $filtro.$resultados;
 
