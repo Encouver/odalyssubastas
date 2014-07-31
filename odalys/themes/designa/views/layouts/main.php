@@ -21,7 +21,7 @@
 	
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<!--<link rel="shortcut icon" type="image/png" href="favicon.png">-->
-	a
+	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/style.css">
 
@@ -96,21 +96,30 @@
 
 
    <hr style="clear:both">
-<div class = "alignleft">
-<w class="enbold"><nombresubasta>Subasta</nombresubasta></w> En línea - <nombrecsubasta></nombrecsubasta>
+
+   <div style="width: 100% !important;">
+		<div class = "alignleft" style="font-size: 13px;">
+		<w class="enbold"><nombresubasta>Subasta</nombresubasta></w> En línea - <nombrecsubasta></nombrecsubasta>
+		</div>
+
+		<div  class = "alignright" style="padding-left: 10em; width: 70% !important;">
+			<div  id="filtro" class = "alignleft" style="width:25% !important;"></div>
+
+			
+
+			<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
+			<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
+			<div id="odliczanie-b" class = "alignright" syle="width: 5%;">Tiempo restante: <b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
+			<div  id="barraBusqueda" class = "aligncenter" style="width: 30%; margin-bottom: 0;"></div>
+	  	</div>
+  	
+	</div>
+    <hr style="clear:both">
+</div></div>
+
 </div>
 
-	<span id="barraBusqueda" style="text-align:center"></span>
-
-		<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
-	<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-	<div id="odliczanie-b" class = "alignright"><b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
-  
-    <hr style="clear:both"></div></div>
-
-</div>
-
-<div class="container" style= "padding-top: 150px;"> 
+<div class="container" style= "padding-top: 170px;"> 
 
 <div class="home-page main">
 	<section class="grid-wrap" >
@@ -279,17 +288,21 @@
 
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.flexslider-min.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/scripts.js"></script>
-<!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/kkcountdown.min.js"></script>-->
+<!--<script src="<?php //echo Yii::app()->theme->baseUrl; ?>/js/kkcountdown.min.js"></script>-->
 
-<!--<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.lwtCountdown-1.0.js"></script>-->
+<!--<script src="<?php //echo Yii::app()->theme->baseUrl; ?>/js/jquery.lwtCountdown-1.0.js"></script>-->
 					
 					<?php
 							//Lazy Load
 							Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/js/jquery.lazyload.min.js', CClientScript::POS_END);
 							Yii::app()->clientScript->registerScript('lazyload','// LAZY LOAD 
-																					$(function() {
+																					$( function () {
 																						$("img.lazy").lazyload({
-																												    threshold : 200
+																												    threshold : 200,
+																												    event : "mouseover",
+																												    event : "scroll",
+																												    //failure_limit : 300,
+																												    container: $("#wrapper_imagens")  // Descomentar esta linea para cargar todas las imagenes del contenedor
 																												});
 																					});', 
 																					CClientScript::POS_READY);

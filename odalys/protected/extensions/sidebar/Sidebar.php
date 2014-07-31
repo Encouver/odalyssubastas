@@ -29,7 +29,7 @@ class Sidebar extends CWidget {
                 'left_menu.setStartStatus(true);';
         Yii::app()->clientScript->registerScript('leftMenu', $js, CClientScript::POS_LOAD);
 
-        echo '<div class="left_menu" id="leftmenu">';
+        echo '<div class="left_menu" id="leftmenu" style="width: 180px;">';
         
        echo '<div class="title">' ;
 		echo  CHtml::encode($this->title);
@@ -45,7 +45,7 @@ class Sidebar extends CWidget {
                 'right_menu.setStartStatus(true);';
         Yii::app()->clientScript->registerScript('rightMenu', $js, CClientScript::POS_LOAD);
 
-        echo '<div class="right_menu" id="rightmenu">';
+        echo '<div class="right_menu" id="rightmenu" style="width: 180px;">';
         
        echo '<div class="title">' ;
 		echo  CHtml::encode($this->title);

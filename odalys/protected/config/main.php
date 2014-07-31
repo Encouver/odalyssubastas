@@ -70,7 +70,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
 			'emulatePrepare' => true,
 			'username' => 'odalyscs_ed',
-			'password' => 'edgar',
+			'password' => '3dgar123!',
 			'charset' => 'utf8',
 		),
 		/*
@@ -145,6 +145,7 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
 		'languages'=>array('en_us'=>'English', 'es'=>'Spanish'),
+		'imagenesDir'=>'http://www.odalys.com/odalys/',
 	),
 	'theme'=>'designa',
 	'sourceLanguage' => '00',
