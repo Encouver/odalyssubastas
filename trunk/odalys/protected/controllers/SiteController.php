@@ -312,7 +312,7 @@ class SiteController extends Controller
 			
 			
 			//cambiar a *********ADMIN******
-			$imagenElement = CHtml::image('','',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'));
+			$imagenElement = CHtml::image(Yii::app()->getBaseUrl(true).'/images/loader.gif','Cargando',array('data-original'=>$this->imagenesDir.$value->imagen, 'class'=>'lazy', 'onError'=>'this.onerror=null;this.src=\''.Yii::app()->getBaseUrl(true).'/images/loader.gif\';', 'width'=>'auto','height'=>'auto'));
 			if(Yii::app()->session['admin'])
 				$link = CHtml::ajaxLink( $imagenElement,
 								        $this->createUrl('site/pujaradmin'),
@@ -338,7 +338,7 @@ class SiteController extends Controller
 			$this->mostrandoImagen($value);
 
 
-				$imprimir .='<div id="elementosImagens" style="height: 270px; text-align: center;" align="center" class="tile '.$value->solonombre.'" data-nombres="'.$value->nombres.'" data-apellidos="'.$value->apellidos.'" data-numero="'.$numero.'">
+				$imprimir .='<div id="elementosImagens" style="height: 200px; text-align: center;" align="center" class="tile '.$value->solonombre.'" data-nombres="'.$value->nombres.'" data-apellidos="'.$value->apellidos.'" data-numero="'.$numero.'">
 								<span style="display: inline-block; height:100px; vertical-align: bottom; "> </span> 
 								'.$link.'<div style="padding-bottom: 8px;"></div>';
 						
@@ -431,10 +431,10 @@ class SiteController extends Controller
 			
 								$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 																						array('style'=>'width: 5px;hight:5px;'));
-								$imprimir .= '<br>Prox. Puja: <br><pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+								$imprimir .= '<br>Prox. Puja: <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
 											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
 								if($usuarioPM)
-									$imprimir .= '<span style="color: red;"><p> Puja máxima: <br><moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+									$imprimir .= '<span style="color: red;"><p> Puja máxima: <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
 								else
 									$imprimir .= '<br>';
 								$imprimir .=  $pujarAjaxLink.'</w>';
@@ -606,6 +606,7 @@ class SiteController extends Controller
 		
 	}
 
+	//Acción para el refresco de los elementos, como precios y carrito
 	public function actionBuscar()
 	{
 
@@ -632,8 +633,6 @@ class SiteController extends Controller
 		$criteria->params = array(':ids'=>$subas['id']);
 
 		$query = ImagenS::model()->findAll($criteria);
-
-		//echo $query;
 
 		$res = array();
 		foreach ($query as $key => $value) {
@@ -697,11 +696,11 @@ class SiteController extends Controller
 						if($value->id_usuario == Yii::app()->session['id_usuario']){ // Si la imágen pertenece al usuario actual
 
 
-							$proxPuja = '<br>Prox. Puja: <br><pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+							$proxPuja = '<br>Prox. Puja: <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
 						  	<siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
 							$hastaPM = $proxPuja;
 							if($usuarioPM)
-								$hastaPM .= '<span style="color: red;"><p> Puja máxima: <br><moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+								$hastaPM .= '<span style="color: red;"><p> Puja máxima: <moneda>'.$subas['moneda'].'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
 							else
 								$hastaPM .= '<br>';
 							$res[] =  array('id'=>$value->id, 'actual'=>$value->actual, 'siguiente'=>$siguiente,
@@ -718,6 +717,22 @@ class SiteController extends Controller
 				// number_format($value->actual,0,'.','') // entero sin coma
 			}
 		}
+
+		$carrito = '';
+
+		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subas->id, ':id_usuario' => Yii::app()->session['id_usuario']));
+		if($mispujas)
+			foreach ($mispujas as $key => $puja) {
+				$carrito .= '<div><img src="'.Yii::app()->params['imagenesDir'].$puja->imagen.'"></img><br><span style="color: red;">
+							'.$puja->solonombre.'</span><p>Actual: <moneda>'.$subas->moneda.'</moneda> '.number_format($puja->actual).'</p></div>';
+							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
+			}
+		else
+			$carrito = 'No ha realizado ninguna puja';
+
+		$res[] = array('carrito' =>  $carrito);
+		//print_r($res);
+
 		echo json_encode($res);
 		exit();
 	}
