@@ -26,6 +26,7 @@ $this->pageTitle=Yii::app()->name;
 
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/plugin/kkcountdown/js/kkcountdown.min.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScript('cronometro','$(document).ready(function(){
+																	$("tiemporestante").html("Tiempo restante: ");
 													                $(".cronometro").kkcountdown({
 													                	dayText		: "día ",
 													                	daysText 	: "días ",
