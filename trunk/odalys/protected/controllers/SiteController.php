@@ -718,8 +718,30 @@ class SiteController extends Controller
 				// number_format($value->actual,0,'.','') // entero sin coma
 			}
 		}
+		
+		//$criteria = new CDbCriteria;
+
+		//$criteria->condition = 'id_usuario=:id_usuario AND verificado=:verificado AND ids=:ids';
+		//$criteria->params = array(':id_usuario'=>Yii::app()->session['id_usuario'], ':ids'=>$subas->id,':verificado'=>2);
+		//s$criteria->order = 'id_imagen_s DESC';
+		//$criteria->select = "id_imagen_s";
+		//$criteria->distinct =true;
+
+		//$pujasPerdidas = RegistroPujas::model()->find($criteria);
 
 		$carrito = '';
+/*
+		foreach ($pujasPerdidas as $key => $pujaPerdida) 
+			$mispujasPerdidas[] = ImagenS::model()->find('id=:id AND id_usuario!=:id_usuario', array(':id'=>$pujaPerdida->id_imagen_s, ':id_usuario' => Yii::app()->session['id_usuario']));
+
+		if($mispujasPerdidas)
+			foreach ($mispujasPerdidas as $key => $puja) {
+				$carrito .= '<div id="vsidebar"><img src="'.Yii::app()->params['imagenesDir'].$puja->imagen.'"></img><br><span style="color: red;">
+							'.$puja->solonombre.'</span><p><strong>Puja superada</strong></p></div>';
+							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
+			}
+*/
+
 
 		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subas->id, ':id_usuario' => Yii::app()->session['id_usuario']));
 		if($mispujas)
