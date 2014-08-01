@@ -444,7 +444,7 @@ class SiteController extends Controller
 					elseif(!Yii::app()->session['admin'])
 					{
 						//Ventana modal de login
-						$pujarAjaxLink = CHtml::ajaxLink('Pujar',
+						/*$pujarAjaxLink = CHtml::ajaxLink('Pujar',
 			        	$this->createUrl('site/login'), array(
 											            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
 											            //'update'=>'#pujaModal'
@@ -457,7 +457,8 @@ class SiteController extends Controller
 											            'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
 											        ),
 											        array('id'=>$value->id, 'style'=>'color: #014F92;')
-												);
+												);*/
+						/*temporal */$pujarAjaxLink = CHtml::link('Pujar',array('site/login')); 
 						$imprimir .= $pujarAjaxLink.'<BR/>';					
 					}
 				$imprimir .= '</div>';
@@ -723,7 +724,7 @@ class SiteController extends Controller
 		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subas->id, ':id_usuario' => Yii::app()->session['id_usuario']));
 		if($mispujas)
 			foreach ($mispujas as $key => $puja) {
-				$carrito .= '<div><img src="'.Yii::app()->params['imagenesDir'].$puja->imagen.'"></img><br><span style="color: red;">
+				$carrito .= '<div id="vsidebar"><img src="'.Yii::app()->params['imagenesDir'].$puja->imagen.'"></img><br><span style="color: red;">
 							'.$puja->solonombre.'</span><p>Actual: <moneda>'.$subas->moneda.'</moneda> '.number_format($puja->actual).'</p></div>';
 							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
 			}

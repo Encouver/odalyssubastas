@@ -1281,3 +1281,11 @@ textarea.input-lg {
     text-align: right;
   }
 }
+
+/*Ventana sidebar*/
+
+#vsidebar
+{
+	padding-left: 10px;
+	padding-top: 10px;
+}
