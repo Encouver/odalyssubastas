@@ -98,20 +98,22 @@
    <hr style="clear:both">
 
    <div style="width: 100% !important;">
+ 
 		<div class = "alignleft" style="font-size: 13px;">
 		<w class="enbold"><nombresubasta>Subasta</nombresubasta></w> En línea - <nombrecsubasta></nombrecsubasta>
 		</div>
-
-		<div  class = "alignright" style="padding-left: 10em; width: 70% !important;">
+			
+		<div  class = "alignright" style="padding-left: 9em; width: 70% !important;">
 			<div  id="filtro" class = "alignleft" style="width:25% !important;"></div>
 
 			
 
 			<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
 			<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-			<div id="odliczanie-b" class = "alignright" syle="width: 5%;">Tiempo restante: <b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
+			<div id="odliczanie-b" class = "alignright" syle="width: 5%;"> <tiemporestante></tiemporestante> <b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
 			<div  id="barraBusqueda" class = "aligncenter" style="width: 30%; margin-bottom: 0;"></div>
 	  	</div>
+
   	
 	</div>
     <hr style="clear:both">
