@@ -282,7 +282,7 @@ $this->pageTitle=Yii::app()->name;
 		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subasta->id, ':id_usuario' => Yii::app()->session['id_usuario']));
 		if($mispujas)
 			foreach ($mispujas as $key => $puja) {
-				$carrito .= '<div><img src="'.$imagenesDir.$puja->imagen.'"></img><br><span style="color: red;">
+				$carrito .= '<div id="vsidebar"><img src="'.$imagenesDir.$puja->imagen.'"></img><br><span style="color: red;">
 							'.$puja->solonombre.'</span><p>Actual: <moneda>'.$subasta->moneda.'</moneda> '.number_format($puja->actual).'</p></div>';
 							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
 			}
