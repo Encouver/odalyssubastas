@@ -40,12 +40,13 @@ div.right_menu {
     position: fixed;
     width: 180px;
     right: 0px;
+    top: 25vh !important;
     /*top: 160px;*/
     background: #FFFFFF;
     border-right: 0px none;
     z-index: 10000;
    overflow: scroll;
-   height: 77% !important;
+   height: 70vh !important;
 }
 
 
