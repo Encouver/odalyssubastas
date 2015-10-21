@@ -44,7 +44,7 @@
 
  	<header id="navtop">
 		<a href="<?php echo Yii::app()->getHomeUrl();?>" class="logo fleft">
-			<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" width= "20px" alt="Designa Studio">
+			<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" width= "20px" alt="Casa de Subastas Odalys">
 		</a>
 		
 		<nav class="fright">
@@ -54,7 +54,7 @@
 				{
 					$this->widget('zii.widgets.CMenu',array(
 						'items'=>array(
-							array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']),
+						//	array('label'=>'Bienvenido(a) '.Yii::app()->session['nombre_usuario'].' '.Yii::app()->session['apellido_usuario']),
 							array('label'=>'Mi cuenta ', 'url'=>'http://www.odalys.com/odalys/micuenta.php', 'linkOptions'=>array('target'=>'_blank')),
 							array('label'=>'Condiciones de la subasta', 'url'=>'http://odalys.com/odalys/condiciones_silenciosa.php', 'linkOptions'=>array('target'=>'_blank') ),
 							array('label'=>'Volver a  odalys.com', 'url'=>'http://www.odalys.com', 'linkOptions'=>array('target'=>'_blank') ),
@@ -98,31 +98,38 @@
    <hr style="clear:both">
 
    <div style="width: 100% !important;">
- 
-		<div class = "alignleft" style="font-size: 13px;">
-		<w class="enbold"><nombresubasta>Subasta</nombresubasta></w> En línea - <nombrecsubasta></nombrecsubasta>
+		<div class = "alignleft" style="font-size: 13px; margin: 0 0 0 0;">
+		<w class="enbold"><nombresubasta>Subasta</nombresubasta></w> <nombrecsubasta></nombrecsubasta>
 		</div>
-			
-		<div  class = "alignright" style="padding-left: 9em; width: 70% !important;">
-			<div  id="filtro" class = "alignleft" style="width:25% !important;"></div>
+
+		<div  class = "alignright" style="margin: 0 0 0 0;">
 
 			
 
 			<?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
 			<!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-			<div id="odliczanie-b" class = "alignright" syle="width: 5%;"> <tiemporestante></tiemporestante> <b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
-			<div  id="barraBusqueda" class = "aligncenter" style="width: 30%; margin-bottom: 0;"></div>
+			<div id="odliczanie-b" class = "" syle="margin: 0 0 0 0;"><b><span data-time="<?php echo $fecha->format('U');?>" class="cronometro"></span></b></div>
 	  	</div>
-
   	
 	</div>
+	<br>
     <hr style="clear:both">
 </div></div>
 
 </div>
+<?php
+if(Yii::app()->session['id_usuario'])
+{
 
-<div class="container" style= "padding-top: 170px;"> 
-
+echo'
+<div class="container" style= "padding-top: 185px;"> 
+';
+}else{
+echo'
+<div class="container" style= "padding-top: 180px;"> 
+';	
+}
+?>
 <div class="home-page main">
 	<section class="grid-wrap" >
 		<header class="grid col-full">
@@ -136,6 +143,31 @@
 		</header>
 		
 		<div class="grid col-full mq2-col-full">
+
+
+   <div style="width: 100% !important; padding-bottom:15px;">
+		<div class = "alignleft" style="font-size: 13px; margin: 0 0 0 0;">
+				
+				<div  id="filtro" class = "" style="padding-top:10px" ></div>
+		</div>
+
+		<div  class = "alignright" style="margin: 0 0 0 0;">
+				<div  id="barraBusqueda" class = "" style="width: 200px; margin-bottom: 0;"></div>
+
+	  	</div>
+  	
+	</div>
+	<br>
+	<br>
+
+
+
+
+
+
+
+
+	
 			<?php echo $content; ?>
 		</div>
 	
@@ -250,19 +282,36 @@
 	</section>
 	</div> <!--main-->
 
-<div class="divide-top" style="text-align:center">
+<div class="divide-top" style="">
 	<footer class="grid-wrap">
-		<!--<ul class="grid col-one-third social">
-			<!--<li><a href="#">RSS</a></li>-->
-			<!--<li><a href="#">Facebook</a></li>
-			<li><a href="#">Twitter</a></li>
-			<li><a href="#">Google+</a></li>
-			<!--<li><a href="#">Flickr</a></li>-->
-		<!--</ul>-->
+		<div class="up grid col-one-third" style="width:200px !important;">
+			<a href="<?php echo Yii::app()->getHomeUrl();?>" class="logo fleft">
+				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo.png" width= "15px" alt="Casa de Subastas Odalys">
+			</a>
+		</div>
+
+		<div class="grid col-one-third social">
+
+
+	      CARACAS - VENEZUELA<br>
+	      C. Comercial Concresa, Nivel PB. Locales 115 y 116,<br>
+	      Urb. Prados del Este, Caracas 1080, Venezuela<br>
+	      Telfs: +58 212 9795942, +58 212 9761773, <br>Fax: +58 212 9794068<br>
+	      odalys@odalys.com<br><br>
+	      MADRID - ESPAÑA<br>
+	      Orfila 5, 28010, Madrid, España<br>
+	      Telfs: +34 913194011, +34 913896809<br>
+	      galeria@odalys.com | info@odalys.es<br><br>
+	      MIAMI - USA<br>
+	      Odalys Galería de Arte<br>
+	      8300 Nw 74th terr Tamarac, Fl 33321. USA<br>
+	      Phone: +1 954 6819490<br>
+	      miami@odalys.com<br>
+
+
+		</div>
 	
-		<!--<div class="up grid col-one-third">
-			<a href="#navtop" title="Go back up">&uarr;</a>
-		</div>-->
+
 		
 		<nav class="grid col-one-third ">
 				<?php /*$this->widget('zii.widgets.CMenu',array(
@@ -279,7 +328,7 @@
 </div>
 
 </div>
-
+</div>
 <!-- Javascript - jQuery -->
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-1.7.2.min.js"><\/script>')</script>

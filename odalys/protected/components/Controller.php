@@ -1,5 +1,5 @@
 <?php Yii::app()->clientScript->registerCoreScript('jquery');
-//ini_set('session.cookie_domain','.odalys.com');
+ini_set('session.cookie_domain','.odalys.com');
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.

@@ -37,7 +37,7 @@ $this->pageTitle=Yii::app()->name;
 																//$(".tile:nth-child(3n+2)").css("margin-left","30px");
 																//$(".tile:nth-child(3n+2)").css("margin-right","30px");
 																var barinput = "js: $(window).trigger(\'scroll\');";
-																$("div#barraBusqueda").empty().html(\'<input id="autorBusqueda" onkeyup="\'+barinput+\'" oninput="\'+barinput+\'" placeholder="Busqueda por autor" style="padding:0.5em !important; width: 100% !important;"></input>\');
+																$("div#barraBusqueda").empty().html(\'<input id="autorBusqueda" onkeyup="\'+barinput+\'" oninput="\'+barinput+\'" placeholder="Buscar por autor" style="padding:0.5em !important; width: 100% !important;"></input>\');
 																$("input#autorBusqueda").quicksearch("#wrapper_imagens #elementosImagens");
 													        });
 												            ', 

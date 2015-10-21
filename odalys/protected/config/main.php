@@ -32,6 +32,17 @@ return array(
 
 	// application components
 	'components'=>array(
+        'Smtpmail'=>array(
+            'class'=>'application.extensions.smtpmail.PHPMailer',
+            'Host'=>"smtp.gmail.com",
+            'Username'=>'pujas@odalys.com', //noreply@odalys.com 
+            'Password'=>'pujas123q', //noreply..123nr.
+            'Mailer'=>'smtp',
+            'Port'=>587,
+            'SMTPAuth'=>true,
+            'SMTPSecure' => 'tls',
+        ),
+
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,

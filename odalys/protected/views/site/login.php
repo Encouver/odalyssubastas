@@ -5,9 +5,9 @@
 
 if(!$modal){
 	$this->pageTitle=Yii::app()->name . ' - Inicio de sesión';
-	$this->breadcrumbs=array(
-		'Inicio de sesión',
-	);
+//	$this->breadcrumbs=array(
+//		'Inicio de sesión',
+//	);
 }
 ?>
 
@@ -99,4 +99,11 @@ if(!$modal){
 	<br/>
 	<br/>
 	No te has registrado en odalys.com? Házlo <?php echo CHtml::link('aquí','http://odalys.com/odalys/registro.php'); ?>
+<br/><br/>
+<h5 style="text-transform: none; font-weight:bold">
+Si aún no posee su PALETA y CÓDIGO para realizar sus pujas, <br>envíenos un correo a pujas@odalys.com o comuníquese <br>con nosotros a los teléfonos +58 212 9761773 / +58 212 9790542. 
+</h5>
+
 </p>
+
+

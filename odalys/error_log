@@ -1,0 +1,20 @@
+[20-Sep-2014 03:06:31 UTC] PHP Parse error:  syntax error, unexpected ''"/></' (T_ENCAPSED_AND_WHITESPACE) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 104
+[20-Sep-2014 03:06:32 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 1173
+[20-Sep-2014 03:12:14 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 1585
+[06-Apr-2015 22:27:03 UTC] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 304
+[15-May-2015 21:13:41 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/odalyscs/public_html/odalyssubastas/odalys/themes/designa/views/layouts/main.php on line 132
+[16-May-2015 16:45:54 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 254
+[16-May-2015 16:46:22 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 254
+[16-May-2015 16:50:20 UTC] PHP Parse error:  syntax error, unexpected 'id' (T_STRING) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 249
+[16-May-2015 16:50:25 UTC] PHP Parse error:  syntax error, unexpected 'id' (T_STRING) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 249
+[16-May-2015 16:50:57 UTC] PHP Parse error:  syntax error, unexpected 'id' (T_STRING) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 249
+[16-May-2015 16:52:33 UTC] PHP Parse error:  syntax error, unexpected 'id' (T_STRING) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 249
+[16-May-2015 16:52:56 UTC] PHP Parse error:  syntax error, unexpected 'id' (T_STRING) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 249
+[16-May-2015 16:57:26 UTC] PHP Warning:  Unterminated comment starting line 54 in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 54
+[16-May-2015 16:57:26 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting function (T_FUNCTION) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 120
+[16-May-2015 16:57:57 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 251
+[16-May-2015 17:17:05 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/MailController.php on line 309
+[31-Jul-2015 20:12:27 UTC] PHP Parse error:  syntax error, unexpected '$logusuario' (T_VARIABLE) in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 819
+[31-Jul-2015 20:21:01 UTC] PHP Parse error:  syntax error, unexpected ''required'' (T_CONSTANT_ENCAPSED_STRING), expecting ')' in /home/odalyscs/public_html/odalyssubastas/odalys/protected/models/LogUsuarios.php on line 42
+[31-Jul-2015 20:21:43 UTC] PHP Fatal error:  Class 'LogUsuarios' not found in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 811
+[31-Jul-2015 20:27:29 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/odalyscs/public_html/odalyssubastas/odalys/protected/controllers/SiteController.php on line 813

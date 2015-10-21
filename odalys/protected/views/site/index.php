@@ -105,6 +105,20 @@ $this->pageTitle=Yii::app()->name;
 										
 													            ', 
 														CClientScript::POS_READY);*/
+	Yii::app()->clientScript->registerScript('refresh','var time = new Date().getTime();
+ 
+	     $(document.body).bind("mousemove keypress", function(e) {
+        	 time = new Date().getTime();
+     	});
+ 
+	     function refresh() {
+       	  if(new Date().getTime() - time >= 1800000)
+       	      window.location.reload(true);
+       	  else
+             setTimeout(refresh, 300000);
+     	}
+ 
+	     setTimeout(refresh, 300000);', CClientScript::POS_READY);
 
 	$fecha = new DateTime((Cronometro::model()->find('ids=:ids',array(':ids'=> Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion']));
 	//echo 'Fecha Finalización: '.$fecha->format('d-m-Y h:i:s');
