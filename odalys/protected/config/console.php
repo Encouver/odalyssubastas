@@ -14,6 +14,23 @@ return array(
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 		),
+        'Smtpmail'=>array(
+            'class'=>'application.extensions.smtpmail.PHPMailer',
+            'Host'=>"smtp.gmail.com",
+            'Username'=>'pujas@odalys.com', //noreply@odalys.com
+            'Password'=>'pujas123q', //noreply..123nr.
+            'Mailer'=>'smtp',
+            'Port'=>587,
+            'SMTPAuth'=>true,
+            'SMTPSecure' => 'tls',
+        ),
+        'db'=>array(
+            'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
+            'emulatePrepare' => true,
+            'username' => 'odalyscs_ed',
+            'password' => '3dgar123!',
+            'charset' => 'utf8',
+        ),
 		// uncomment the following to use a MySQL database
 		/*
 		'db'=>array(

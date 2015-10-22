@@ -35,6 +35,8 @@ class MailController extends Controller
 		);
 	}
 
+
+
 	public function mailsend($to,$subject,$message){
 		$from = "pujas@odalys.com"; //noreply@odalys.com
         $mail=Yii::app()->Smtpmail;

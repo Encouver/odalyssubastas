@@ -1,0 +1,4 @@
+CREATE TABLE `odalyscs_edgar`.`pre_subastas` ( `id` INT NOT NULL COMMENT 'Clave primaria' , `usuario_id` INT NULL COMMENT 'Usuario que realiza la acción.' , `puja_maxima` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Ìndica si hará una puja maxima en la presubasta.' , `puja_telefonica` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Indica si hará una puja telefónica' , `asistir_subasta` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Indica si asitirar a una subasta en vivo.' , `imagen_s_id` INT NULL COMMENT 'Clave foránea a la imágen pertenenciente al usuario actual' , `no_hacer_nada` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Indica si no hará nada el usuario.' ) ENGINE = InnoDB COMMENT = 'Control de la presubasta.';
+
+ALTER TABLE `pre_subastas` ADD `subasta_id` INT NOT NULL COMMENT 'Clave foránea a la subasta la cuál pertenece este registro.';
+
