@@ -42,6 +42,14 @@ class Subastas extends CActiveRecord
 		return 'subastas';
 	}
 
+	public function behaviors()
+	{
+	    return array(
+	        'ActiveRecordLogableBehavior'=>
+	            'application.behaviors.ActiveRecordLogableBehavior',
+	    );
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

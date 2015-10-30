@@ -31,6 +31,14 @@ class Usuariospujas extends CActiveRecord
 		return 'usuariospujas';
 	}
 
+	public function behaviors()
+	{
+	    return array(
+	        'ActiveRecordLogableBehavior'=>
+	            'application.behaviors.ActiveRecordLogableBehavior',
+	    );
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

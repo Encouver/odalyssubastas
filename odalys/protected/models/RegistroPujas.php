@@ -37,6 +37,14 @@ class RegistroPujas extends CActiveRecord
 		return 'registro_pujas';
 	}
 
+	public function behaviors()
+	{
+	    return array(
+	        'ActiveRecordLogableBehavior'=>
+	            'application.behaviors.ActiveRecordLogableBehavior',
+	    );
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

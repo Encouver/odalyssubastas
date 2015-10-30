@@ -1,21 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "correos".
+ * This is the model class for table "activerecordlog".
  *
- * The followings are the available columns in table 'correos':
- * @property integer $id
- * @property string $head
- * @property string $footer
+ * The followings are the available columns in table 'activerecordlog':
+ * @property string $id
+ * @property string $description
+ * @property string $action
+ * @property string $model
+ * @property string $idModel
+ * @property string $field
+ * @property string $creationdate
+ * @property string $userid
  */
-class Correos extends CActiveRecord
+class Activerecordlog extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'correos';
+		return 'activerecordlog';
 	}
 
 	/**
@@ -26,19 +31,15 @@ class Correos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('head, footer', 'safe'),
+			array('creationdate', 'required'),
+			array('description', 'length', 'max'=>255),
+			array('action', 'length', 'max'=>20),
+			array('model, field, userid', 'length', 'max'=>45),
+			array('idModel', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, head, footer', 'safe', 'on'=>'search'),
+			array('id, description, action, model, idModel, field, creationdate, userid', 'safe', 'on'=>'search'),
 		);
-	}
-
-	public function behaviors()
-	{
-	    return array(
-	        'ActiveRecordLogableBehavior'=>
-	            'application.behaviors.ActiveRecordLogableBehavior',
-	    );
 	}
 
 	/**
@@ -59,8 +60,13 @@ class Correos extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'head' => 'Head',
-			'footer' => 'Footer',
+			'description' => 'Description',
+			'action' => 'Action',
+			'model' => 'Model',
+			'idModel' => 'Id Model',
+			'field' => 'Field',
+			'creationdate' => 'Creationdate',
+			'userid' => 'Userid',
 		);
 	}
 
@@ -82,9 +88,14 @@ class Correos extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('head',$this->head,true);
-		$criteria->compare('footer',$this->footer,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('action',$this->action,true);
+		$criteria->compare('model',$this->model,true);
+		$criteria->compare('idModel',$this->idModel,true);
+		$criteria->compare('field',$this->field,true);
+		$criteria->compare('creationdate',$this->creationdate,true);
+		$criteria->compare('userid',$this->userid,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -95,7 +106,7 @@ class Correos extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Correos the static model class
+	 * @return Activerecordlog the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
