@@ -8,6 +8,44 @@ class SiteController extends Controller
 	 * Declares class-based actions.
 	 */
 	public $imagenesDir = 'http://www.odalys.com/odalys/';
+
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+			'postOnly + delete', // we only allow deletion via POST request
+		);
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index', 'imagen' , 'buscar', 'error', 'Contact'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('pujar'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('reporteresultados','reportepujas', 'pujaradmin', 'Prereporte', 'terminar'),  //verificar este TERMINAR  aqui
+				'users'=>array('@'), 
+				//'expression' => 'is_numeric(Yii::app()->session["admin"])' debo probar esto arriba.
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+
+
+
 	public function actions()
 	{
 		return array(
@@ -116,7 +154,7 @@ class SiteController extends Controller
 
 			$html2pdf = Yii::app()->ePdf->HTML2PDF();
 	        $html2pdf->WriteHTML($contenido);
-	        $html2pdf->Output("repore.pdf", 'D');
+	        $html2pdf->Output("reporte.pdf", 'D');
 
 		}
 
@@ -226,7 +264,7 @@ class SiteController extends Controller
 
 			$html2pdf = Yii::app()->ePdf->HTML2PDF();
 	        $html2pdf->WriteHTML($contenido);
-	        $html2pdf->Output("repore.pdf", 'D');
+	        $html2pdf->Output("reporte.pdf", 'D');
 
 	        //$this->render('reporte', array('content'=>$contenido));
 
@@ -1635,6 +1673,57 @@ try {
 							
 			        		}
 				}
+		}
+
+
+		public function actionPrereporte()
+		{
+			
+
+		//$silenciosa = Subastas::model()->find($criteria);		
+			
+		//$titulo = 'Informe de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
+
+		$titulo = "Presubasta #";
+		//$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+
+		$contenido ="<html>
+		<head>
+			<title>Probando</title>
+			 <style type='text/css'>
+		<!--
+			table {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+			tr { text-align: center}
+			h1 {color: #000033}
+			h2 {color: #000055}
+			h3 {color: #000077}
+			
+			div.standard
+			{
+				padding-left: 5mm;
+			}
+		-->
+		</style>
+		</head>
+		<body>
+			<div style='margin: 0px auto'>
+			<img src='http://odalys.com/odalys/images/log.png'/>
+			<h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+		    <table class='page_header'>
+			<tr>
+		    	<td style=\"width: 25%;\">xxxx</td>
+		        <td style=\"width: 25%;\">xxx</td>
+		        <td style=\"width: 25%;\">xx</td>
+		        <td style=\"width: 25%;\">x</td>
+		     </tr>
+			</table>
+		    </div>
+			</body>
+			</html>";
+
+			$html2pdf = Yii::app()->ePdf->HTML2PDF();
+	        $html2pdf->WriteHTML($contenido);
+	        $html2pdf->Output("presubasta.pdf", 'D');
 		}
 
 } //Cierra la clase
