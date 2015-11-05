@@ -26,15 +26,15 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index', 'imagen' , 'buscar', 'error', 'Contact'),
+				'actions'=>array('index', 'imagen' , 'buscar', 'error', 'Contact', 'terminar', 'login'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('pujar'),
+				'actions'=>array('pujar', 'presubasta'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('reporteresultados','reportepujas', 'pujaradmin', 'Prereporte', 'terminar'),  //verificar este TERMINAR  aqui
+				'actions'=>array('reporteresultados','reportepujas', 'pujaradmin', 'Prereporte', 'logout'),  //verificar este TERMINAR  aqui
 				'users'=>array('@'), 
 				//'expression' => 'is_numeric(Yii::app()->session["admin"])' debo probar esto arriba.
 			),
@@ -270,6 +270,7 @@ class SiteController extends Controller
 
 		}
 
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -288,13 +289,42 @@ class SiteController extends Controller
 
 		if(!$subas)
 		{
-
 			$this->actionResultados();
 			//$this->redirect('odalys/site/resultados'/*, array('imprimir'=>$imprimir)*/);
 			//Aqui va la redirección a la vista resultado
 			//echo 'No hay subasta activas';
 			return;
 		}
+
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+        $criteria->params = array(':fuesilenciosa'=>1);
+        $criteria->order = 'id DESC';
+
+        $silenciosa = Subastas::model()->find($criteria);
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = 'ids=:ids';
+        $criteria->params = array(':ids'=>$silenciosa->id);
+
+        $crono = Cronometro::model()->find($criteria);
+
+        $time = new DateTime($crono->fecha_finalizacion);
+        $actualTime = new DateTime("now");
+
+        $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+
+        // Verificando que se encuentre en las proxima hora al finalizar la subasta.
+        if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
+        {
+            $this->actionPresubasta();
+        }
+
+
+        //$time->fecha_finalizacion;
 
 
 		$imprimir = $this->listaImagen($subas);
@@ -412,6 +442,8 @@ class SiteController extends Controller
 					// number_format($value->actual,0,'.','') // entero sin coma
 				}
 
+
+
 				$imprimir .= '</span> ';
 
 
@@ -471,6 +503,7 @@ class SiteController extends Controller
 																						array('style'=>'width: 5px;hight:5px;'));
 								$imprimir .= '<br>Prox. Puja: <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
 											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
+
 								if($usuarioPM)
 									$imprimir .= '<span style="color: red;"><p> Puja máxima: <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
 								else
@@ -507,6 +540,106 @@ class SiteController extends Controller
 		return $imprimir .='</div>'.$fancyElements;
 
 	}
+
+
+    public function  actionPresubasta(){
+
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+        $criteria->params = array(':fuesilenciosa'=>1);
+        $criteria->order = 'id DESC';
+
+        $ultimaSilenciosa = Subastas::model()->find($criteria);
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = 'ids=:ids';
+        $criteria->params = array(':ids'=>$ultimaSilenciosa->id);
+
+        $crono = Cronometro::model()->find($criteria);
+
+        // Fecha de finalización de la subasta
+        $time = new DateTime($crono->fecha_finalizacion);
+        // Fecha actual
+        $actualTime = new DateTime("now");
+
+        $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+
+        //$imprimir = $this->listaImagen($ultimaSilenciosa);
+
+        if($intervaloPresubasta < 3600)
+        {
+            echo "Presubasta no activa.";//json_encode(array('id'=>1,'success'=>false,'msg'=>'Presubasta no activa.'));
+            //return;
+        }
+
+        $presubasta = new PreSubastas();
+
+        if(isset($_POST['PreSubastas']))
+        {
+
+            $presubasta->attributes = $_POST['PreSubastas'];
+
+            switch ( $presubasta->opcion) {
+                case 0:
+                    $presubasta->puja_maxima = true;
+                    $presubasta->puja_telefonica = false;
+                    $presubasta->asistir_subasta = false;
+                    $presubasta->no_hacer_nada = false;
+                    break;
+                case 1:
+                    $presubasta->puja_maxima = false;
+                    $presubasta->puja_telefonica = true;
+                    $presubasta->asistir_subasta = false;
+                    $presubasta->no_hacer_nada = false;
+                    # code...
+                    break;
+
+                case 2:
+                    $presubasta->puja_maxima = false;
+                    $presubasta->puja_telefonica = false;
+                    $presubasta->asistir_subasta = true;
+                    $presubasta->no_hacer_nada = false;
+                    # code...
+                    break;
+
+                default:
+                    # code...
+                    $presubasta->puja_maxima = false;
+                    $presubasta->puja_telefonica = false;
+                    $presubasta->asistir_subasta = false;
+                    $presubasta->no_hacer_nada = true;
+                    break;
+            }
+            $presubasta->subasta_id = $ultimaSilenciosa->id;
+
+
+            if(Yii::app()->session['id_usuario'])
+                $presubasta->usuario_id = Yii::app()->session['id_usuario'];
+
+            if($presubasta->save())
+            {
+                echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Puja dejada con éxito.'));
+                return;
+            }
+
+        }else{
+
+            if(isset($_POST['imagen_s'])) {
+                $presubasta->imagen_s_id = $_POST['imagen_s'];
+            }else
+            {
+                echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Error en la identificación de la imágen.'));
+                return;
+            }
+        }
+
+
+        $this->layout = '//layouts/modal';
+        echo $this->render('presubasta', array('subasta'=>$ultimaSilenciosa,'presubasta'=>$presubasta));
+    }
 
 	public function actionResultados()
 	{
@@ -557,10 +690,52 @@ class SiteController extends Controller
 						{
 							$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 																				 array('style'=>'width: 5px;hight:5px;')).'</w>';
+
+
+                            // Pre Subasta
+                            $criteria = new CDbCriteria;
+
+                            $criteria->condition = 'ids=:ids';
+                            $criteria->params = array(':ids'=>$ultimaSubastaSilenciosa->id);
+
+                            $crono = Cronometro::model()->find($criteria);
+
+                            $time = new DateTime($crono->fecha_finalizacion);
+                            $actualTime = new DateTime("now");
+
+                            $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+
+                            // Verificando que se encuentra en la proxima hora al finalizar la subasta.
+                            //if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
+                            {
+                                //$this->actionPresubasta();
+
+                                $etiqueta = 'Dejar puja';
+                                $pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+                                        $this->createUrl('site/presubasta'), array(
+                                        //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+                                        //'update'=>'#pujaModal'
+                                        'type'=>'POST',
+                                        'data' => array('imagen_s'=> '0' ),
+                                        'context'=>'js:this',
+                                        'beforeSend'=>'function(xhr,settings){
+											            						settings.data = encodeURIComponent(\'imagen_s\')
+										          								+ \'=\'
+										          								+ encodeURIComponent($(this).attr(\'id\'));
+											            }',
+                                        'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+                                    ),
+                                    array('id'=>$value->id, 'style'=>'color: #014F92;')
+                                );
+
+                                $imprimir .= '<br>'.$pujarAjaxLink;
+
+                            }
 						}else
 						{
 							$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span>';
 						}
+
 					}
 
 				$imprimir.='</div>';
@@ -762,7 +937,7 @@ class SiteController extends Controller
 		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subas->id, ':id_usuario' => Yii::app()->session['id_usuario']));
 		if($mispujas)
 			foreach ($mispujas as $key => $puja) {
-				$carrito .= '<div id="vsidebar"><img src="'.Yii::app()->params['imagenesDir'].$puja->imagen.'"></img><br><span style="">
+				$carrito .= '<div id="vsidebar"><img src="'.Yii::app()->params['imagenesDir'].$puja->imagen.'"/><br><span style="">
 							'.$puja->solonombre.'</span><p>Actual: <moneda>'.$subas->moneda.'</moneda> '.number_format($puja->actual).'</p></div>';
 							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
 			}

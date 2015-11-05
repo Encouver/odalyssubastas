@@ -48,7 +48,12 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-		'clientScript' => array(
+        'session' => array (
+            'sessionName' => 'Odalys',
+            //'cookieMode' => 'only',
+            //'savePath' => __DIR__.'/../sesiones',
+        ),
+	/*	'clientScript' => array(
 	        'scriptMap' => array(
 	            'jquery.js'=>true,  //enable default implementation of jquery
 	            'jquery-ui.js'=>false,
@@ -59,7 +64,7 @@ return array(
 	            'pager.css'=>false,   //disable
 	            'default.css'=>false,  //disable
 	        ),
-        ),/**/
+        ),*//**/
 		// uncomment the following to enable URLs in path-format
 		
 		/*'urlManager'=>array(
