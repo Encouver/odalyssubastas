@@ -571,7 +571,7 @@ class SiteController extends Controller
 
         if($intervaloPresubasta < 3600)
         {
-            echo "Presubasta no activa.";//json_encode(array('id'=>1,'success'=>false,'msg'=>'Presubasta no activa.'));
+            //echo "Presubasta no activa.";//json_encode(array('id'=>1,'success'=>false,'msg'=>'Presubasta no activa.'));
             //return;
         }
 
@@ -584,33 +584,33 @@ class SiteController extends Controller
 
             switch ( $presubasta->opcion) {
                 case 0:
-                    $presubasta->puja_maxima = true;
-                    $presubasta->puja_telefonica = false;
-                    $presubasta->asistir_subasta = false;
-                    $presubasta->no_hacer_nada = false;
+                    $presubasta->puja_maxima = 1;
+                    $presubasta->puja_telefonica = 0;
+                    $presubasta->asistir_subasta = 0;
+                    $presubasta->no_hacer_nada = 0;
                     break;
                 case 1:
-                    $presubasta->puja_maxima = false;
-                    $presubasta->puja_telefonica = true;
-                    $presubasta->asistir_subasta = false;
-                    $presubasta->no_hacer_nada = false;
+                    $presubasta->puja_maxima = 0;
+                    $presubasta->puja_telefonica = 1;
+                    $presubasta->asistir_subasta = 0;
+                    $presubasta->no_hacer_nada = 0;
                     # code...
                     break;
 
                 case 2:
-                    $presubasta->puja_maxima = false;
-                    $presubasta->puja_telefonica = false;
-                    $presubasta->asistir_subasta = true;
-                    $presubasta->no_hacer_nada = false;
+                    $presubasta->puja_maxima = 0;
+                    $presubasta->puja_telefonica = 0;
+                    $presubasta->asistir_subasta = 1;
+                    $presubasta->no_hacer_nada = 0;
                     # code...
                     break;
 
                 default:
                     # code...
-                    $presubasta->puja_maxima = false;
-                    $presubasta->puja_telefonica = false;
-                    $presubasta->asistir_subasta = false;
-                    $presubasta->no_hacer_nada = true;
+                    $presubasta->puja_maxima = 0;
+                    $presubasta->puja_telefonica = 0;
+                    $presubasta->asistir_subasta = 0;
+                    $presubasta->no_hacer_nada = 1;
                     break;
             }
             $presubasta->subasta_id = $ultimaSilenciosa->id;
@@ -619,11 +619,11 @@ class SiteController extends Controller
             if(Yii::app()->session['id_usuario'])
                 $presubasta->usuario_id = Yii::app()->session['id_usuario'];
 
-            if($presubasta->save())
+            if($presubasta->save(true))
             {
                 echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Puja dejada con éxito.'));
                 return;
-            }
+            }//else{print_r('Hola');die;}
 
         }else{
 
@@ -710,25 +710,43 @@ class SiteController extends Controller
                             {
                                 //$this->actionPresubasta();
 
-                                $etiqueta = 'Dejar puja';
-                                $pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+                                $existe = PreSubastas::model()->findAll('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$value->id));
+
+                                if(!$existe) {
+                                    $etiqueta = 'Dejar puja';
+                                    $pujarAjaxLink = CHtml::ajaxLink($etiqueta,
                                         $this->createUrl('site/presubasta'), array(
-                                        //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
-                                        //'update'=>'#pujaModal'
-                                        'type'=>'POST',
-                                        'data' => array('imagen_s'=> '0' ),
-                                        'context'=>'js:this',
-                                        'beforeSend'=>'function(xhr,settings){
+                                            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+                                            //'update'=>'#pujaModal'
+                                            'type' => 'POST',
+                                            'data' => array('imagen_s' => '0'),
+                                            'context' => 'js:this',
+                                            'beforeSend' => 'function(xhr,settings){
 											            						settings.data = encodeURIComponent(\'imagen_s\')
 										          								+ \'=\'
 										          								+ encodeURIComponent($(this).attr(\'id\'));
 											            }',
-                                        'success'=>'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
-                                    ),
-                                    array('id'=>$value->id, 'style'=>'color: #014F92;')
-                                );
+                                            'success' => 'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+                                        ),
+                                        array('id' => $value->id, 'style' => 'color: #014F92;')
+                                    );
+                                    $imprimir .= '<br>' . $pujarAjaxLink;
+                                }else {
+                                    $imprimir .= '<br> Estatus Presubasta: <br>';
+                                    if($existe->puja_maxima)
+                                        $imprimir .= 'Puja máxima por: '.$ultimaSubastaSilenciosa->moneda.' '.number_format($existe->monto);
 
-                                $imprimir .= '<br>'.$pujarAjaxLink;
+                                    if($existe->puja_telefonica)
+                                        $imprimir .= 'Se dejo Puja telefónica';
+
+                                    if($existe->asistir_subasta)
+                                        $imprimir .= 'Asistir a subasta';
+
+                                    if($existe->no_hacer_nada)
+                                        $imprimir .= 'No hacer nada';
+
+
+                                }
 
                             }
 						}else

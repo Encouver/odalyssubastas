@@ -2,6 +2,9 @@
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
+
+$idsub = $presubasta->imagen_s_id.'_'.uniqid();
+
 ?>
 
 <div class="form">
@@ -60,10 +63,11 @@ $this->pageTitle=Yii::app()->name;
     <div class="row" id="monto" style="display: all;">
         <?php echo $form->labelEx($presubasta,'monto'); ?>
         <?php echo $form->textField($presubasta,'monto',array('size'=>60,'maxlength'=>255,
-           /* 'oninput'=>'js: var precio = 0;  if($(this).val() != ""){
+            'oninput'=>'js: var precio = 0;  if($(this).val() != ""){
              precio = $(this).val();}
-             else{ precio = $("#precioboton_'.$imagen->id.'").val(); }
-              '*/)); ?>
+             else{ precio = 0(); }
+             $("#'.$idsub.'").attr("value","Dejar Puja '.$subasta->moneda.' "+number_format(precio));
+              ','id'=>'montoValor_'.$idsub)); ?>
         <?php echo $form->error($presubasta,'monto'); ?>
     </div>
 
@@ -76,8 +80,11 @@ $this->pageTitle=Yii::app()->name;
     function seleccionPresubasta(opcion){
         if(opcion == 0)
             $("#monto").show();
-        else
+        else {
+            $("#<?php echo $idsub; ?>").attr("value","Dejar Puja");
+            $("#montoValor_<?php echo $idsub ?>").val('');
             $("#monto").hide();
+        }
 
 
     }
@@ -123,7 +130,6 @@ $(document).ready(function(){
 																',
             CClientScript::POS_READY);*/
 
-        $idsub = $presubasta->imagen_s_id.'_'.uniqid();
 
         echo CHtml::ajaxSubmitButton('Dejar Puja', CHtml::normalizeUrl(array('site/presubasta')),
             array('type'=>'POST',//'update'=>'#pujaModal',
@@ -164,7 +170,7 @@ $(document).ready(function(){
 
 										            }',
             ),
-            array('class'=>'btn','style'=>'width:200px;','id'=>$idsub));
+            array('class'=>'btn','style'=>'width:300px;','id'=>$idsub));
 
 
         ?>

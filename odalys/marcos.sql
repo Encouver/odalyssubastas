@@ -3,3 +3,9 @@ CREATE TABLE `odalyscs_edgar`.`pre_subastas` ( `id` INT NOT NULL COMMENT 'Clave 
 ALTER TABLE `pre_subastas` ADD `subasta_id` INT NOT NULL COMMENT 'Clave foránea a la subasta la cuál pertenece este registro.';
 
 ALTER TABLE `pre_subastas` ADD `monto` FLOAT NULL DEFAULT NULL COMMENT 'Monto para el caso que sea por puja maxima la selección para la presubasta.' ;
+
+ALTER TABLE `pre_subastas` ADD PRIMARY KEY(`id`);
+
+ALTER TABLE `pre_subastas` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria';
+
+ALTER TABLE `pre_subastas` ADD UNIQUE( `usuario_id`, `imagen_s_id`, `subasta_id`);

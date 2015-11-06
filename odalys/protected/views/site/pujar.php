@@ -135,7 +135,8 @@
 
 						echo CHtml::hiddenField('precioboton_'.$imagen->id, $precioActual/*imagen->actual*/, 
 						array('id'=>'precioboton_'.$imagen->id,	'onchange'=>'js: //alert($(this).val());
-						 if($("#maxdis_'.$imagenid.'").val() != "") precio = $("#maxdis_'.$imagenid.'").val(); else precio = $(this).val(); $("#'.$idsub.'").attr("value","Pujar '.$subas->moneda.' "+number_format(precio));')); ?>
+						 if($("#maxdis_'.$imagenid.'").val() != "") precio = $("#maxdis_'.$imagenid.'").val(); else precio = $(this).val();
+						 $("#'.$idsub.'").attr("value","Pujar '.$subas->moneda.' "+number_format(precio));')); ?>
 
 						<?php echo $form->hiddenField($model,'id_imagen_s',array('value'=>$imagenid)); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>

@@ -30,6 +30,7 @@ $this->pageTitle=Yii::app()->name;
 
 	$baseUrl = Yii::app()->request->baseUrl;
 
+    Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/numberformat.js', CClientScript::POS_END);
 	Yii::app()->clientScript->registerScriptFile($baseUrl . '/js/jquery.quicksearch.js', CClientScript::POS_END);
 
 	Yii::app()->clientScript->registerScript('quicksearch','$(document).ready(function(){
