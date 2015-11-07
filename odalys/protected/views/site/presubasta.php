@@ -60,7 +60,7 @@ $idsub = $presubasta->imagen_s_id.'_'.uniqid();
         array(/*'empty' => '(Selecciona una opción)',*/'id'=>'seleccion_opcion', 'onchange' => 'seleccionPresubasta(this.value);'));
     ?>
 
-    <div class="row" id="monto" style="display: all;">
+    <div class="row" id="monto" style="display: block;">
         <?php echo $form->labelEx($presubasta,'monto'); ?>
         <?php echo $form->textField($presubasta,'monto',array('size'=>60,'maxlength'=>255,
             'oninput'=>'js: var precio = 0;  if($(this).val() != ""){
@@ -150,8 +150,8 @@ $(document).ready(function(){
 													json = data;
 														if(data[\'id\']){
 															alert(data["msg"]);
-															if(data["sucess"]){
-																c$("#pujaModal").dialog("close");
+															if(data["success"]){
+																$("#pujaModal").dialog("close");
 
 															}else
 																$("#pujaModal").html(data["responseText"]);

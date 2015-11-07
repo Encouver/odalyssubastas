@@ -9,3 +9,5 @@ ALTER TABLE `pre_subastas` ADD PRIMARY KEY(`id`);
 ALTER TABLE `pre_subastas` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria';
 
 ALTER TABLE `pre_subastas` ADD UNIQUE( `usuario_id`, `imagen_s_id`, `subasta_id`);
+
+ALTER TABLE `subastas` ADD `envio_correos` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Notifica si se realizó el envió de correos masivos al finalizar esta subasta.' ;

@@ -296,7 +296,7 @@ class SiteController extends Controller
 			return;
 		}
 
-
+/*
         $criteria = new CDbCriteria;
 
         $criteria->condition = 'fuesilenciosa=:fuesilenciosa';
@@ -321,7 +321,7 @@ class SiteController extends Controller
         if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
         {
             $this->actionPresubasta();
-        }
+        }*/
 
 
         //$time->fecha_finalizacion;
@@ -613,6 +613,9 @@ class SiteController extends Controller
                     $presubasta->no_hacer_nada = 1;
                     break;
             }
+            if($presubasta->puja_maxima && $presubasta->monto == '')
+                $presubasta->monto = 0;
+
             $presubasta->subasta_id = $ultimaSilenciosa->id;
 
 
@@ -710,7 +713,7 @@ class SiteController extends Controller
                             {
                                 //$this->actionPresubasta();
 
-                                $existe = PreSubastas::model()->findAll('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$value->id));
+                                $existe = PreSubastas::model()->find('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$value->id));
 
                                 if(!$existe) {
                                     $etiqueta = 'Dejar puja';
@@ -732,7 +735,9 @@ class SiteController extends Controller
                                     );
                                     $imprimir .= '<br>' . $pujarAjaxLink;
                                 }else {
-                                    $imprimir .= '<br> Estatus Presubasta: <br>';
+
+                                    //$imprimir .= '<br> Estatus Presubasta: ';
+                                    $imprimir .= '<br>';
                                     if($existe->puja_maxima)
                                         $imprimir .= 'Puja máxima por: '.$ultimaSubastaSilenciosa->moneda.' '.number_format($existe->monto);
 
