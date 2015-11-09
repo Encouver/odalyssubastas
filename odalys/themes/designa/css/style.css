@@ -12,6 +12,14 @@
 	CSS Tricks (css-tricks.com).
 ------------------------------------------------------------- */
 
+.alerta-subasta {
+	position: static;
+	background-color: rgba(239, 255, 25, 0.6);
+	font-size: 2em;
+	text-align: center;
+
+}
+
 
 .errorMessage{
   padding-top: 5px !important;

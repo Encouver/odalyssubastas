@@ -655,6 +655,14 @@ class SiteController extends Controller
 
 		$ultimaSubastaSilenciosa = Subastas::model()->find($criteria);
 
+		// Pre Subasta
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'ids=:ids';
+		$criteria->params = array(':ids'=>$ultimaSubastaSilenciosa->id);
+
+		$crono = Cronometro::model()->find($criteria);
+
 
 		$query = ImagenS::model()->findAll('ids=:ids ORDER BY id',array(':ids'=>$ultimaSubastaSilenciosa['id']));
 
@@ -693,15 +701,6 @@ class SiteController extends Controller
 						{
 							$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 																				 array('style'=>'width: 5px;hight:5px;')).'</w>';
-
-
-                            // Pre Subasta
-                            $criteria = new CDbCriteria;
-
-                            $criteria->condition = 'ids=:ids';
-                            $criteria->params = array(':ids'=>$ultimaSubastaSilenciosa->id);
-
-                            $crono = Cronometro::model()->find($criteria);
 
                             $time = new DateTime($crono->fecha_finalizacion);
                             $actualTime = new DateTime("now");
@@ -775,7 +774,7 @@ class SiteController extends Controller
 		$imprimir .= '</div>';
 
 		
-		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$ultimaSubastaSilenciosa,'imagenesDir'=>$this->imagenesDir));
+		$this->render('resultados', array('resultados'=>$imprimir,'subasta'=>$ultimaSubastaSilenciosa,'imagenesDir'=>$this->imagenesDir,'crono'=>$crono));
 	}
 
 	public function mostrandoImagen($imagen){
