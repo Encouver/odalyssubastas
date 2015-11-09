@@ -77,6 +77,91 @@ class SiteController extends Controller
 
 
 	}
+
+
+
+    public function actionPrereporte()
+    {
+
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+        $criteria->params = array(':fuesilenciosa'=>1);
+        $criteria->order = 'id DESC';
+
+
+        $silenciosa = Subastas::model()->find($criteria);
+
+        //$titulo = 'Informe de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
+
+        $titulo = "Presubasta #";
+
+        $ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+
+        $contenido ="<html>
+            <head>
+                <title>Probando</title>
+                 <style type='text/css'>
+            <!--
+                table {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+                tr { text-align: center}
+                h1 {color: #000033}
+                h2 {color: #000055}
+                h3 {color: #000077}
+
+                div.standard
+                {
+                    padding-left: 5mm;
+                }
+            -->
+            </style>
+            </head>
+            <body>
+                <div style='margin: 0px auto'>
+                <img src='http://odalys.com/odalys/images/log.png'/>
+                <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+                <table class='page_header'>
+<!--                <tr>
+                    <td style=\"width: 25%;\">xxxx</td>
+                    <td style=\"width: 25%;\">xxx</td>
+                    <td style=\"width: 25%;\">xx</td>
+                    <td style=\"width: 25%;\">x</td>
+                 </tr>-->
+               ";
+
+                foreach ($ganadores as $key => $value)
+                {
+                    if($value->id_usuario)
+                    {
+                        $paleta = Usuariospujas::model()->find('idsubasta=:ids AND idusuario=:idusuario', array(':ids'=>$silenciosa['id'], ':idusuario' => $value->id_usuario));
+
+                        $usuario = Usuarios::model()->find('id=:id', array('id'=>$value->id_usuario));
+
+                        $contenido .=
+                            '
+                                    <tr>
+                                        <td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
+                                        <td>' .$paleta['paleta'].'</td>
+                                        <td>'.$value->descri.'</td>
+                                        <td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
+                                        <td>'.$silenciosa['moneda'].' '.number_format($value->actual).'</td>
+                                        <td></td>
+                                    </tr>
+                                ';
+                    }
+                }
+
+                 $contenido .= "
+                </table>
+                </div>
+                </body>
+                </html>";
+
+        $html2pdf = Yii::app()->ePdf->HTML2PDF();
+        $html2pdf->WriteHTML($contenido);
+        $html2pdf->Output("presubasta.pdf", 'D');
+    }
+
 	public function actionReporteresultados()
 	{
 
@@ -1872,55 +1957,5 @@ try {
 				}
 		}
 
-
-		public function actionPrereporte()
-		{
-			
-
-		//$silenciosa = Subastas::model()->find($criteria);		
-			
-		//$titulo = 'Informe de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
-
-		$titulo = "Presubasta #";
-		//$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
-
-		$contenido ="<html>
-		<head>
-			<title>Probando</title>
-			 <style type='text/css'>
-		<!--
-			table {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
-			tr { text-align: center}
-			h1 {color: #000033}
-			h2 {color: #000055}
-			h3 {color: #000077}
-			
-			div.standard
-			{
-				padding-left: 5mm;
-			}
-		-->
-		</style>
-		</head>
-		<body>
-			<div style='margin: 0px auto'>
-			<img src='http://odalys.com/odalys/images/log.png'/>
-			<h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
-		    <table class='page_header'>
-			<tr>
-		    	<td style=\"width: 25%;\">xxxx</td>
-		        <td style=\"width: 25%;\">xxx</td>
-		        <td style=\"width: 25%;\">xx</td>
-		        <td style=\"width: 25%;\">x</td>
-		     </tr>
-			</table>
-		    </div>
-			</body>
-			</html>";
-
-			$html2pdf = Yii::app()->ePdf->HTML2PDF();
-	        $html2pdf->WriteHTML($contenido);
-	        $html2pdf->Output("presubasta.pdf", 'D');
-		}
 
 } //Cierra la clase
