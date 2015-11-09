@@ -324,14 +324,6 @@ $this->pageTitle=Yii::app()->name;
 
 
 
-o = "Hola";
-		echo $carrito;
-
-		$this->endWidget();
-	}
-?>
-
-
 <p id="refreshData">
 	<?php
 		echo $imprimir;

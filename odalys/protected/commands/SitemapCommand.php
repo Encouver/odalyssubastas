@@ -11,11 +11,9 @@ class SitemapCommand extends CConsoleCommand
 
     public function actionAlertaPresubasta() {
 
-        //Se le manda el correo al que perdio la puja
+        //
         list($MailController) = Yii::app()->createController('Mail');
         //$MailController->mailsend();
-
-        // Verificar
 
 
 
@@ -29,6 +27,39 @@ class SitemapCommand extends CConsoleCommand
         $criteria->order = 'id DESC';
 
         $silenciosa = Subastas::model()->find($criteria);
+
+        // Ya fue enviado los correos masivos.
+        if($silenciosa->envio_correos)
+            return;
+
+
+        // Verificar
+        // Existe una subasta silenciosa activa?
+        $criteria = new CDbCriteria;
+
+        $criteria->condition = 'silenciosa=:silenciosa';
+        $criteria->params = array(':silenciosa'=>1);
+
+        $subas = Subastas::model()->find($criteria);
+
+        if(!$subas) {
+
+            // Pre Subasta
+            $criteria = new CDbCriteria;
+
+            $criteria->condition = 'ids=:ids';
+            $criteria->params = array(':ids' => $silenciosa->id);
+
+            $crono = Cronometro::model()->find($criteria);
+
+            $time = new DateTime($crono->fecha_finalizacion);
+            $actualTime = new DateTime("now");
+            $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+
+            // Verificando que se encuentra en los proximos 10 minutos al finalizar la subasta.
+            if( !($intervaloPresubasta >=0 && $intervaloPresubasta <= 600) )
+                return;
+        }else return;
 
         $footer = Correos::model()->find('id=:id', array('id'=>1));
 
@@ -90,9 +121,7 @@ class SitemapCommand extends CConsoleCommand
 
                 $usuarios = ImagenS::model()->findAll('id_usuario=:id_usuario and ids=:idsubasta', array(':id_usuario' => $value->id_usuario, ':idsubasta'=> $silenciosa['id']));
 
-
-
-
+                // Lista de imágenes del usuario.
                 foreach ($usuarios as $ky => $valor) {
                     $message .='<tr>
 						 <td align="left">
@@ -137,6 +166,10 @@ class SitemapCommand extends CConsoleCommand
                 $message .=  '</tbody>
 				</table>
 				<hr>';
+
+                $message .= '<h1> Se va a cerrar la PRE SUBASTA </h1><br>';
+                $message .= '<h2> A partir de la recepción de este correo tiene aproximadamente una hora para realizar la presubasta de sus pujas ganadas. Haga click aquí para ir a <a href="'.Yii::app()->request->baseUrl.'">Subastas Odalys </a></h2>';
+
                 $message .= $footer['footer'].'</div>';
 
                 //echo $message;
@@ -158,6 +191,12 @@ class SitemapCommand extends CConsoleCommand
         }
         //echo "hola";
         //print_r($arreglo);
+
+
+        // Se marca la subasta que fue silenciosa como  enviada los correos.
+        $silenciosa->envio_correos = 1;
+        if($silenciosa->save())
+            return;
 
     }
 

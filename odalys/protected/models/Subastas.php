@@ -21,6 +21,9 @@
  * @property string $NS
  * @property integer $solopdf
  * @property integer $silenciosa
+ * @property integer $fuesilenciosa
+ * @property string $moneda
+ * @property integer $envio_correos
  */
 class Subastas extends CActiveRecord
 {
@@ -59,10 +62,11 @@ class Subastas extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre, categoriaid, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf, activa, publicaciones', 'required'),
-			array('categoriaid, activa, solopdf, silenciosa', 'numerical', 'integerOnly'=>true),
+			array('categoriaid, activa, solopdf, silenciosa, fuesilenciosa, envio_correos', 'numerical', 'integerOnly'=>true),
 			array('nombre, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf', 'length', 'max'=>200),
 			array('publicaciones', 'length', 'max'=>255),
 			array('NS', 'length', 'max'=>400),
+            array('moneda', 'length', 'max'=>3),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, nombre, categoriaid, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf, activa, publicaciones, NS, solopdf, silenciosa', 'safe', 'on'=>'search'),
@@ -103,6 +107,9 @@ class Subastas extends CActiveRecord
 			'NS' => 'Ns',
 			'solopdf' => 'Solopdf',
 			'silenciosa' => 'Silenciosa',
+            'fuesilenciosa' => 'Fuesilenciosa',
+            'moneda' => 'Moneda',
+            'envio_correos' => 'Envio Correos',
 		);
 	}
 
@@ -134,6 +141,9 @@ class Subastas extends CActiveRecord
 		$criteria->compare('NS',$this->NS,true);
 		$criteria->compare('solopdf',$this->solopdf);
 		$criteria->compare('silenciosa',$this->silenciosa);
+        $criteria->compare('fuesilenciosa',$this->fuesilenciosa);
+        $criteria->compare('moneda',$this->moneda,true);
+        $criteria->compare('envio_correos',$this->envio_correos);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -96,7 +96,32 @@
             <div style="width: 100% !important;">
                 <div class="alignleft" style="font-size: 13px; margin: 0 0 0 0;">
                     <w class="enbold">
-                        <nombresubasta>Subasta</nombresubasta>
+                        <nombresubasta><?php
+
+              /*              $criteria = new CDbCriteria;
+
+                            $criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+                            $criteria->params = array(':fuesilenciosa'=>1);
+                            $criteria->order = 'id DESC';
+
+                            $ultimaSubastaSilenciosa = Subastas::model()->find($criteria);
+
+                                                     // Pre Subasta
+                            $criteria = new CDbCriteria;
+
+                            $criteria->condition = 'ids=:ids';
+                            $criteria->params = array(':ids'=>$ultimaSubastaSilenciosa->id);
+
+                            $crono = Cronometro::model()->find($criteria);
+
+                            $time = new DateTime($crono->fecha_finalizacion);
+                            $actualTime = new DateTime("now");
+
+                            $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+
+                            // Verificando que se encuentra en la proxima hora al finalizar la subasta.
+                            if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
+                                echo 'Subasta'; else echo 'Pre Subasta';   */?> </nombresubasta>
                     </w>
                     <nombrecsubasta></nombrecsubasta>
                 </div>
