@@ -24,13 +24,13 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior
                     //$changes = $name . ' ('.$old.') => ('.$value.'), ';
  
                     $log = new Activerecordlog;
-                    $log->descripcion=  'Usuario ' . Yii::app()->user->Name 
+                    $log->description=  'Usuario ' . Yii::app()->user->Name 
                                             . ' cambio ' . $name . ' para ' 
                                             . get_class($this->Owner) 
                                             . '[' . $this->Owner->getPrimaryKey() .'].';
-                    $log->accion =       'Modifico';
+                    $log->action =       'Modifico';
                     $log->model =        get_class($this->Owner);
-                    $log->idmodel =      $this->Owner->getPrimaryKey();
+                    $log->idModel =      $this->Owner->getPrimaryKey();
                     $log->field =        $name;
                     $log->creationdate = new CDbExpression('NOW()');
                     $log->userid =     Yii::app()->user->id;
@@ -41,12 +41,12 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior
             
             $log = new Activerecordlog;
 
-            $log->descripcion =  'Usuario ' . Yii::app()->user->Name 
+            $log->description =  'Usuario ' . Yii::app()->user->Name 
                                     . ' creo ' . get_class($this->Owner) 
                                     . '[' . $this->Owner->getPrimaryKey() .'].';
-            $log->accion =       'Creo';
+            $log->action =       'Creo';
             $log->model =        get_class($this->Owner);
-            $log->idmodel =      $this->Owner->getPrimaryKey();
+            $log->idModel =      $this->Owner->getPrimaryKey();
             $log->field =        '';
             $log->creationdate = new CDbExpression('NOW()');
             $log->userid =      Yii::app()->user->id;
@@ -64,12 +64,12 @@ class ActiveRecordLogableBehavior extends CActiveRecordBehavior
     public function afterDelete($event)
     {
         $log= new Activerecordlog;
-        $log->descripcion=  'Usuario ' . Yii::app()->user->Name . ' elimino ' 
+        $log->description=  'Usuario ' . Yii::app()->user->Name . ' elimino ' 
                                 . get_class($this->Owner) 
                                 . '[' . $this->Owner->getPrimaryKey() .'].';
-        $log->accion =       'Elimino';
+        $log->action =       'Elimino';
         $log->model =        get_class($this->Owner);
-        $log->idmodel =      $this->Owner->getPrimaryKey();
+        $log->idModel =      $this->Owner->getPrimaryKey();
         $log->field =        '';
         $log->creationdate = new CDbExpression('NOW()');
         $log->userid =       Yii::app()->user->id;
