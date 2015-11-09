@@ -1009,6 +1009,22 @@ class SiteController extends Controller
 		$this->render('contact',array('model'=>$model));
 	}
 
+	public function getClientIP(){
+
+     if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)){
+            return  $_SERVER["HTTP_X_FORWARDED_FOR"];  
+        }else if (array_key_exists('REMOTE_ADDR', $_SERVER)) { 
+            return $_SERVER["REMOTE_ADDR"]; 
+        }else if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+            return $_SERVER["HTTP_CLIENT_IP"]; 
+        } 
+
+        return '';
+
+    }
+
+
+
 	/**
 	 * Displays the login page
 	 */
@@ -1036,7 +1052,17 @@ class SiteController extends Controller
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 				if(!$modal)
+				{
+
+					$usuario_log = new UsuarioLog;
+					$usuario_log->usuario = $model->username;
+					$usuario_log->ip = $this->getClientIP();
+					$usuario_log->inicio = new CDbExpression('NOW()');
+					$usuario_log->user_agent = $_SERVER['HTTP_USER_AGENT'];
+					$usuario_log->save();
 					$this->redirect(Yii::app()->user->returnUrl);
+
+				}
 				else
 				{
 					echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Login correcto'));

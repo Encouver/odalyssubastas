@@ -1,37 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "pre_subastas".
+ * This is the model class for table "usuario_log".
  *
- * The followings are the available columns in table 'pre_subastas':
+ * The followings are the available columns in table 'usuario_log':
  * @property integer $id
- * @property integer $usuario_id
- * @property integer $puja_maxima
- * @property integer $puja_telefonica
- * @property integer $asistir_subasta
- * @property integer $imagen_s_id
- * @property integer $no_hacer_nada
- * @property integer $subasta_id
- * @property double $monto
+ * @property string $usuario
+ * @property string $ip
+ * @property string $inicio
+ * @property string $user_agent
  */
-class PreSubastas extends CActiveRecord
+class UsuarioLog extends CActiveRecord
 {
-    public $opcion;
-
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'pre_subastas';
-	}
-
-	public function behaviors()
-	{
-	    return array(
-	        'ActiveRecordLogableBehavior'=>
-	            'application.behaviors.ActiveRecordLogableBehavior',
-	    );
+		return 'usuario_log';
 	}
 
 	/**
@@ -42,13 +28,12 @@ class PreSubastas extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('usuario_id, subasta_id', 'required'),
-            array('opcion', 'numerical', 'integerOnly'=>true),
-			array('id, usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id', 'numerical', 'integerOnly'=>true),
-			array('monto', 'numerical'),
+			array('usuario, ip, user_agent', 'required'),
+			array('usuario, ip, user_agent', 'length', 'max'=>255),
+			array('inicio', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id, monto', 'safe', 'on'=>'search'),
+			array('id, usuario, ip, inicio, user_agent', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,14 +55,10 @@ class PreSubastas extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'usuario_id' => 'Usuario',
-			'puja_maxima' => 'Puja Maxima',
-			'puja_telefonica' => 'Puja Telefonica',
-			'asistir_subasta' => 'Asistir Subasta',
-			'imagen_s_id' => 'Imagen S',
-			'no_hacer_nada' => 'No Hacer Nada',
-			'subasta_id' => 'Subasta',
-			'monto' => 'Monto',
+			'usuario' => 'Usuario',
+			'ip' => 'Ip',
+			'inicio' => 'Inicio',
+			'user_agent' => 'User Agent',
 		);
 	}
 
@@ -100,14 +81,10 @@ class PreSubastas extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('usuario_id',$this->usuario_id);
-		$criteria->compare('puja_maxima',$this->puja_maxima);
-		$criteria->compare('puja_telefonica',$this->puja_telefonica);
-		$criteria->compare('asistir_subasta',$this->asistir_subasta);
-		$criteria->compare('imagen_s_id',$this->imagen_s_id);
-		$criteria->compare('no_hacer_nada',$this->no_hacer_nada);
-		$criteria->compare('subasta_id',$this->subasta_id);
-		$criteria->compare('monto',$this->monto);
+		$criteria->compare('usuario',$this->usuario,true);
+		$criteria->compare('ip',$this->ip,true);
+		$criteria->compare('inicio',$this->inicio,true);
+		$criteria->compare('user_agent',$this->user_agent,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -118,7 +95,7 @@ class PreSubastas extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return PreSubastas the static model class
+	 * @return UsuarioLog the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
