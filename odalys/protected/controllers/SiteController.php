@@ -381,6 +381,14 @@ class SiteController extends Controller
 			return;
 		}
 
+		// Pre Subasta
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'ids=:ids';
+		$criteria->params = array(':ids'=>$subas->id);
+
+		$crono = Cronometro::model()->find($criteria);
+
 /*
         $criteria = new CDbCriteria;
 
@@ -420,7 +428,7 @@ class SiteController extends Controller
 		//$imprimir ="Hola";
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php1'
-		$this->render('index', array('imprimir'=>$imprimir,'subasta'=>$subas,'imagenesDir'=>$this->imagenesDir));
+		$this->render('index', array('imprimir'=>$imprimir,'subasta'=>$subas,'imagenesDir'=>$this->imagenesDir, 'crono'=> $crono));
 
 	}
 
@@ -706,6 +714,12 @@ class SiteController extends Controller
 
             if(Yii::app()->session['id_usuario'])
                 $presubasta->usuario_id = Yii::app()->session['id_usuario'];
+
+			if($presubasta->yaSeDejo())
+			{
+				echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Ya ha dejado una puja seleccionada para esta imágen.'));
+				return;
+			}
 
             if($presubasta->save(true))
             {

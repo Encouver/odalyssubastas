@@ -50,12 +50,37 @@ class PreSubastas extends CActiveRecord
 			array('usuario_id, imagen_s_id, subasta_id', 'required'),
 			array('opcion', 'numerical', 'integerOnly'=>true),
 			array('usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id', 'numerical', 'integerOnly'=>true),
+			array('puja_maxima', 'validarPujaMaxima'),
 			array('monto', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id, monto', 'safe', 'on'=>'search'),
 		);
 	}
+
+	public function validarPujaMaxima($attribute,$params){
+        if($this->hasErrors()) {
+            return;
+        }
+
+		if($this->$attribute == 1 && $this->monto < $this->imagenS->actual*1.1)
+		{
+            $this->addError('monto','El monto debe ser mayor a '.number_format($this->imagenS->actual*1.1).' '.$this->subasta->moneda.' (10% mayor del precio actual).');
+			return false;
+		}
+
+		return true;
+
+	}
+
+    // Verifica si ya se existe la presubasta.
+    public function yaSeDejo(){
+
+        if($this->model()->findByAttributes(array('usuario_id'=>$this->usuario_id, 'imagen_s_id'=>$this->imagen_s_id, 'subasta_id'=>$this->subasta_id,)))
+            return true;
+
+        return false;
+    }
 
 	/**
 	 * @return array relational rules.

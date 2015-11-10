@@ -58,7 +58,7 @@ return array(
 	            'jquery.js'=>true,  //enable default implementation of jquery
 	            'jquery-ui.js'=>false,
 	            'jquery.min.js'=>true,  //enable any others default implementation
-	            'jquery-ui.min.cs'=>false,
+	            'jquery-ui.min.js'=>false,
 	            'core.css'=>false, //disable
 	            'styles.css'=>false,  //disable
 	            'pager.css'=>false,   //disable
@@ -111,7 +111,8 @@ return array(
 					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
-				/*
+
+			/*
 				array(
 					'class'=>'CWebLogRoute',
 				),

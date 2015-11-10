@@ -25,6 +25,35 @@ $this->pageTitle=Yii::app()->name;
 </style>
 
 
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+	'id'=>'pujaModal',
+	'options'=>array(
+		'title'=>'Dejar Puja',
+		'width'=>'600px',
+		'height'=>'auto',
+		'autoOpen'=>false,
+		'resizable'=>false,
+		'modal'=>true,
+		'overlay'=>array(
+			'backgroundColor'=>'#000',
+			'opacity'=>'0.5'
+		),
+		'buttons'=>array(
+			//'Pujar'=>'js:function(){alert("OK");}',
+			array('id'=> 'Cancel', 'text'=>'Cancelar','click'=>'js:function(){$(this).dialog("close");}'),
+		),
+	),
+	'htmlOptions'=>array('style'=>'`//z-index: 4;'),
+));
+
+//echo 'Modal dialog content here ';
+
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+
+
+?>
+
 
 <?php
 
@@ -101,38 +130,17 @@ echo $resultados;
 ?>
 
 
-<?php
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id'=>'pujaModal',
-    'options'=>array(
-        'title'=>'Dejar Puja',
-        'width'=>'600px',
-        'height'=>'auto',
-        'autoOpen'=>false,
-        'resizable'=>false,
-        'modal'=>true,
-        'overlay'=>array(
-            'backgroundColor'=>'#000',
-            'opacity'=>'0.5'
-        ),
-        'buttons'=>array(
-            //'Pujar'=>'js:function(){alert("OK");}',
-            array('id'=> 'Cancel', 'text'=>'Cancelar','click'=>'js:function(){$(this).dialog("close");}'),
-        ),
-    ),
-    'htmlOptions'=>array('style'=>'`//z-index: 4;'),
-));
-
-//echo 'Modal dialog content here ';
-
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-
-setlocale(LC_ALL,"es_ES");
-$fechaFinalizacion = new DateTime($crono->fecha_finalizacion);
-$fechaFinalizacion->add(new DateInterval('PT1H'));
-?>
 
 
 <div id="franja-subasta" class="alerta-subasta">
-	<?php echo ('La subasta en vivo se realizar&aacute; el '. $fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+	<?php
+	date_default_timezone_set('America/Caracas');
+	// Windows
+	//setlocale(LC_ALL,"esp_esp");
+	//Linux
+	setlocale(LC_ALL,"es_ES");
+	$fechaFinalizacion = new DateTime($crono->fecha_finalizacion);
+	$fechaFinalizacion->add(new DateInterval('PT1H'));
+
+	echo ('La subasta en vivo se realizar&aacute; el '. ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp())).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
 </div>

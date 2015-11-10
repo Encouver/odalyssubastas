@@ -28,7 +28,7 @@
 								Yii::app()->clientscript->scriptMap['jquery-ui.js'] = false;
 								Yii::app()->clientscript->scriptMap['jquery.min.js'] = false;
 								Yii::app()->clientscript->scriptMap['jquery.js'] = false;*/
-
+								// Desactivamos para evitar conflicto con el .dialog del modal.
 								Yii::app()->clientscript->scriptMap = array('jquery-ui.min.js'=>false,
 																			'jquery-ui.js'=>false,
 																			'jquery.min.js'=>false,
@@ -141,9 +141,9 @@
 						<?php echo $form->hiddenField($model,'id_imagen_s',array('value'=>$imagenid)); ?>
 						<?php echo $form->error($model,'maximo_dispuesto'); ?></li>
 					</div>
-						 		<p class="note" style="font-size:10px">Campos con <span class="required">*</span> son requeridos.</p> 
-					<div class="row">
+						 		<p class="note" style="font-size:10px">Campos con <span class="required">*</span> son requeridos.</p>
 
+					<div class="row">
 						<?php 
 						if(Yii::app()->session['id_usuario']){
 							if(!isset(Yii::app()->request->cookies['up']) && !isset(Yii::app()->request->cookies['uc'])){

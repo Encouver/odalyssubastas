@@ -324,14 +324,18 @@ $this->pageTitle=Yii::app()->name;
 
 
 
-<p id="refreshData">
-	<?php
-		echo $imprimir;
-	?>
-</p>
-
 <div id="franja-subasta" class="alerta-subasta">
-	<?php echo ('La subasta en vivo se realizar&aacute; el '. $fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+	<?php
+        date_default_timezone_set('America/Caracas');
+        // Windows
+        //setlocale(LC_ALL,"esp_esp");
+        //Linux
+        setlocale(LC_ALL,"es_ES");
+        $fechaFinalizacion = new DateTime($crono->fecha_finalizacion);
+        $fechaFinalizacion->add(new DateInterval('PT1H'));
+
+        echo ('La subasta en vivo se realizar&aacute; el '. ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp())).' '. $fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A'));
+    ?>
 </div>
 
 
