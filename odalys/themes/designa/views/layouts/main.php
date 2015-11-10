@@ -129,9 +129,19 @@
                 <div class="alignright" style="margin: 0 0 0 0;">
 
 
-                    <?php $fecha = new DateTime((Cronometro::model()->find('ids=:ids', array(':ids' => Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion'])); ?>
+                    <?php
+                    $subasta = new Subastas();
+
+                    // Verificando que se encuentra en la proxima hora al finalizar la subasta.
+                    if($subasta->enPresubasta()){
+                        $fecha = $subasta->fechaPresubasta();
+                    }
+                    else {
+                        $fecha = new DateTime((Cronometro::model()->find('ids=:ids', array(':ids' => Subastas::model()->find('silenciosa=1')['id']))['fecha_finalizacion']));
+                    }
+                    ?>
                     <!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-                    <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><span
+                    <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><?php echo $subasta->enPresubasta()?'Pre-Subasta: ':'Subasta: ' ?><span
                                 data-time="<?php echo $fecha->format('U'); ?>" class="cronometro"></span></b></div>
                 </div>
 
