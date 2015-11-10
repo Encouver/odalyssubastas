@@ -13,11 +13,14 @@
  * @property integer $no_hacer_nada
  * @property integer $subasta_id
  * @property double $monto
+ *
+ * The followings are the available model relations:
+ * @property Usuarios $usuario
+ * @property Subastas $subasta
+ * @property ImagenS $imagenS
  */
 class PreSubastas extends CActiveRecord
 {
-    public $opcion;
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -25,6 +28,8 @@ class PreSubastas extends CActiveRecord
 	{
 		return 'pre_subastas';
 	}
+
+	public $opcion;
 
 	public function behaviors()
 	{
@@ -42,9 +47,9 @@ class PreSubastas extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('usuario_id, subasta_id', 'required'),
-            array('opcion', 'numerical', 'integerOnly'=>true),
-			array('id, usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id', 'numerical', 'integerOnly'=>true),
+			array('usuario_id, imagen_s_id, subasta_id', 'required'),
+			array('opcion', 'numerical', 'integerOnly'=>true),
+			array('usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id', 'numerical', 'integerOnly'=>true),
 			array('monto', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -60,6 +65,9 @@ class PreSubastas extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'usuario' => array(self::BELONGS_TO, 'Usuarios', 'usuario_id'),
+			'subasta' => array(self::BELONGS_TO, 'Subastas', 'subasta_id'),
+			'imagenS' => array(self::BELONGS_TO, 'ImagenS', 'imagen_s_id'),
 		);
 	}
 

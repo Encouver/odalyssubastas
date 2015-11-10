@@ -6,6 +6,12 @@ $this->pageTitle=Yii::app()->name;
 $idsub = $presubasta->imagen_s_id.'_'.uniqid();
 
 ?>
+<style type="text/css">
+.global
+{
+    text-align:center;
+}
+</style>
 
 <div class="form">
 
@@ -53,6 +59,7 @@ $idsub = $presubasta->imagen_s_id.'_'.uniqid();
     ?>
 
 -->
+<div class="global">
     <?php
     $select = array($presubasta->opcion);
     echo $form->dropDownList($presubasta, 'opcion',
@@ -61,12 +68,12 @@ $idsub = $presubasta->imagen_s_id.'_'.uniqid();
     ?>
 
     <div class="row" id="monto" style="display: block;">
-        <?php echo $form->labelEx($presubasta,'monto'); ?>
-        <?php echo $form->textField($presubasta,'monto',array('size'=>60,'maxlength'=>255,
+        <?php //echo $form->labelEx($presubasta,'monto'); ?>
+        <?php echo $form->textField($presubasta,'monto',array('size'=>60,'maxlength'=>255, 'placeholder'=>'Monto', 
             'oninput'=>'js: var precio = 0;  if($(this).val() != ""){
              precio = $(this).val();}
              else{ precio = 0(); }
-             $("#'.$idsub.'").attr("value","Dejar Puja '.$subasta->moneda.' "+number_format(precio));
+             $("#'.$idsub.'").attr("value","Enviar '.$subasta->moneda.' "+number_format(precio));
               ','id'=>'montoValor_'.$idsub)); ?>
         <?php echo $form->error($presubasta,'monto'); ?>
     </div>
@@ -74,14 +81,14 @@ $idsub = $presubasta->imagen_s_id.'_'.uniqid();
     <div class="row">
         <?php echo $form->hiddenField($presubasta,'imagen_s_id',array(/*'value'=>$subasta->imagen*/)); ?>
     </div>
-
+</div>
 <script type="application/javascript">
 
     function seleccionPresubasta(opcion){
         if(opcion == 0)
             $("#monto").show();
         else {
-            $("#<?php echo $idsub; ?>").attr("value","Dejar Puja");
+            $("#<?php echo $idsub; ?>").attr("value","Enviar");
             $("#montoValor_<?php echo $idsub ?>").val('');
             $("#monto").hide();
         }
@@ -108,7 +115,7 @@ $idsub = $presubasta->imagen_s_id.'_'.uniqid();
     });*/
 
 </script>
-    <div class="row buttons">
+    <div class="row buttons global">
         <?php //echo CHtml::submitButton($presubasta->isNewRecord ? 'Dejar Puja' : 'Dejar Puja'); ?>
         <?php
 
@@ -131,7 +138,7 @@ $(document).ready(function(){
             CClientScript::POS_READY);*/
 
 
-        echo CHtml::ajaxSubmitButton('Dejar Puja', CHtml::normalizeUrl(array('site/presubasta')),
+        echo CHtml::ajaxSubmitButton('Enviar', CHtml::normalizeUrl(array('site/presubasta')),
             array('type'=>'POST',//'update'=>'#pujaModal',
                 'dataType' => "json",
                 //'data' => '{imagen_ss: "0"}',
@@ -140,7 +147,6 @@ $(document).ready(function(){
 													//console.log(data);
 													if(data["status"] == 200){
 														$("#pujaMdal").html(data["responseText"]);
-														//$("#pujaModal").attr("style","with:600px;");
 													}
 													else{
 														alert(data["responseText"]);
@@ -170,7 +176,7 @@ $(document).ready(function(){
 
 										            }',
             ),
-            array('class'=>'btn','style'=>'width:300px;','id'=>$idsub));
+            array('class'=>'btn global','style'=>'width:220px;','id'=>$idsub));
 
 
         ?>
