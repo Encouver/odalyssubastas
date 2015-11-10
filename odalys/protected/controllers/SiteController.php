@@ -160,19 +160,19 @@ class SiteController extends Controller
 		                         {
 		                         	$contenido .=    '<td style=\"width: 20%;\">'.$value->usuario->telefono.'</td>';
 		                         }else
-		                         	$contenido .=    '<td style=\"width: 20%;\">X</td>';
+		                         	$contenido .=    '<td style=\"width: 20%;\"></td>';
 
 		                         if($value['puja_maxima'])
 		                         {
 		                         	 $contenido .=    '<td style=\"width: 20%;\">'.number_format($value['monto']).'</td>';
 		                         }else
-		                         	$contenido .=    '<td style=\"width: 20%;\">X</td>';
+		                         	$contenido .=    '<td style=\"width: 20%;\"></td>';
 
 		                         if($value['asistir_subasta'])
 		                         {
 		                         	 $contenido .=    '<td style=\"width: 20%;\">Asistira a subasta</td>';
 		                         }else
-		                         	$contenido .=    '<td style=\"width: 20%;\">X</td>';
+		                         	$contenido .=    '<td style=\"width: 20%;\"></td>';
 		                   		
 		                   		$contenido .= '</tr>';
 		                }
