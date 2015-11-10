@@ -330,5 +330,8 @@ $this->pageTitle=Yii::app()->name;
 	?>
 </p>
 
+<div id="franja-subasta" class="alerta-subasta">
+	<?php echo ('La subasta en vivo se realizar&aacute; el '. $fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+</div>
 
 
