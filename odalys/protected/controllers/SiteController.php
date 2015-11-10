@@ -79,6 +79,13 @@ class SiteController extends Controller
 	}
 
 
+	function ObtenerLote($texto)
+	{	
+
+		$texto = trim($texto);
+		list($lote) = explode("<BR>", $texto);
+		return $lote;
+	}
 
     public function actionPrereporte()
     {
@@ -92,71 +99,126 @@ class SiteController extends Controller
 
         $silenciosa = Subastas::model()->find($criteria);
 
-        //$titulo = 'Informe de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
+        $titulo = 'Presubasta '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
+        
+        $criteria = new CDbCriteria;
 
-        $titulo = "Presubasta #";
+        $criteria->condition = 'subasta_id=:subasta_id';
+        $criteria->params = array(':subasta_id'=>$silenciosa['id']);
+        $criteria->order = 'imagen_s_id ASC';
 
-        $ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+        $presubasta = PreSubastas::model()->findAll($criteria);
 
-        $contenido ="<html>
-            <head>
-                <title>Probando</title>
-                 <style type='text/css'>
-            <!--
-                table {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
-                tr { text-align: center}
-                h1 {color: #000033}
-                h2 {color: #000055}
-                h3 {color: #000077}
+        //$titulo = "Presubasta #";
 
-                div.standard
-                {
-                    padding-left: 5mm;
-                }
-            -->
-            </style>
-            </head>
-            <body>
-                <div style='margin: 0px auto'>
-                <img src='http://odalys.com/odalys/images/log.png'/>
-                <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
-                <table class='page_header'>
-<!--                <tr>
-                    <td style=\"width: 25%;\">xxxx</td>
-                    <td style=\"width: 25%;\">xxx</td>
-                    <td style=\"width: 25%;\">xx</td>
-                    <td style=\"width: 25%;\">x</td>
-                 </tr>-->
-               ";
+        //$ganadores = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+        if(count($presubasta))
+        {
 
-                foreach ($ganadores as $key => $value)
-                {
-                    if($value->id_usuario)
-                    {
-                        $paleta = Usuariospujas::model()->find('idsubasta=:ids AND idusuario=:idusuario', array(':ids'=>$silenciosa['id'], ':idusuario' => $value->id_usuario));
 
-                        $usuario = Usuarios::model()->find('id=:id', array('id'=>$value->id_usuario));
+		        $contenido ="<html>
+		            <head>
+		                <title>Probando</title>
+		                 <style type='text/css'>
+		            <!--
+		                table {width: 98%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+		                tr { text-align: center}
+		                h1 {color: #000033}
+		                h2 {color: #000055}
+		                h3 {color: #000077}
 
-                        $contenido .=
-                            '
-                                    <tr>
-                                        <td>'. $usuario['nombre'] .' '. $usuario['apellido'].'</td>
-                                        <td>' .$paleta['paleta'].'</td>
-                                        <td>'.$value->descri.'</td>
-                                        <td><img src="http://www.odalys.com/odalys/'.$value->imagen.'"/></td>
-                                        <td>'.$silenciosa['moneda'].' '.number_format($value->actual).'</td>
-                                        <td></td>
-                                    </tr>
-                                ';
-                    }
-                }
+		                div.standard
+		                {
+		                    padding-left: 5mm;
+		                }
+		            -->
+		            </style>
+		            </head>
+		            <body>
+		                <div style='margin: 0px auto'>
+		                <img src='http://odalys.com/odalys/images/log.png'/>
+		                <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+		                <table class='page_header'>
+		               <tr>
+		                    <td style=\"width: 20%;\">Lote</td>
+		                    <td style=\"width: 20%;\">Nombre</td>
+		                    <td style=\"width: 20%;\">Teléfono</td>
+		                    <td style=\"width: 20%;\">Monto</td>
+		                    <td style=\"width: 20%;\">Asistir</td>
+		                 </tr>
+		               ";
+
+		                foreach ($presubasta as $key => $value)
+		                {
+		                    
+		                        $contenido .=
+		                            '
+		                                    <tr>
+		                                        <td style=\"width: 20%;\">'.$this->ObtenerLote($value->imagenS->descri).'</td>
+		                                        <td style=\"width: 20%;\">' .$value->usuario->nombre .' '. $value->usuario->apellido.'</td>';
+
+
+		                         if($value['puja_telefonica'])
+		                         {
+		                         	$contenido .=    '<td style=\"width: 20%;\">'.$value->usuario->telefono.'</td>';
+		                         }else
+		                         	$contenido .=    '<td style=\"width: 20%;\">X</td>';
+
+		                         if($value['puja_maxima'])
+		                         {
+		                         	 $contenido .=    '<td style=\"width: 20%;\">'.number_format($value['monto']).'</td>';
+		                         }else
+		                         	$contenido .=    '<td style=\"width: 20%;\">X</td>';
+
+		                         if($value['asistir_subasta'])
+		                         {
+		                         	 $contenido .=    '<td style=\"width: 20%;\">Asistira a subasta</td>';
+		                         }else
+		                         	$contenido .=    '<td style=\"width: 20%;\">X</td>';
+		                   		
+		                   		$contenido .= '</tr>';
+		                }
 
                  $contenido .= "
                 </table>
                 </div>
                 </body>
                 </html>";
+        }else
+        {
+        	$contenido ="<html>
+		            <head>
+		                <title>Probando</title>
+		                 <style type='text/css'>
+		            <!--
+		                table {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+		                tr { text-align: center}
+		                h1 {color: #000033}
+		                h2 {color: #000055}
+		                h3 {color: #000077}
 
+		                div.standard
+		                {
+		                    padding-left: 5mm;
+		                }
+		            -->
+		            </style>
+		            </head>
+		            <body>
+		                <div style='margin: 0px auto'>
+		                <img src='http://odalys.com/odalys/images/log.png'/>
+		                <h4 style='text-align:center; font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;'>$titulo<hr></h4>
+		                <table class='page_header'>
+		               <tr>
+		                    <td style=\"width: 100%;\">No se tiene presubasta</td>
+		                 </tr>
+		               ";
+                 $contenido .= "
+                </table>
+                </div>
+                </body>
+                </html>";
+        }
         $html2pdf = Yii::app()->ePdf->HTML2PDF();
         $html2pdf->WriteHTML($contenido);
         $html2pdf->Output("presubasta.pdf", 'D');
@@ -209,7 +271,8 @@ class SiteController extends Controller
 		        <td  style='width: 20%;'>Imagen</td>";
 		        $contenido .= "<td  style='width: 15%;'>";
 		        $contenido .=  $silenciosa['moneda'];
-		         $contenido .= "</td></tr> ";
+		        $contenido .= "</td></tr> ";
+
 		    foreach ($ganadores as $key => $value)
 				{
 					if($value->id_usuario)
