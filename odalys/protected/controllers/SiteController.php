@@ -143,20 +143,18 @@ class SiteController extends Controller
 		                    <td style=\"width: 20%;\">Lote</td>
 		                    <td style=\"width: 20%;\">Nombre</td>
 		                    <td style=\"width: 20%;\">Teléfono</td>
-		                    <td style=\"width: 20%;\">Monto</td>
+		                    <td style=\"width: 20%;\">Monto máximo</td>
 		                    <td style=\"width: 20%;\">Asistir</td>
 		                 </tr>
 		               ";
 
 		                foreach ($presubasta as $key => $value)
 		                {
-		                    
 		                        $contenido .=
 		                            '
 		                                    <tr>
 		                                        <td style=\"width: 20%;\">'.$this->ObtenerLote($value->imagenS->descri).'</td>
 		                                        <td style=\"width: 20%;\">' .$value->usuario->nombre .' '. $value->usuario->apellido.'</td>';
-
 
 		                         if($value['puja_telefonica'])
 		                         {
