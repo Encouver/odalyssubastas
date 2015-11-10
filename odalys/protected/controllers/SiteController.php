@@ -818,12 +818,7 @@ class SiteController extends Controller
 		$ultimaSubastaSilenciosa = Subastas::model()->find($criteria);
 
 		// Pre Subasta
-		$criteria = new CDbCriteria;
-
-		$criteria->condition = 'ids=:ids';
-		$criteria->params = array(':ids'=>$ultimaSubastaSilenciosa->id);
-
-		$crono = Cronometro::model()->find($criteria);
+		$crono = Cronometro::model()->findByAttributes(array('ids'=> $ultimaSubastaSilenciosa->id));
 
 
 		$query = ImagenS::model()->findAll('ids=:ids ORDER BY id',array(':ids'=>$ultimaSubastaSilenciosa['id']));
@@ -851,7 +846,7 @@ class SiteController extends Controller
 										'.$link.'<div style="padding-bottom: 8px;"></div> <loteautor>'.$value->solonombre.'</loteautor>';
 					if($value->id_usuario>0)
 					{
-						
+
 						
 						if(Yii::app()->session['admin'])
 						{
@@ -864,13 +859,14 @@ class SiteController extends Controller
 							$imprimir .= '<br/><w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
 																				 array('style'=>'width: 5px;hight:5px;')).'</w>';
 
-                            $time = new DateTime($crono->fecha_finalizacion);
+/*                            $time = new DateTime($crono->fecha_finalizacion);
+                            $time->add(new DateInterval('PT1H'));
                             $actualTime = new DateTime("now");
 
-                            $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+                            $intervaloPresubasta = $time->getTimestamp() - $actualTime->getTimestamp() ;*/
 
                             // Verificando que se encuentra en la proxima hora al finalizar la subasta.
-                            //if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
+                            //if( $ultimaSubastaSilenciosa->enPresubasta())
                             {
                                 //$this->actionPresubasta();
 

@@ -113,6 +113,39 @@ class Subastas extends CActiveRecord
 		);
 	}
 
+	public function ultimaSilenciosa(){
+
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'fuesilenciosa=:fuesilenciosa';
+		$criteria->params = array(':fuesilenciosa'=>1);
+		$criteria->order = 'id DESC';
+
+		return Subastas::model()->find($criteria);
+	}
+
+	public function enPresubasta(){
+
+		$actualTime = new DateTime("now");
+
+		$time = $this->fechaPresubasta();
+
+		$intervaloPresubasta =  $time->getTimestamp() - $actualTime->getTimestamp();
+
+		// Verificando que se encuentra en la proxima hora al finalizar la subasta.
+		if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
+			return true;
+		else
+			return false;
+	}
+
+	public function fechaPresubasta(){
+		$crono = Cronometro::model()->findByAttributes(array('ids'=> $this->ultimaSilenciosa()->id));
+
+		$time = new DateTime($crono->fecha_finalizacion);
+
+		return $time->add(new DateInterval('PT1H'));
+	}
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

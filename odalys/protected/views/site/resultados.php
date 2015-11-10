@@ -54,6 +54,60 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 
 ?>
 
+<?php
+Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/plugin/kkcountdown/js/kkcountdown.min.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScript('cronometro','$(document).ready(function(){
+																	$("tiemporestante").html("Tiempo restante: ");
+													                $(".cronometro").kkcountdown({
+													                	dayText		: "día ",
+													                	daysText 	: "días ",
+													                    hoursText	: "h ",
+													                    minutesText	: "m ",
+													                    secondsText	: "s",
+													                    displayZeroDays : false,
+													                    //callback	: terminarSubasta,
+													                    oneDayClass	: "one-day"
+													                });
+													               /* $(".kkcount-down").kkcountdown({
+													                	dayText		: " ",
+													                	daysText 	: " ",
+													                    hoursText	: ":",
+													                    minutesText	: ":",
+													                    secondsText	: "",
+													                    displayZeroDays : false,
+													                    callback	: function() {
+													                    	$("odliczanie-a").css({"background-color":"#fff",color:"#333"});
+													                    },
+													                    addClass	: ""
+													                });*/
+													                $("#go").click(function() {
+													                	var secs = $("#secs").val();
+													                	$("#secs").parent("span").html("<strong>"+secs+"</strong>").addClass("red");
+													                	$("#go").hide();
+														                $(".kkcount-down-2")
+														                	.attr("data-seconds", secs)
+														                	.kkcountdown({
+														                	dayText		: "d ",
+														                	daysText 	: "dd ",
+														                    hoursText	: ":",
+														                    minutesText	: ":",
+														                    secondsText	: "",
+														                    displayZeroDays : false,
+														                    textAfterCount: "BOOM!",
+														                    warnSeconds : 10,
+														                    warnClass   : "red",
+														                });
+													                });
+													            });
+																function terminarSubasta(){
+																	var url = "'.$this->createUrl('site/terminar').'";
+																	$(location).attr("href",url);
+																}
+																var precio;
+													            ',
+    CClientScript::POS_READY);
+
+?>
 
 <?php
 
