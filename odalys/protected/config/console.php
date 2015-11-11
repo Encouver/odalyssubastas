@@ -9,12 +9,19 @@ return array(
 	// preloading 'log' component
 	'preload'=>array('log'),
 
+	// autoloading model and component classes
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+		'application.behaviors.ActiveRecordLogableBehavior',
+	),
+
 	// application components
 	'components'=>array(
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 		),
-        'Smtpmail'=>array(
+/*        'Smtpmail'=>array(
             'class'=>'application.extensions.smtpmail.PHPMailer',
             'Host'=>"smtp.gmail.com",
             'Username'=>'pujas@odalys.com', //noreply@odalys.com
@@ -23,7 +30,7 @@ return array(
             'Port'=>587,
             'SMTPAuth'=>true,
             'SMTPSecure' => 'tls',
-        ),
+        ),*/
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=odalyscs_edgar',
             'emulatePrepare' => true,

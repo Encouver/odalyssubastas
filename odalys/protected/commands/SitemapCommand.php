@@ -5,16 +5,16 @@
 class SitemapCommand extends CConsoleCommand
 {
     public function actionIndex() {
-
-
+        echo 'Hola Mundo';
     }
 
     public function actionAlertaPresubasta() {
 
-        //
-        list($MailController) = Yii::app()->createController('Mail');
-        //$MailController->mailsend();
+        Yii::$enableIncludePath = false;
 
+        //
+        //list($MailController) = Yii::app()->createController('Mail');
+        //$MailController->mailsend();
 
 
         $arreglo = array();
@@ -42,7 +42,7 @@ class SitemapCommand extends CConsoleCommand
 
         $subas = Subastas::model()->find($criteria);
 
-        if(!$subas) {
+        if($subas == null) {
 
             // Pre Subasta
             $criteria = new CDbCriteria;
@@ -53,12 +53,14 @@ class SitemapCommand extends CConsoleCommand
             $crono = Cronometro::model()->find($criteria);
 
             $time = new DateTime($crono->fecha_finalizacion);
+            $time->add(new DateInterval('PT1H'));
             $actualTime = new DateTime("now");
-            $intervaloPresubasta = $actualTime->getTimestamp() - $time->getTimestamp();
+            $intervaloPresubasta =  $actualTime->getTimestamp() - $time->getTimestamp();
 
             // Verificando que se encuentra en los proximos 10 minutos al finalizar la subasta.
-            if( !($intervaloPresubasta >=0 && $intervaloPresubasta <= 600) )
-                return;
+ /*           if( !($intervaloPresubasta >=0 && $intervaloPresubasta <= 600) )
+                return;*/
+
         }else return;
 
         $footer = Correos::model()->find('id=:id', array('id'=>1));
@@ -67,7 +69,15 @@ class SitemapCommand extends CConsoleCommand
         $subject = 'Resultados de la '.$silenciosa['nombre'].' '.$silenciosa['nombrec'];
 
         //obtengo los resultados de las obras en la subasta finalizada.
-        $usuarios = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+        //$imagenes = ImagenS::model()->findAll('ids=:ids', array(':ids' => $silenciosa['id']));
+
+
+        $criteria = new CDbCriteria();
+        $criteria->distinct=true;
+        $criteria->condition = "ids=".$silenciosa->id;
+        $criteria->select = 'id_usuario, ids';
+        $imagenes=ImagenS::model()->findAll($criteria);
+
 
         $message = "";
 
@@ -76,12 +86,13 @@ class SitemapCommand extends CConsoleCommand
         //echo "Hola";
 
 
-        foreach ($usuarios as $key => $value)
+        foreach ($imagenes as $key => $value)
         {
-            //valido que la obra la tenga un usuario y q no vuelva a entrar ese mismo usuario
 
+            //valido que la obra la tenga un usuario y q no vuelva a entrar ese mismo usuario
+/*
             if($value->id_usuario and !in_array($value->id_usuario, $arreglo))
-            {
+            {*/
 
                 $usuario = Usuarios::model()->find('id=:id', array(':id'=>$value->id_usuario));
 
@@ -96,6 +107,7 @@ class SitemapCommand extends CConsoleCommand
                 $paleta = $usuariospuja['paleta'];
 
                 $to = $correo;
+
 
                 $message = '
 		 <div style="padding-left:50px !important; padding-top:10px !important; float:left !important; padding-right:20px !important;">
@@ -117,7 +129,8 @@ class SitemapCommand extends CConsoleCommand
 				  </thead>
 				  <tbody>';
 
-                $arreglo[] = $value->id_usuario;
+
+                //$arreglo[] = $value->id_usuario;
 
                 $usuarios = ImagenS::model()->findAll('id_usuario=:id_usuario and ids=:idsubasta', array(':id_usuario' => $value->id_usuario, ':idsubasta'=> $silenciosa['id']));
 
@@ -177,20 +190,22 @@ class SitemapCommand extends CConsoleCommand
                 //echo "Fin de mensaje";
                 //echo "----------------------------------";
                 //echo "<br>";
-                //$this->mailsend($to,$subject,$message);
-                $MailController->mailsend($to,$subject,$message);
+                echo 'Enviando correo a: '.$to.' con asunto: '.$subject/*.' y el mensaje: '.$message*/;
+                echo PHP_EOL;
+                $this->mailsend($to,$subject,$message);
+                //$MailController->mailsend($to,$subject,$message);
+            //var_dump(($value));
 
+           //die;
                 $message = "";
                 $to= "";
                 $subject = "";
                 //	$this->render('compradores', array('valor'=>$message));
-            }
+            //}
             $message = "";
             $to= "";
             $subject = "";
         }
-        //echo "hola";
-        //print_r($arreglo);
 
 
         // Se marca la subasta que fue silenciosa como  enviada los correos.
@@ -201,6 +216,7 @@ class SitemapCommand extends CConsoleCommand
     }
 
     public function mailsend($to,$subject,$message){
+        echo PHP_EOL.'A: '.$to.' '.PHP_EOL;
         $from = "pujas@odalys.com"; //noreply@odalys.com
         $mail=Yii::app()->Smtpmail;
         $mail->CharSet = 'UTF-8';
@@ -213,11 +229,13 @@ class SitemapCommand extends CConsoleCommand
             $to= "";
             $subject = "";
             $message = "";
+            $mail->ClearAddresses(); //clear addresses for next email sending
             return false;
         }else {
             $to= "";
             $subject = "";
             $message = "";
+            $mail->ClearAddresses(); //clear addresses for next email sending
             return true;
         }
     }
