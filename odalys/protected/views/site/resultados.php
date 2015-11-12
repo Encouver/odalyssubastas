@@ -152,7 +152,7 @@ Yii::app()->clientScript->registerScript('cronometro','$(document).ready(functio
 
 		Yii::app()->clientScript->registerScript('filtro','$(document).ready(function(){
 																$("div#filtro").empty().html(\''.$filtro.'\');
-													        });
+														        });
 												            ',
 														CClientScript::POS_READY);
 
@@ -184,11 +184,11 @@ echo $resultados;
 ?>
 
 
-
+<!--
 
 <div id="franja-subasta" class="alerta-subasta">
 	<?php
-	date_default_timezone_set('America/Caracas');
+/*	date_default_timezone_set('America/Caracas');
 	// Windows
 	//setlocale(LC_ALL,"esp_esp");
 	//Linux
@@ -196,5 +196,7 @@ echo $resultados;
 	$fechaFinalizacion = new DateTime($crono->fecha_finalizacion);
 	$fechaFinalizacion->add(new DateInterval('PT1H'));
 
-	echo ('La subasta en vivo se realizar&aacute; el '. ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp())).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+	//if($subasta->enPresubasta())
+		echo ('La subasta en vivo se realizar&aacute; el '. ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp())).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); */?>
 </div>
+-->

@@ -864,13 +864,10 @@ class SiteController extends Controller
                             $intervaloPresubasta = $time->getTimestamp() - $actualTime->getTimestamp() ;*/
 
                             // Verificando que se encuentra en la proxima hora al finalizar la subasta.
-                            //if( $ultimaSubastaSilenciosa->enPresubasta())
-                            {
-                                //$this->actionPresubasta();
 
                                 $existe = PreSubastas::model()->find('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$value->id));
 
-                                if(!$existe) {
+                                if(!$existe && $ultimaSubastaSilenciosa->enPresubasta()) {
                                     $etiqueta = 'Dejar puja';
                                     $pujarAjaxLink = CHtml::ajaxLink($etiqueta,
                                         $this->createUrl('site/presubasta'), array(
@@ -889,7 +886,8 @@ class SiteController extends Controller
                                         array('id' => $value->id, 'style' => 'color: #014F92;')
                                     );
                                     $imprimir .= '<br>' . $pujarAjaxLink;
-                                }else {
+                                }
+									if($existe) {
 
                                     //$imprimir .= '<br> Estatus Presubasta: ';
                                     $imprimir .= '<br>';
@@ -908,7 +906,7 @@ class SiteController extends Controller
 
                                 }
 
-                            }
+
 						}else
 						{
 							$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span>';

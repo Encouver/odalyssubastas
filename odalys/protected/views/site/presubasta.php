@@ -80,15 +80,17 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
                 )); ?>
                 <div class="global">
 
-                    <?php
+                    <div class="row">
+                        <?php
 
-                    $select = array($presubasta->opcion);
-                    echo $form->dropDownList($presubasta, 'opcion',
-                        array('0' => 'Dejar puja máxima', '1' => 'Dejar puja telefónica', '2' => 'Asistir a la subasta en vivo', '3' => 'No hacer nada'),
-                        array(/*'empty' => '(Selecciona una opción)',*/
-                            'id' => 'seleccion_opcion', 'onchange' => 'seleccionPresubasta(this.value);'));
-                    ?>
-
+                        $select = array($presubasta->opcion);
+                        echo $form->dropDownList($presubasta, 'opcion',
+                            array('0' => 'Dejar puja máxima', '1' => 'Dejar puja telefónica', '2' => 'Asistir a la subasta en vivo', '3' => 'No hacer nada'),
+                            array(/*'empty' => '(Selecciona una opción)',*/
+                                'id' => 'seleccion_opcion', 'onchange' => 'seleccionPresubasta(this.value);'));
+                        ?>
+                    </div>
+                    <br>
                     <div class="row" id="monto" style="display: block;">
                         <?php //echo $form->labelEx($presubasta,'monto'); ?>
                         <?php echo $form->textField($presubasta, 'monto', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Monto',
@@ -99,6 +101,7 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
               ', 'id' => 'montoValor_' . $idsub)); ?>
                         <?php echo $form->error($presubasta, 'monto'); ?>
                     </div>
+                    <br>
 
                     <div class="row">
                         <?php echo $form->hiddenField($presubasta, 'imagen_s_id', array(/*'value'=>$subasta->imagen*/)); ?>
@@ -216,3 +219,11 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
         </td>
     </tr>
 </table>
+
+<h6>* Dejar puja máxima:</h6>  Suspendisse non neque rhoncus, rhoncus mauris a, venenatis justo. Donec non leo non neque euismod pulvinar. Phasellus elementum quam.
+<br><br>
+<h6>* Dejar puja telefónica:</h6> id felis faucibus pretium. Integer erat nisi, rhoncus quis scelerisque eu, elementum nec mauris. Curabitur faucibus magna quis ante blandit egestas. Etiam scelerisque a mauris sit amet pellentesque.
+<br><br>
+<h6>* Asistiré a la subasta en vivo:</h6>  Ut sed eros ut ante consequat euismod. Fusce vel risus feugiat, gravida dolor eu, pellentesque enim. Mauris turpis orci, euismod rutrum massa sed, tincidunt posuere mi.
+<br><br>
+    <h6>* Deseo quedarme con mi puja actual:</h6> Ut id nibh in est faucibus dictum.

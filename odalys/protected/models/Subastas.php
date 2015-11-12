@@ -113,6 +113,17 @@ class Subastas extends CActiveRecord
 		);
 	}
 
+	public function silenciosaActiva(){
+
+		$criteria = new CDbCriteria;
+
+		$criteria->condition = 'silenciosa=:silenciosa';
+		$criteria->params = array(':silenciosa'=>1);
+
+		return Subastas::model()->find($criteria);
+	}
+
+
 	public function ultimaSilenciosa(){
 
 		$criteria = new CDbCriteria;
@@ -122,6 +133,14 @@ class Subastas extends CActiveRecord
 		$criteria->order = 'id DESC';
 
 		return Subastas::model()->find($criteria);
+	}
+
+	public function subastaActiva(){
+
+		if($this->silenciosaActiva())
+			return true;
+		else
+			return false;
 	}
 
 	public function enPresubasta(){
@@ -139,6 +158,7 @@ class Subastas extends CActiveRecord
 			return false;
 	}
 
+	// Fecha de finalización de la presubasta
 	public function fechaPresubasta(){
 		$crono = Cronometro::model()->findByAttributes(array('ids'=> $this->ultimaSilenciosa()->id));
 
@@ -146,6 +166,18 @@ class Subastas extends CActiveRecord
 
 		return $time->add(new DateInterval('PT1H'));
 	}
+
+	// Fecha de finalización de la subasta actual
+	public function fechaSubastaActiva(){
+		if(!$this->silenciosaActiva())
+			return false;
+
+		$crono = Cronometro::model()->findByAttributes(array('ids'=> $this->silenciosaActiva()->id));
+
+
+		return new DateTime($crono->fecha_finalizacion);
+	}
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

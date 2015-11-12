@@ -58,8 +58,8 @@ class SitemapCommand extends CConsoleCommand
             $intervaloPresubasta =  $actualTime->getTimestamp() - $time->getTimestamp();
 
             // Verificando que se encuentra en los proximos 10 minutos al finalizar la subasta.
- /*           if( !($intervaloPresubasta >=0 && $intervaloPresubasta <= 600) )
-                return;*/
+           if( !($intervaloPresubasta >=0 && $intervaloPresubasta <= 600) )
+                return;
 
         }else return;
 

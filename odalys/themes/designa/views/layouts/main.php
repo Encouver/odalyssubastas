@@ -312,6 +312,22 @@ if (Yii::app()->session['id_usuario']) {
 	</section>
 	</div> <!--main-->
 
+
+    <div id="franja-subasta" class="alerta-subasta">
+        <?php
+        date_default_timezone_set('America/Caracas');
+        // Windows
+        //setlocale(LC_ALL,"esp_esp");
+        //Linux
+        setlocale(LC_ALL,"es_ES");
+        $subasta = new Subastas();
+        $fechaFinalizacion = $subasta->fechaPresubasta();
+
+        if($subasta->subastaActiva() || $subasta->enPresubasta())
+            echo ('La subasta en vivo se realizar&aacute; el '. ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp())).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+    </div>
+
+
     <div class="divide-top" style="">
         <footer class="grid-wrap">
             <div class="up grid col-one-third" style="width:200px !important;">
