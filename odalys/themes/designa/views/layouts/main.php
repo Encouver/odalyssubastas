@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
 
+
     <!-- Remove this line if you use the .htaccess -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
@@ -21,6 +22,8 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/style.css">
 
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/sweetalert.css">
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -377,7 +380,16 @@ if (Yii::app()->session['id_usuario']) {
 </div>
 
 <?php echo '</div>'; ?>
+<script>
+//alerta('probando','probando','error','entendido');
+    function alerta(titulo,mensaje, tipo, textoboton){
+        swal({   title: titulo,
+            text: mensaje,
+            type: tipo,
+            confirmButtonText: textoboton});
+    }
 
+</script>
 <!-- Javascript - jQuery -->
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script>window.jQuery || document.write('&lt;script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-1.7.2.min.js"> &lt;\/script>')</script>

@@ -103,6 +103,22 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
                     </div>
                     <br>
 
+                    <div class="row" id="modificar_telf" style="display: none;">
+
+                        <?php echo CHtml::link('Ir a Modificar Teléfonos','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
+
+                    </div>
+
+                    <br>
+
+ <!--                   <div class="row" id="monto" style="display: block;">
+                        <?php /*//echo $form->labelEx($presubasta,'observaciones'); */?>
+                        <?php /*echo $form->textField($presubasta, 'observaciones', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Observaciones',)); */?>
+                        <?php /*echo $form->error($presubasta, 'observaciones'); */?>
+                    </div>
+
+                    <br>-->
+
                     <div class="row">
                         <?php echo $form->hiddenField($presubasta, 'imagen_s_id', array(/*'value'=>$subasta->imagen*/)); ?>
                     </div>
@@ -112,12 +128,22 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
                 <script type="application/javascript">
 
                     function seleccionPresubasta(opcion) {
+
+                        // Ocultamos todo
+                        $("#modificar_telf").hide();
+                        $("#monto").hide();
+
+                        // Activamos monto si eligio está opción
                         if (opcion == 0)
                             $("#monto").show();
                         else {
                             $("#<?php echo $idsub; ?>").attr("value", "Enviar");
                             $("#montoValor_<?php echo $idsub ?>").val('');
-                            $("#monto").hide();
+                        }
+                        // Activamos modificar telf si eligió esta opción.
+                        if(opcion == 1)
+                        {
+                            $("#modificar_telf").show();
                         }
 
 
@@ -176,20 +202,24 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 														$("#pujaModal").html(data["responseText"]);
 													}
 													else{
-														alert(data["responseText"]);
+														//alert(data["responseText"]);
+														alerta("Error",data["responseText"],"error","Entendido");
 													}
 												}',
                             'success' => 'function(data){
 													json = data;
 														if(data[\'id\']){
-															alert(data["msg"]);
+															//alert(data["msg"]);
+															//alerta("Error",data["msg"],"error","Entendido");
 															if(data["success"]){
-
+                                                                alerta("Exito",data["msg"],"success","Muy bien");
 																$("#pujaModal").dialog("close");
 																//location.reload();
 
-															}else
+															}else{
+															    alerta("Aviso",data["msg"],"error","Entendido");
 																$("#pujaModal").html(data["responseText"]);
+																}
 														}else{
 															$("#pujaModal").html(data);
 
