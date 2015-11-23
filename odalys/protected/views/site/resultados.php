@@ -56,7 +56,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 
 <?php
 Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/plugin/kkcountdown/js/kkcountdown.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScript('cronometro','$(document).ready(function(){
+Yii::app()->clientScript->registerScript('cronometro-resultados','$(document).ready(function(){
 																	$("tiemporestante").html("Tiempo restante: ");
 													                $(".cronometro").kkcountdown({
 													                	dayText		: "día ",
@@ -65,7 +65,7 @@ Yii::app()->clientScript->registerScript('cronometro','$(document).ready(functio
 													                    minutesText	: "m ",
 													                    secondsText	: "s",
 													                    displayZeroDays : false,
-													                    //callback	: terminarSubasta,
+													                    //callback	: terminarPreSubasta,
 													                    oneDayClass	: "one-day"
 													                });
 													               /* $(".kkcount-down").kkcountdown({
@@ -99,7 +99,7 @@ Yii::app()->clientScript->registerScript('cronometro','$(document).ready(functio
 														                });
 													                });
 													            });
-																function terminarSubasta(){
+																function terminarPreSubasta(){
 																	var url = "'.$this->createUrl('site/terminar').'";
 																	$(location).attr("href",url);
 																}
@@ -247,8 +247,49 @@ Yii::app()->clientScript->registerScript('cronometro','$(document).ready(functio
 echo $resultados;
 
 ?>
+<script>
+
+	function Trim(strValue) {
+		return strValue.replace(/^\s+|\s+$/g, '');
+	}
+
+	function getCookie(key) {
+		var result = false;
+		if(document.cookie) {
+			var mycookieArray = document.cookie.split(';');
+			for(i=0; i<mycookieArray.length; i++) {
+				var mykeyValue = mycookieArray[i].split('=');
+				if(Trim(mykeyValue[0]) == key) result = mykeyValue[1];
+			}
+		}
+		return result;
+	}
+
+	function setCookie(key, value, hoursExpire) {
+		var ablauf = new Date();
+		var expireTime = ablauf.getTime() + (hoursExpire * 60 * 60 * 1000);
+		ablauf.setTime(expireTime);
+		document.cookie = key + "=" + value + "; expires=" + ablauf.toGMTString();
+	}
+
+	$(document).ready(function(){
 
 
+		if(!getCookie('alertado'))
+		{
+			// Configuramos para que en media hora se le indique el mensaje nuevamente.
+			setCookie('alertado', true, 0.5);
+			alerta("Pre Subasta", "Pre Subasta corriendo, realize las pujas que desee dejar sobre las obras que gano durante la subasta en linea.", "warning", "Entendido");
+		}
+	});
+</script>
+<?php
+
+/* 	$cookie = new CHttpCookie('alertado', true);
+    $cookie->expire = 3600;
+    Yii::app()->request->cookies['alertado'] = $cookie;*/
+//$subasta->fechaPresubasta();
+?>
 <!--
 
 <div id="franja-subasta" class="alerta-subasta">

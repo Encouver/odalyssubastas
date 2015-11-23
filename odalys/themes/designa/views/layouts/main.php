@@ -136,19 +136,19 @@
                     $subasta = new Subastas();
 
                     $sub = Subastas::model()->find('silenciosa=1');
-
+//$fecha = null;
                     // Verificando que se encuentra en la proxima hora al finalizar la subasta.
-                    if($subasta->enPresubasta()){
+                    //if($subasta->enPresubasta() ){
                         $fecha = $subasta->fechaPresubasta();
-                    }
-                    else {
+                    //}else
+                    if($sub !=null) {
 
                         $fecha = new DateTime((Cronometro::model()->find('ids=:ids', array(':ids' => $sub['id']))['fecha_finalizacion']));
 
                     }
                     //$fecha = new DateTime();
 
-                    //var_dump(true?'Pre-Subasta: ':($sub!=null?'Subasta: ':''));die;
+                    //var_dump($fecha);die;
 
 
                     ?>
