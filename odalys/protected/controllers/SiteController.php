@@ -505,6 +505,7 @@ class SiteController extends Controller
 			if( strtotime($crono->fecha_finalizacion) < time() ){
 				//$this->actionIndex();
 				$suba->silenciosa = 0;
+				$suba->fuesilenciosa = 1;
 			}
 		
 		
