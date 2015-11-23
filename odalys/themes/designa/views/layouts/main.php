@@ -148,10 +148,12 @@
                     }
                     //$fecha = new DateTime();
 
+                    //var_dump(true?'Pre-Subasta: ':($sub!=null?'Subasta: ':''));die;
+
 
                     ?>
                     <!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-                    <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><?php echo $subasta->enPresubasta()?'Pre-Subasta: ':$sub!=null?'Subasta: ':'' ?><span
+                    <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><?php echo $subasta->enPresubasta()?'Pre-Subasta: ':($sub!=null?'Subasta: ':'') ?><span
                                 data-time="<?php echo $fecha->format('U'); ?>" class="cronometro"></span></b></div>
                 </div>
 
