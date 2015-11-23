@@ -59,8 +59,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl . '/pl
 Yii::app()->clientScript->registerScript('cronometro','$(document).ready(function(){
 																	$("tiemporestante").html("Tiempo restante: ");
 													                $(".cronometro").kkcountdown({
-													                	dayText		: "d�a ",
-													                	daysText 	: "d�as ",
+													                	dayText		: "día ",
+													                	daysText 	: "días ",
 													                    hoursText	: "h ",
 													                    minutesText	: "m ",
 													                    secondsText	: "s",
@@ -161,9 +161,74 @@ Yii::app()->clientScript->registerScript('cronometro','$(document).ready(functio
 		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subasta->id, ':id_usuario' => Yii::app()->session['id_usuario']));
 		if($mispujas)
 			foreach ($mispujas as $key => $puja) {
-				$carrito .= '<div id="vsidebar"><img src="'.$imagenesDir.$puja->imagen.'"/><br><span style="">
-							'.$puja->solonombre.'</span><p>Actual: <moneda>'.$subasta->moneda.'</moneda> '.number_format($puja->actual).'</p></div>';
+				$carrito .= '<div id="vsidebar"><img src="' . $imagenesDir . $puja->imagen . '"/><br><span style="">
+							' . $puja->solonombre . '</span><p>Actual: <moneda>' . $subasta->moneda . '</moneda> ' . number_format($puja->actual) . '</p>';
+
+				$existe = PreSubastas::model()->find('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$puja->id));
+
+				if(!$existe && $subasta->enPresubasta()) {
+					$etiqueta = 'Dejar puja';
+					$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+						$this->createUrl('site/presubasta'), array(
+							//'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+							//'update'=>'#pujaModal'
+							'type' => 'POST',
+							'data' => array('imagen_s' => '0'),
+							'context' => 'js:this',
+							'beforeSend' => 'function(xhr,settings){
+																					settings.data = encodeURIComponent(\'imagen_s\')
+																					+ \'=\'
+																					+ encodeURIComponent($(this).attr(\'id\'));
+															}',
+							'success' => 'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+						),
+						array('id' => $puja->id, 'style' => 'color: #014F92;')
+					);
+					$carrito .= $pujarAjaxLink;
+				}
+
+				if($existe) {
+					//$imprimir .= '<br> Estatus Presubasta: ';
+					//$carrito .= '<br>';
+					if($existe->puja_maxima)
+						$etiqueta = 'Puja máxima por: '.$subasta->moneda.' '.number_format($existe->monto);
+
+					if($existe->puja_telefonica)
+						$etiqueta = 'Se dejo Puja telefónica';
+
+					if($existe->asistir_subasta)
+						$etiqueta = 'Asistir a subasta';
+
+					if($existe->no_hacer_nada)
+						$etiqueta = 'No hacer nada';
+
+					if ($subasta->enPresubasta())
+					{
+						//$etiqueta = 'Modificar puja dejada';
+						$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+							$this->createUrl('site/presubasta', array('actualizar' => true)), array(
+								//'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+								//'update'=>'#pujaModal'
+								'type' => 'POST',
+								'data' => array('imagen_s' => '0'),
+								'context' => 'js:this',
+								'beforeSend' => 'function(xhr,settings){
+											            						settings.data = encodeURIComponent(\'imagen_s\')
+										          								+ \'=\'
+										          								+ encodeURIComponent($(this).attr(\'id\'));
+											            }',
+								'success' => 'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+							),
+							array('id' => $puja->id, 'style' => 'color: #014F92;')
+						);
+						$carrito .= $pujarAjaxLink;
+					}
+					else
+						$carrito .= $etiqueta;
+
+				}
 							//Actual: <moneda>'.$subasta->moneda.'</moneda> <cantidadd_'.$puja->id.'>'.number_format($puja->actual).'</cantidadd_'.$puja->id.'></span></div>';
+				$carrito .= '</div>';
 			}
 		else
 			$carrito .= 'No ha realizado ninguna puja';

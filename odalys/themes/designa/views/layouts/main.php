@@ -327,7 +327,7 @@ if (Yii::app()->session['id_usuario']) {
         $fechaFinalizacion = $subasta->fechaPresubasta();
 
         if($subasta->subastaActiva() || $subasta->enPresubasta())
-            echo ('La subasta en vivo se realizar&aacute; el '. ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp())).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+            echo ('La subasta en vivo se realizar&aacute; el '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
     </div>
 
 

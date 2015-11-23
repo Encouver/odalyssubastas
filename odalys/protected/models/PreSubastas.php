@@ -13,6 +13,8 @@
  * @property integer $no_hacer_nada
  * @property integer $subasta_id
  * @property double $monto
+ * @property string $observaciones
+ * @property string $telefonos
  *
  * The followings are the available model relations:
  * @property Usuarios $usuario
@@ -52,6 +54,7 @@ class PreSubastas extends CActiveRecord
 			array('usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id', 'numerical', 'integerOnly'=>true),
 			array('puja_maxima', 'validarPujaMaxima'),
 			array('monto', 'numerical'),
+			array('observaciones, telefonos', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, usuario_id, puja_maxima, puja_telefonica, asistir_subasta, imagen_s_id, no_hacer_nada, subasta_id, monto', 'safe', 'on'=>'search'),
@@ -76,7 +79,7 @@ class PreSubastas extends CActiveRecord
     // Verifica si ya se existe la presubasta.
     public function yaSeDejo(){
 
-        if($this->model()->findByAttributes(array('usuario_id'=>$this->usuario_id, 'imagen_s_id'=>$this->imagen_s_id, 'subasta_id'=>$this->subasta_id,)))
+        if($this->model()->findByAttributes(array('usuario_id'=>$this->usuario_id, 'imagen_s_id'=>$this->imagen_s_id, 'subasta_id'=>$this->subasta_id,)) && $this->scenario != 'update')
             return true;
 
         return false;
@@ -111,6 +114,8 @@ class PreSubastas extends CActiveRecord
 			'no_hacer_nada' => 'No Hacer Nada',
 			'subasta_id' => 'Subasta',
 			'monto' => 'Monto',
+			'observaciones' => 'Observaciones',
+			'telefonos' => 'Telefonos',
 		);
 	}
 
@@ -141,6 +146,8 @@ class PreSubastas extends CActiveRecord
 		$criteria->compare('no_hacer_nada',$this->no_hacer_nada);
 		$criteria->compare('subasta_id',$this->subasta_id);
 		$criteria->compare('monto',$this->monto);
+		$criteria->compare('observaciones',$this->observaciones,true);
+		$criteria->compare('telefonos',$this->telefonos,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

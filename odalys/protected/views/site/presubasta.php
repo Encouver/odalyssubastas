@@ -84,9 +84,10 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
                         <?php
 
                         $select = array($presubasta->opcion);
+
                         echo $form->dropDownList($presubasta, 'opcion',
                             array('0' => 'Dejar puja máxima', '1' => 'Dejar puja telefónica', '2' => 'Asistir a la subasta en vivo', '3' => 'No hacer nada'),
-                            array(/*'empty' => '(Selecciona una opción)',*/
+                            array(/*'empty' => '(Selecciona una opción)',*/ 'options'=>array($presubasta->opcion=>array('selected'=>true)),
                                 'id' => 'seleccion_opcion', 'onchange' => 'seleccionPresubasta(this.value);'));
                         ?>
                     </div>
@@ -105,19 +106,23 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 
                     <div class="row" id="modificar_telf" style="display: none;">
 
-                        <?php echo CHtml::link('Ir a Modificar Teléfonos','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
+                        <?php echo CHtml::link('Ir a Modificar Teléfonos por defecto','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
+                        <?php //echo $form->labelEx($presubasta,'telefonos'); ?>
+                        <?php echo $form->textField($presubasta, 'telefonos', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Telefonos',)); ?>
+                        <?php echo $form->error($presubasta, 'telefonos'); ?>
 
                     </div>
+
 
                     <br>
 
- <!--                   <div class="row" id="monto" style="display: block;">
-                        <?php /*//echo $form->labelEx($presubasta,'observaciones'); */?>
-                        <?php /*echo $form->textField($presubasta, 'observaciones', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Observaciones',)); */?>
-                        <?php /*echo $form->error($presubasta, 'observaciones'); */?>
+                    <div class="row" id="monto" style="display: block;">
+                        <?php //echo $form->labelEx($presubasta,'observaciones'); ?>
+                        <?php echo $form->textField($presubasta, 'observaciones', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Observaciones',)); ?>
+                        <?php echo $form->error($presubasta, 'observaciones'); ?>
                     </div>
 
-                    <br>-->
+                    <br>
 
                     <div class="row">
                         <?php echo $form->hiddenField($presubasta, 'imagen_s_id', array(/*'value'=>$subasta->imagen*/)); ?>
@@ -148,6 +153,11 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 
 
                     }
+
+                    $(document).ready(function(){
+
+                        seleccionPresubasta($("#seleccion_opcion").val());
+                    });
 
                     /*    $(document).ready(function(){
 
@@ -191,7 +201,7 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
                                 CClientScript::POS_READY);*/
 
 
-                    echo CHtml::ajaxSubmitButton('Enviar', CHtml::normalizeUrl(array('site/presubasta')),
+                    echo CHtml::ajaxSubmitButton('Enviar', $this->createURL('site/presubasta', array('actualizar'=>$presubasta->scenario=='update'?true:false)),
                         array('type' => 'POST',//'update'=>'#pujaModal',
                             'dataType' => "json",
                             //'data' => '{imagen_ss: "0"}',
@@ -213,8 +223,8 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 															//alerta("Error",data["msg"],"error","Entendido");
 															if(data["success"]){
                                                                 alerta("Exito",data["msg"],"success","Muy bien");
-																$("#pujaModal").dialog("close");
-																//location.reload();
+																$("#pujaModal").dialog("close").delay(4);
+																location.reload();
 
 															}else{
 															    alerta("Aviso",data["msg"],"error","Entendido");

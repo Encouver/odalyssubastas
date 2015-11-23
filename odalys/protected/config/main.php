@@ -8,6 +8,8 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Subastas Odalys',
+	'sourceLanguage'=>'es_VE',
+	'language'=>'es_VE',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

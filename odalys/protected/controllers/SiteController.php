@@ -696,8 +696,8 @@ class SiteController extends Controller
 	}
 
 
-    public function  actionPresubasta(){
 
+    public function  actionPresubasta(){
 
         $criteria = new CDbCriteria;
 
@@ -731,10 +731,18 @@ class SiteController extends Controller
 
         $presubasta = new PreSubastas();
 
+		$usuario = Usuarios::model()->findByAttributes(array('id'=>Yii::app()->user->id));
+
+		if(isset($_GET['actualizar']) && $_GET['actualizar'])
+			$presubasta->scenario = 'update';
+
         if(isset($_POST['PreSubastas']))
         {
+			if($presubasta->scenario == 'update') {
+				$presubasta = PreSubastas::model()->findByAttributes(array('imagen_s_id' => $_POST['PreSubastas']['imagen_s_id'], 'usuario_id' => Yii::app()->user->id));
+			}
 
-            $presubasta->attributes = $_POST['PreSubastas'];
+            	$presubasta->attributes = $_POST['PreSubastas'];
 
             switch ( $presubasta->opcion) {
                 case 0:
@@ -742,12 +750,16 @@ class SiteController extends Controller
                     $presubasta->puja_telefonica = 0;
                     $presubasta->asistir_subasta = 0;
                     $presubasta->no_hacer_nada = 0;
+					$presubasta->telefonos == null;
                     break;
                 case 1:
                     $presubasta->puja_maxima = 0;
                     $presubasta->puja_telefonica = 1;
                     $presubasta->asistir_subasta = 0;
                     $presubasta->no_hacer_nada = 0;
+					// Por defecto se toman los telefonos que pueda tener configurados en la cuenta del usuario.
+					if($presubasta->telefonos == null)
+						$presubasta->telefonos = $usuario->telefono;
                     # code...
                     break;
 
@@ -756,6 +768,7 @@ class SiteController extends Controller
                     $presubasta->puja_telefonica = 0;
                     $presubasta->asistir_subasta = 1;
                     $presubasta->no_hacer_nada = 0;
+					$presubasta->telefonos == null;
                     # code...
                     break;
 
@@ -765,6 +778,7 @@ class SiteController extends Controller
                     $presubasta->puja_telefonica = 0;
                     $presubasta->asistir_subasta = 0;
                     $presubasta->no_hacer_nada = 1;
+					$presubasta->telefonos == null;
                     break;
             }
             if($presubasta->puja_maxima && $presubasta->monto == '')
@@ -781,17 +795,42 @@ class SiteController extends Controller
 				echo json_encode(array('id'=>1,'success'=>false,'msg'=>'Ya ha dejado una puja seleccionada para esta imágen.'));
 				return;
 			}
-
+			//var_dump($presubasta->telefonos);die;
+/*			$presubasta->validate();
+			var_dump($presubasta->scenario);
+			die;*/
             if($presubasta->save(true))
             {
-                echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Puja dejada con éxito.'));
+                echo json_encode(array('id'=>1,'success'=>true,'msg'=>!(isset($_GET['actualizar']) && $_GET['actualizar'])?'Puja dejada con éxito.':'Puja modificada con exito.'));
                 return;
-            }//else{print_r('Hola');die;}
+            }//else{print_r($presubasta->getErrors());die;}
 
         }else{
 
+
             if(isset($_POST['imagen_s'])) {
-                $presubasta->imagen_s_id = $_POST['imagen_s'];
+
+				if(isset($_GET['actualizar']) && $_GET['actualizar']){
+					$presubasta = PreSubastas::model()->findByAttributes(array('imagen_s_id'=>$_POST['imagen_s'],'usuario_id'=>Yii::app()->user->id));
+					$presubasta->scenario = 'update';
+					//var_dump($presubasta);
+					//die;
+					if($presubasta->puja_maxima == 1)
+						$presubasta->opcion = 0;
+
+					if($presubasta->puja_telefonica == 1)
+						$presubasta->opcion = 1;
+
+					if($presubasta->asistir_subasta == 1)
+						$presubasta->opcion = 2;
+
+					if($presubasta->no_hacer_nada == 1)
+						$presubasta->opcion = 3;
+
+				}else
+                	$presubasta->imagen_s_id = $_POST['imagen_s'];
+
+
             }else
             {
                 echo json_encode(array('id'=>1,'success'=>true,'msg'=>'Error en la identificación de la imágen.'));
@@ -800,7 +839,15 @@ class SiteController extends Controller
         }
 
 
-        $this->layout = '//layouts/modal';
+		// Por defecto se toman los telefonos que pueda tener configurados en la cuenta del usuario.
+		if($presubasta->telefonos == null)
+			$presubasta->telefonos = $usuario->telefono;
+
+
+
+
+
+		$this->layout = '//layouts/modal';
         echo $this->render('presubasta', array('subasta'=>$ultimaSilenciosa,'presubasta'=>$presubasta));
     }
 
@@ -887,24 +934,46 @@ class SiteController extends Controller
                                     );
                                     $imprimir .= '<br>' . $pujarAjaxLink;
                                 }
-									if($existe) {
+							    if($existe) {
+									//$imprimir .= '<br> Estatus Presubasta: ';
+									//$imprimir .= '<br>';
+									if ($existe->puja_maxima)
+										$etiqueta = 'Puja máxima por: ' . $ultimaSubastaSilenciosa->moneda . ' ' . number_format($existe->monto);
 
-                                    //$imprimir .= '<br> Estatus Presubasta: ';
-                                    $imprimir .= '<br>';
-                                    if($existe->puja_maxima)
-                                        $imprimir .= 'Puja máxima por: '.$ultimaSubastaSilenciosa->moneda.' '.number_format($existe->monto);
+									if ($existe->puja_telefonica)
+										$etiqueta = 'Se dejo Puja telefónica';
 
-                                    if($existe->puja_telefonica)
-                                        $imprimir .= 'Se dejo Puja telefónica';
+									if ($existe->asistir_subasta)
+										$etiqueta = 'Asistir a subasta';
 
-                                    if($existe->asistir_subasta)
-                                        $imprimir .= 'Asistir a subasta';
+									if ($existe->no_hacer_nada)
+										$etiqueta = 'No hacer nada';
 
-                                    if($existe->no_hacer_nada)
-                                        $imprimir .= 'No hacer nada';
+									//$existe = PreSubastas::model()->find('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$value->id));
 
-
-                                }
+									if ($ultimaSubastaSilenciosa->enPresubasta())
+									{
+										//$etiqueta = 'Modificar puja dejada';
+										$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
+											$this->createUrl('site/presubasta', array('actualizar' => true)), array(
+												//'onclick'=>'$("#pujaModal").dialog("open"); return false;',
+												//'update'=>'#pujaModal'
+												'type' => 'POST',
+												'data' => array('imagen_s' => '0'),
+												'context' => 'js:this',
+												'beforeSend' => 'function(xhr,settings){
+											            						settings.data = encodeURIComponent(\'imagen_s\')
+										          								+ \'=\'
+										          								+ encodeURIComponent($(this).attr(\'id\'));
+											            }',
+												'success' => 'function(r){$("#pujaModal").html(r).dialog("open"); return false;}'
+											),
+											array('id' => $value->id, 'style' => 'color: #014F92;')
+										);
+										$imprimir .= '<br>' . $pujarAjaxLink;
+									}else
+										$imprimir .= '<br>' .$etiqueta;
+								}
 
 
 						}else

@@ -20,3 +20,9 @@ ALTER TABLE `subastas` ADD `envio_correos` BOOLEAN NOT NULL DEFAULT FALSE COMMEN
 ALTER TABLE imagen_s ENGINE = InnoDB;
 ALTER TABLE log_usuarios ENGINE = InnoDB;
 ALTER TABLE paleta ENGINE = InnoDB;
+
+
+/*****   22 de Noviembre 2015 ******/
+
+
+ALTER TABLE `pre_subastas` ADD `observaciones` VARCHAR(255) COMMENT 'Observaciones de la presubasta' , ADD `telefonos` VARCHAR(255)s COMMENT 'Telefonos de contacto para ' ;
