@@ -306,6 +306,8 @@ class SitemapCommand extends CConsoleCommand
 
             $to = $correo;
 
+            $message .= '<h1> PRE SUBASTA FINALIZADA</h1><br>';
+            $message .= '<h2> Las obras a las que no dejo puja quedan hasta ahí. Haga click aquí para ir a <a href="'.Yii::app()->request->baseUrl.'">Subastas Odalys </a></h2>';
 
             $message = '
 		 <div style="padding-left:50px !important; padding-top:10px !important; float:left !important; padding-right:20px !important;">
@@ -378,8 +380,6 @@ class SitemapCommand extends CConsoleCommand
 				</table>
 				<hr>';
 
-            $message .= '<h1> Se va a cerrar la PRE SUBASTA </h1><br>';
-            $message .= '<h2> A partir de la recepción de este correo tiene aproximadamente una hora para realizar la presubasta de sus pujas ganadas. Haga click aquí para ir a <a href="'.Yii::app()->request->baseUrl.'">Subastas Odalys </a></h2>';
 
             $message .= $footer['footer'].'</div>';
 
