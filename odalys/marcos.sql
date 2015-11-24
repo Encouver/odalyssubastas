@@ -26,3 +26,9 @@ ALTER TABLE paleta ENGINE = InnoDB;
 
 
 ALTER TABLE `pre_subastas` ADD `observaciones` VARCHAR(255) COMMENT 'Observaciones de la presubasta' , ADD `telefonos` VARCHAR(255)s COMMENT 'Telefonos de contacto para ' ;
+
+
+/***** 24 de Noviembre 2015 ******/
+
+
+ALTER TABLE `subastas` ADD `envio_correos_pre` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Notifica si se realizó el envió de correos masivos al finalizar la presubasta.' ;
