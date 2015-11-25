@@ -190,15 +190,10 @@ if (Yii::app()->session['id_usuario']) {
 
 
             <div style="width: 100% !important; padding-bottom:15px;">
-                <div class="alignleft" style="font-size: 13px; margin: 0 0 0 0;">
 
-                    <div id="filtro" class="" style="padding-top:10px"></div>
-                </div>
-
-                <div class="alignright" style="margin: 0 0 0 0;">
+                    <div id="filtro" class="" style="padding-top:10px"></div><br>
                     <div id="barraBusqueda" class="" style="width: 200px; margin-bottom: 0;"></div>
 
-                </div>
 
             </div>
             <br>
@@ -329,8 +324,14 @@ if (Yii::app()->session['id_usuario']) {
         $subasta = new Subastas();
         $fechaFinalizacion = $subasta->fechaPresubasta();
 
-        if($subasta->subastaActiva() || $subasta->enPresubasta())
-            echo ('Esto es una pre-subasta. La Subasta se realizará el día '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; ?>
+        if($subasta->subastaActiva() || $subasta->enPresubasta()){
+            echo ('Esto es una Pre-Subasta. La Subasta se realizará el día '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; 
+        }else{
+        echo ('Pre-Subasta finalizada. Subasta en vivo hoy '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas en el Hotel JW Marriott Caracas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; 
+    
+        }
+
+        ?>
     </div>
 
 

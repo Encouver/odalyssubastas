@@ -939,16 +939,16 @@ class SiteController extends Controller
 									//$imprimir .= '<br> Estatus Presubasta: ';
 									//$imprimir .= '<br>';
 									if ($existe->puja_maxima)
-										$etiqueta = 'Puja máxima por: ' . $ultimaSubastaSilenciosa->moneda . ' ' . number_format($existe->monto);
+										$etiqueta = 'Dejó puja máxima por: ' . $ultimaSubastaSilenciosa->moneda . ' ' . number_format($existe->monto). '(modificar)';
 
 									if ($existe->puja_telefonica)
-										$etiqueta = 'Se dejo Puja telefónica';
+										$etiqueta = 'Dejó puja telefónica (modificar)';
 
 									if ($existe->asistir_subasta)
-										$etiqueta = 'Asistir a subasta';
+										$etiqueta = 'Asistiré a la subasta (modificar)';
 
 									if ($existe->no_hacer_nada)
-										$etiqueta = 'No hacer nada';
+										$etiqueta = 'Quedarme con mi puja actual (modificar)';
 
 									//$existe = PreSubastas::model()->find('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$value->id));
 
@@ -979,7 +979,7 @@ class SiteController extends Controller
 
 						}else
 						{
-							$imprimir .= ' <br/><span style="color:#f20000;">'.($ultimaSubastaSilenciosa->enPresubasta()?'Pujado':'Vendido').'</span>';
+							$imprimir .= ' <br/><span style="color:#656565;">'.($ultimaSubastaSilenciosa->enPresubasta()?'Pujado':'Vendido').'</span>';
 						}
 
 					}

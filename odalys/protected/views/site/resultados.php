@@ -20,7 +20,7 @@ $this->pageTitle=Yii::app()->name;
     margin-left: 5px;
     margin-right: 5px;
 	float: left;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 </style>
 
@@ -200,7 +200,7 @@ Yii::app()->clientScript->registerScript('cronometro-resultados','$(document).re
 						$etiqueta = 'Asistiré a subasta (modificar)<hr>';
 
 					if($existe->no_hacer_nada)
-						$etiqueta = 'Deseo quedarme con mi puja actual (modificar)<hr>';
+						$etiqueta = 'Quedarme con mi puja actual (modificar)<hr>';
 
 					if ($subasta->enPresubasta())
 					{
@@ -283,7 +283,7 @@ echo $resultados;
                 {
                     // Configuramos para que en media hora se le indique el mensaje nuevamente.
                     setCookie("alertado", true, 0.25);
-			alerta("Pre Subasta", "La Pre-Subasta ha finalizado, por favor seleccione una opción para cada una de las piezas que tiene adjudicadas hasta el momento: <br><br> 1. Dejar puja máxima: que va a ser realizada por nosotros como una puja en ausencia durante el acto de Subasta en vivo. <br><br> 2. Dejar puja telefónica: nos comunicáremos con Ud. el día del acto de Subasta en vivo en el momento que sea subastado su lote. <br> Importante: de no lograr comunicarnos con Ud. durante la subasta, su última puja de la presubasta será tomada como su última oferta en el lote. <br><br> 3. Asistiré al acto de Subasta en vivo: en este caso su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto. <br><br> 4. Quedarme con mi puja actual: en este caso su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.", 
+			alerta("Pre Subasta", "La Pre-Subasta ha finalizado, por favor seleccione una opción para cada una de las piezas que tiene adjudicadas hasta el momento: \n\n 1. Dejar puja máxima: que va a ser realizada por nosotros como una puja en ausencia durante el acto de Subasta en vivo. \n\n 2. Dejar puja telefónica: nos comunicáremos con Ud. el día del acto de Subasta en vivo en el momento que sea subastado su lote. \nImportante: de no lograr comunicarnos con Ud. durante la subasta, su última puja de la presubasta será tomada como su última oferta en el lote. \n\n 3. Asistiré al acto de Subasta en vivo: en este caso su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto. \n\n4. Quedarme con mi puja actual: en este caso su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.", 
 				"warning", "De acuerdo");
                 
                 }
