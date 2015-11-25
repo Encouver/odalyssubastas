@@ -50,11 +50,13 @@ class MailController extends Controller
         	$to= "";
         	$subject = "";
         	$message = "";
+        	$mail->ClearAddresses(); //clear addresses for next email sending
             return false;
         }else {
         	$to= "";
         	$subject = "";
         	$message = "";
+        	$mail->ClearAddresses(); //clear addresses for next email sending
             return true;
         }
     }
@@ -315,6 +317,7 @@ class MailController extends Controller
 				$message = "";
 				$to= "";
         		$subject = "";
+
 			//	$this->render('compradores', array('valor'=>$message));
 			}
 				$message = "";
