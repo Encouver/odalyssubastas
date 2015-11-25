@@ -185,19 +185,24 @@
 														//$("#pujaModal").attr("style","with:600px;");
 													}
 													else{
-														alert(data["responseText"]);
+														//alert(data["responseText"]);
+														alerta("Error", data["responseText"],"error", "Aceptar");
 													}
 												}',
 												'success' => 'function(data){
 													json = data;//$("#pujaModal").dialog("close");
 														if(data[\'id\']){
-															alert(data["msg"]);
+															//alert(data["msg"]);
+
 															if(data["success"]){
+																alerta("Puja", data["msg"],"success", "Aceptar");
 																$("#pujaModal").dialog("close");
 																//location.reload();
-															}else
-																$("#pujaModal").html(data["responseText"]);
+															}else{
+																alerta("Error en la puja", data["responseText"],"warning", "Entendido");
+																//$("#pujaModal").html(data["responseText"]);
 																//$("#registro-pujas-pujar-form").attr("style","with:600px;");
+															}
 														}else{
 
 															$("#pujaModal").html(data);
