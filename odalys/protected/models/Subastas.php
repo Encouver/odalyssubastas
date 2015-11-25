@@ -24,6 +24,7 @@
  * @property integer $fuesilenciosa
  * @property string $moneda
  * @property integer $envio_correos
+ * @property integer $envio_correos_pre
  */
 class Subastas extends CActiveRecord
 {
@@ -62,7 +63,7 @@ class Subastas extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre, categoriaid, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf, activa, publicaciones', 'required'),
-			array('categoriaid, activa, solopdf, silenciosa, fuesilenciosa, envio_correos', 'numerical', 'integerOnly'=>true),
+			array('categoriaid, activa, solopdf, silenciosa, fuesilenciosa, envio_correos, envio_correos_pre', 'numerical', 'integerOnly'=>true),
 			array('nombre, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf', 'length', 'max'=>200),
 			array('publicaciones', 'length', 'max'=>255),
 			array('NS', 'length', 'max'=>400),
@@ -110,6 +111,7 @@ class Subastas extends CActiveRecord
             'fuesilenciosa' => 'Fuesilenciosa',
             'moneda' => 'Moneda',
             'envio_correos' => 'Envio Correos',
+			'envio_correos_pre' => 'Envio Correos PRe',
 		);
 	}
 
@@ -164,7 +166,7 @@ class Subastas extends CActiveRecord
 
 		$time = new DateTime($crono->fecha_finalizacion);
 
-		return $time->add(new DateInterval('PT1H'));
+		return $time->add(new DateInterval('PT'.Yii::app()->params['tiempoPresubasta'].'H'));
 	}
 
 	// Fecha de finalización de la subasta actual
@@ -209,6 +211,7 @@ class Subastas extends CActiveRecord
         $criteria->compare('fuesilenciosa',$this->fuesilenciosa);
         $criteria->compare('moneda',$this->moneda,true);
         $criteria->compare('envio_correos',$this->envio_correos);
+		$criteria->compare('envio_correos_pre',$this->envio_correos_pre);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -979,7 +979,7 @@ class SiteController extends Controller
 
 						}else
 						{
-							$imprimir .= ' <br/><span style="color:#f20000;">Vendido</span>';
+							$imprimir .= ' <br/><span style="color:#f20000;">'.($ultimaSubastaSilenciosa->enPresubasta()?'Pujado':'Vendido').'</span>';
 						}
 
 					}

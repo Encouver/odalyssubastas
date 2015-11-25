@@ -29,7 +29,7 @@ $this->pageTitle=Yii::app()->name;
 $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 	'id'=>'pujaModal',
 	'options'=>array(
-		'title'=>'Dejar Puja',
+		'title'=>'Dejar puja',
 		'width'=>'600px',
 		'height'=>'auto',
 		'autoOpen'=>false,
@@ -161,8 +161,8 @@ Yii::app()->clientScript->registerScript('cronometro-resultados','$(document).re
 		$mispujas = ImagenS::model()->findAll('ids=:ids AND id_usuario=:id_usuario', array(':ids'=>$subasta->id, ':id_usuario' => Yii::app()->session['id_usuario']));
 		if($mispujas)
 			foreach ($mispujas as $key => $puja) {
-				$carrito .= '<div id="vsidebar"><img src="' . $imagenesDir . $puja->imagen . '"/><br><span style="">
-							' . $puja->solonombre . '</span><p>Actual: <moneda>' . $subasta->moneda . '</moneda> ' . number_format($puja->actual) . '</p>';
+				$carrito .= '<div id="vsidebar"><img style="padding-bottom:5px;" src="' . $imagenesDir . $puja->imagen . '"/><br><span style="">
+							' . $puja->solonombre . '</span><br><span>Actual: <moneda>' . $subasta->moneda . '</moneda> ' . number_format($puja->actual) . '</span><br>';
 
 				$existe = PreSubastas::model()->find('usuario_id=:usuario_id AND imagen_s_id=:imagen_s_id',array(':usuario_id'=>Yii::app()->session['id_usuario'],'imagen_s_id'=>$puja->id));
 
@@ -191,16 +191,16 @@ Yii::app()->clientScript->registerScript('cronometro-resultados','$(document).re
 					//$imprimir .= '<br> Estatus Presubasta: ';
 					//$carrito .= '<br>';
 					if($existe->puja_maxima)
-						$etiqueta = 'Puja máxima por: '.$subasta->moneda.' '.number_format($existe->monto);
+						$etiqueta = 'Dejó puja máxima por: '.$subasta->moneda.' '.number_format($existe->monto).' (modificar)<hr>';
 
 					if($existe->puja_telefonica)
-						$etiqueta = 'Se dejo Puja telefónica';
+						$etiqueta = 'Dejó puja telefónica (modificar)<hr>';
 
 					if($existe->asistir_subasta)
-						$etiqueta = 'Asistir a subasta';
+						$etiqueta = 'Asistiré a subasta (modificar)<hr>';
 
 					if($existe->no_hacer_nada)
-						$etiqueta = 'No hacer nada';
+						$etiqueta = 'Deseo quedarme con mi puja actual (modificar)<hr>';
 
 					if ($subasta->enPresubasta())
 					{
@@ -269,19 +269,28 @@ echo $resultados;
 		var ablauf = new Date();
 		var expireTime = ablauf.getTime() + (hoursExpire * 60 * 60 * 1000);
 		ablauf.setTime(expireTime);
-		document.cookie = key + "=" + value + "; expires=" + ablauf.toGMTString();
+		document.cookie = key + "=" + value + "; expires=" + ablauf.toUTCString();
 	}
+    <?php                 /*    $actualTime = new DateTime("now");
+                        $segundos =  $fecha->getTimestamp() - $actualTime->getTimestamp();*/
+//var_dump($subasta->subastaActiva() || $subasta->enPresubasta()); die;
+            if($subasta->subastaActiva() || $subasta->enPresubasta()) { ?>
 
-	$(document).ready(function(){
+                $(document).ready(function(){
 
 
-		if(!getCookie('alertado'))
-		{
-			// Configuramos para que en media hora se le indique el mensaje nuevamente.
-			setCookie('alertado', true, 0.5);
-			alerta("Pre Subasta", "Pre Subasta corriendo, realize las pujas que desee dejar sobre las obras que gano durante la subasta en linea.", "warning", "Entendido");
-		}
-	});
+                if(!getCookie("alertado"))
+                {
+                    // Configuramos para que en media hora se le indique el mensaje nuevamente.
+                    setCookie("alertado", true, 0.25);
+			alerta("Pre Subasta", "La Pre-Subasta ha finalizado, por favor seleccione una opción para cada una de las piezas que tiene adjudicadas hasta el momento: <br><br> 1. Dejar puja máxima: que va a ser realizada por nosotros como una puja en ausencia durante el acto de Subasta en vivo. <br><br> 2. Dejar puja telefónica: nos comunicáremos con Ud. el día del acto de Subasta en vivo en el momento que sea subastado su lote. <br> Importante: de no lograr comunicarnos con Ud. durante la subasta, su última puja de la presubasta será tomada como su última oferta en el lote. <br><br> 3. Asistiré al acto de Subasta en vivo: en este caso su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto. <br><br> 4. Quedarme con mi puja actual: en este caso su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.", 
+				"warning", "De acuerdo");
+                
+                }
+            });
+
+    <?php } ?>
+
 </script>
 <?php
 
