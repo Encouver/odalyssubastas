@@ -149,12 +149,13 @@
                     //$fecha = new DateTime();
 
                     //var_dump($fecha);die;
-
+                    $actualTime = new DateTime("now");
+                    $segundos =  $fecha->getTimestamp() - $actualTime->getTimestamp();
 
                     ?>
                     <!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
-                    <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><?php echo $subasta->enPresubasta()?'Pre-Subasta: ':($sub!=null?'Subasta: ':'') ?><span
-                                data-time="<?php echo $fecha->format('U'); ?>" class="cronometro"></span></b></div>
+                    <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><?php echo $subasta->enPresubasta()?'Pre-Subasta: ':'' ?><span
+                                data-time="<?php echo $fecha->format('U'); ?>" class="cronometro" data-seconds="<?php echo $segundos; ?>"></span></b></div>
                 </div>
 
             </div>
@@ -320,7 +321,7 @@ if (Yii::app()->session['id_usuario']) {
 
     <div id="franja-subasta" class="alerta-subasta">
         <?php
-        date_default_timezone_set('America/Caracas');
+        //date_default_timezone_set('America/Caracas');
         // Windows
         //setlocale(LC_ALL,"esp_esp");
         //Linux
@@ -329,7 +330,7 @@ if (Yii::app()->session['id_usuario']) {
         $fechaFinalizacion = $subasta->fechaPresubasta();
 
         if($subasta->subastaActiva() || $subasta->enPresubasta())
-            echo ('La subasta en vivo se realizar&aacute; el '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')); ?>
+            echo ('Esto es una pre-subasta. La Subasta se realizará el día '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; ?>
     </div>
 
 

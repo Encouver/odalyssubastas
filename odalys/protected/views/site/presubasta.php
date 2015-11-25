@@ -86,7 +86,7 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
                         $select = array($presubasta->opcion);
 
                         echo $form->dropDownList($presubasta, 'opcion',
-                            array('0' => 'Dejar puja máxima', '1' => 'Dejar puja telefónica', '2' => 'Asistir a la subasta en vivo', '3' => 'No hacer nada'),
+                            array('0' => 'Dejar puja máxima', '1' => 'Dejar puja telefónica', '2' => 'Asistiré a la subasta en vivo', '3' => 'Quedarme con mi puja actual'),
                             array(/*'empty' => '(Selecciona una opción)',*/ 'options'=>array($presubasta->opcion=>array('selected'=>true)),
                                 'id' => 'seleccion_opcion', 'onchange' => 'seleccionPresubasta(this.value);'));
                         ?>
@@ -106,7 +106,7 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 
                     <div class="row" id="modificar_telf" style="display: none;">
 
-                        <?php echo CHtml::link('Ir a Modificar Teléfonos por defecto','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
+                        <?php echo CHtml::link('Ir a Mi Cuenta y modificar mis teléfonos','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
                         <?php //echo $form->labelEx($presubasta,'telefonos'); ?>
                         <?php echo $form->textField($presubasta, 'telefonos', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Telefonos',)); ?>
                         <?php echo $form->error($presubasta, 'telefonos'); ?>
@@ -223,7 +223,7 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 															//alerta("Error",data["msg"],"error","Entendido");
 															if(data["success"]){
                                                                 alerta("Exito",data["msg"],"success","Muy bien");
-																$("#pujaModal").dialog("close").delay(4);
+																$("#pujaModal").delay(2).dialog("close").delay(4);
 																location.reload();
 
 															}else{
@@ -259,11 +259,13 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
         </td>
     </tr>
 </table>
-
-<h6>* Dejar puja máxima:</h6>  Suspendisse non neque rhoncus, rhoncus mauris a, venenatis justo. Donec non leo non neque euismod pulvinar. Phasellus elementum quam.
+<br>
+<hr>
+<h6>* Dejar puja máxima:</h6> Esta puja máxima va a ser realizada por nosotros como una puja en ausencia durante el acto de Subasta en vivo.
 <br><br>
-<h6>* Dejar puja telefónica:</h6> id felis faucibus pretium. Integer erat nisi, rhoncus quis scelerisque eu, elementum nec mauris. Curabitur faucibus magna quis ante blandit egestas. Etiam scelerisque a mauris sit amet pellentesque.
+<h6>* Dejar puja telefónica:</h6> Nos comunicáremos con Ud. el día del acto de Subasta en vivo en el momento que sea subastado su lote. <br>
+Importante: de no lograr comunicarnos con Ud. durante la subasta, su última puja de la presubasta será tomada como su última oferta en el lote.
 <br><br>
-<h6>* Asistiré a la subasta en vivo:</h6>  Ut sed eros ut ante consequat euismod. Fusce vel risus feugiat, gravida dolor eu, pellentesque enim. Mauris turpis orci, euismod rutrum massa sed, tincidunt posuere mi.
+<h6>* Asistiré a la subasta en vivo:</h6> Su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.
 <br><br>
-    <h6>* Deseo quedarme con mi puja actual:</h6> Ut id nibh in est faucibus dictum.
+<h6>* Deseo quedarme con mi puja actual:</h6> Su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.

@@ -25,7 +25,7 @@ ALTER TABLE paleta ENGINE = InnoDB;
 /*****   22 de Noviembre 2015 ******/
 
 
-ALTER TABLE `pre_subastas` ADD `observaciones` VARCHAR(255) COMMENT 'Observaciones de la presubasta' , ADD `telefonos` VARCHAR(255)s COMMENT 'Telefonos de contacto para ' ;
+ALTER TABLE `pre_subastas` ADD `observaciones` VARCHAR(255) COMMENT 'Observaciones de la presubasta' , ADD `telefonos` VARCHAR(255) COMMENT 'Telefonos de contacto' ;
 
 
 /***** 24 de Noviembre 2015 ******/

@@ -166,7 +166,7 @@ class Subastas extends CActiveRecord
 
 		$time = new DateTime($crono->fecha_finalizacion);
 
-		return $time->add(new DateInterval('PT1H'));
+		return $time->add(new DateInterval('PT'.Yii::app()->params['tiempoPresubasta'].'H'));
 	}
 
 	// Fecha de finalización de la subasta actual

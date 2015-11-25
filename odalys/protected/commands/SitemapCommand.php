@@ -53,7 +53,7 @@ class SitemapCommand extends CConsoleCommand
             $crono = Cronometro::model()->find($criteria);
 
             $time = new DateTime($crono->fecha_finalizacion);
-            $time->add(new DateInterval('PT1H'));
+            //$time->add(new DateInterval('PT1H'));
             $actualTime = new DateTime("now");
             $intervaloPresubasta =  $actualTime->getTimestamp() - $time->getTimestamp();
 

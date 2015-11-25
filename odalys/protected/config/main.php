@@ -166,6 +166,7 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
 		'languages'=>array('en_us'=>'English', 'es'=>'Spanish'),
 		'imagenesDir'=>'http://www.odalys.com/odalys/',
+		'tiempoPresubasta' => 1, // tiempo entero medido en horas adicional a la fecha de finalización de la subasta
 	),
 	'theme'=>'designa',
 	'sourceLanguage' => '00',
