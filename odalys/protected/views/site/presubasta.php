@@ -106,10 +106,10 @@ $imagenesDir = 'http://www.odalys.com/odalys/';
 
                     <div class="row" id="modificar_telf" style="display: none;">
 
-                        <?php echo CHtml::link('Ir a Mi Cuenta y modificar mis teléfonos','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
                         <?php //echo $form->labelEx($presubasta,'telefonos'); ?>
-                        <?php echo $form->textField($presubasta, 'telefonos', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Telefonos',)); ?>
+                        <?php echo $form->textField($presubasta, 'telefonos', array('size' => 60, 'maxlength' => 255, 'placeholder' => 'Teléfonos',)); ?>
                         <?php echo $form->error($presubasta, 'telefonos'); ?>
+                        <?php echo CHtml::link('Ir a Mi Cuenta y modificar mis teléfonos','http://odalys.com/odalys/micuenta.php'/*Yii::app()->request->baseUrl*/,array('target'=>'_blank')); ?>
 
                     </div>
 
@@ -268,4 +268,4 @@ Importante: de no lograr comunicarnos con Ud. durante la subasta, su última puj
 <br><br>
 <h6>* Asistiré a la subasta en vivo:</h6> Su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.
 <br><br>
-<h6>* Deseo quedarme con mi puja actual:</h6> Su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.
+<h6>* Quedarme con mi puja actual:</h6> Su última puja de la presubasta va a ser tomada como su última oferta en el lote, es decir, el lote será subastado en la sala desde ese monto.
