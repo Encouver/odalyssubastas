@@ -325,9 +325,12 @@ if (Yii::app()->session['id_usuario']) {
         $fechaFinalizacion = $subasta->fechaPresubasta();
 
         if($subasta->subastaActiva() || $subasta->enPresubasta()){
-            echo ('Esto es una Pre-Subasta. La Subasta se realizará el día '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; 
+            echo ('Esto es una Pre-Subasta. La Subasta se realizar&aacute; el domingo 29 de noviembre a las 11:00 a.m. en el Hotel JW Marriott Caracas.<a style="font-weight: 600;" target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'); 
+//            echo ('Esto es una Pre-Subasta. La Subasta se realizará el día '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; 
+
         }else{
-        echo ('Pre-Subasta finalizada. Subasta en vivo hoy '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas en el Hotel JW Marriott Caracas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; 
+       // echo ('Pre-Subasta finalizada. Subasta en vivo hoy '. utf8_encode(ucfirst(strftime("%A",$fechaFinalizacion->getTimestamp()))).' '.$fechaFinalizacion->format('d-m').' a las '. $fechaFinalizacion->format('h:i:s A')).' horas en el Hotel JW Marriott Caracas. <a target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'; 
+      echo ('Pre-Subasta finalizada. Subasta en vivo el domingo 29 de noviembre a las 11:00 a.m. en el Hotel JW Marriott Caracas.<a style="font-weight: 600; target="_blank" href="http://odalys.com/odalys/presubasta.php">M&aacute;s informaci&oacute;n</a>'); 
     
         }
 

@@ -29,16 +29,6 @@
 class Subastas extends CActiveRecord
 {
 	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Subastas the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
-	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -115,6 +105,14 @@ class Subastas extends CActiveRecord
 		);
 	}
 
+	public function subastaActiva(){
+
+		if($this->silenciosaActiva())
+			return true;
+		else
+			return false;
+	}
+
 	public function silenciosaActiva(){
 
 		$criteria = new CDbCriteria;
@@ -125,6 +123,40 @@ class Subastas extends CActiveRecord
 		return Subastas::model()->find($criteria);
 	}
 
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return Subastas the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	public function enPresubasta(){
+
+		$actualTime = new DateTime("now");
+
+		$time = $this->fechaPresubasta();
+
+		$intervaloPresubasta =  $time->getTimestamp() - $actualTime->getTimestamp();
+
+		// Verificando que se encuentra en la proxima hora al finalizar la subasta.
+		if( $intervaloPresubasta >=0 && $intervaloPresubasta <= Yii::app()->params['tiempoPresubasta']*3600 )
+			return true;
+		else
+			return false;
+	}
+
+	public function fechaPresubasta(){
+		$crono = Cronometro::model()->findByAttributes(array('ids'=> $this->ultimaSilenciosa()->id));
+
+		$time = new DateTime($crono->fecha_finalizacion);
+
+		return $time->add(new DateInterval('PT'.Yii::app()->params['tiempoPresubasta'].'H'));
+	}
+
+	// Fecha de finalización de la presubasta
 
 	public function ultimaSilenciosa(){
 
@@ -137,39 +169,8 @@ class Subastas extends CActiveRecord
 		return Subastas::model()->find($criteria);
 	}
 
-	public function subastaActiva(){
-
-		if($this->silenciosaActiva())
-			return true;
-		else
-			return false;
-	}
-
-	public function enPresubasta(){
-
-		$actualTime = new DateTime("now");
-
-		$time = $this->fechaPresubasta();
-
-		$intervaloPresubasta =  $time->getTimestamp() - $actualTime->getTimestamp();
-
-		// Verificando que se encuentra en la proxima hora al finalizar la subasta.
-		if( $intervaloPresubasta >=0 && $intervaloPresubasta <= 3600 )
-			return true;
-		else
-			return false;
-	}
-
-	// Fecha de finalización de la presubasta
-	public function fechaPresubasta(){
-		$crono = Cronometro::model()->findByAttributes(array('ids'=> $this->ultimaSilenciosa()->id));
-
-		$time = new DateTime($crono->fecha_finalizacion);
-
-		return $time->add(new DateInterval('PT'.Yii::app()->params['tiempoPresubasta'].'H'));
-	}
-
 	// Fecha de finalización de la subasta actual
+
 	public function fechaSubastaActiva(){
 		if(!$this->silenciosaActiva())
 			return false;
