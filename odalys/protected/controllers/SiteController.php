@@ -618,6 +618,8 @@ class SiteController extends Controller
 						$etiqueta = 'Realizar puja máxima';
 					if($value->id_usuario == Yii::app()->session['id_usuario'] && $usuarioPM)
 						$etiqueta = '(modificar puja máxima)';
+
+					
 					$pujarAjaxLink = CHtml::ajaxLink($etiqueta,
 		       										$this->createUrl('site/pujar'), array(
 										            //'onclick'=>'$("#pujaModal").dialog("open"); return false;',
@@ -635,6 +637,20 @@ class SiteController extends Controller
 										        array('id'=>$value->id, 'style'=>'color: #014F92;')
 											);
 
+
+					if($value->monto == 1)
+					{
+						$etiqueta = "";
+						$pujarAjaxLink = "<span style='color: red;'>Sólo para Subasta en vivo</span>";
+					}
+
+					if($value->monto == 3)
+					{
+						$etiqueta = "";
+						$pujarAjaxLink = "<span style='color: red;'>Retirado</span>";
+					}
+					
+
     				// Verificando si es primera puja
     				$imgConPujas = RegistroPujas::model()->find('id_imagen_s=:imagen', array(':imagen'=>$value->id,));
 
@@ -649,21 +665,35 @@ class SiteController extends Controller
 							if(!($value->id_usuario == Yii::app()->session['id_usuario']) )
 							{
 
-								$imprimir .= '<br><w id="'.$value->id.'a">'.$pujarAjaxLink.' <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+								if($value->monto == 1 or $value->monto == 3)
+								{
+									$imprimir .= "";
+									$imprimir .= $pujarAjaxLink;
+								}else
+									$imprimir .= '<br><w id="'.$value->id.'a">'.$pujarAjaxLink.' <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
 											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink></w><BR/>';
 							}
 							else{
-			
-								$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
-																						array('style'=>'width: 5px;hight:5px;'));
-								$imprimir .= '<br>Prox. Puja: <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
-											  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
 
-								if($usuarioPM)
-									$imprimir .= '<span style="color: red;"><p> Puja máxima: <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
-								else
-									$imprimir .= '<br>';
-								$imprimir .=  $pujarAjaxLink.'</w>';
+								if($value->monto == 1 or $value->monto == 3)
+								{
+									$imprimir .= "";
+									$imprimir .= $pujarAjaxLink;
+
+								}else{
+			
+									$imprimir .= '<w id="'.$value->id.'a">'.CHtml::image(Yii::app()->getBaseUrl(false).'/images/vendido.png','',
+																							array('style'=>'width: 5px;hight:5px;'));
+									$imprimir .= '<br>Prox. Puja: <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
+												  <siguientei_'.$value->id.'>'.number_format($siguiente).'</siguientei_'.$value->id.'><pujasiguienteafterlink>';
+
+									if($usuarioPM)
+										$imprimir .= '<span style="color: red;"><p> Puja máxima: <moneda>'.$subas->moneda.'</moneda> '.number_format($usuarioPM->maximo_dispuesto).'</p></span>';
+									else
+										$imprimir .= '<br>';
+									$imprimir .=  $pujarAjaxLink.'</w>';
+
+								}
 
 							}
 					}
@@ -687,7 +717,8 @@ class SiteController extends Controller
 						/*temporal */$pujarAjaxLink = CHtml::link('Pujar',array('site/login')); 
 						$imprimir .= $pujarAjaxLink.'<BR/>';					
 					}
-				$imprimir .= '</div>';
+					
+					$imprimir .= '</div>';
 
 
 
