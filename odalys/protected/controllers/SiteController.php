@@ -641,13 +641,13 @@ class SiteController extends Controller
 					if($value->monto == 1)
 					{
 						$etiqueta = "";
-						$pujarAjaxLink = "<span style='color: red;'>Sólo para Subasta en vivo</span>";
+						$pujarAjaxLink = "<br><span style='color: red;'>Sólo para Subasta en vivo</span>";
 					}
 
 					if($value->monto == 3)
 					{
 						$etiqueta = "";
-						$pujarAjaxLink = "<span style='color: red;'>Retirado</span>";
+						$pujarAjaxLink = "<br><span style='color: red;'>Retirado</span>";
 					}
 					
 
@@ -667,7 +667,7 @@ class SiteController extends Controller
 
 								if($value->monto == 1 or $value->monto == 3)
 								{
-									$imprimir .= "";
+									
 									$imprimir .= $pujarAjaxLink;
 								}else
 									$imprimir .= '<br><w id="'.$value->id.'a">'.$pujarAjaxLink.' <pujasiguienteafterlink><moneda>'.$subas->moneda.'</moneda> 
@@ -677,7 +677,7 @@ class SiteController extends Controller
 
 								if($value->monto == 1 or $value->monto == 3)
 								{
-									$imprimir .= "";
+									
 									$imprimir .= $pujarAjaxLink;
 
 								}else{
