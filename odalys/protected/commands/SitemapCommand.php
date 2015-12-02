@@ -208,7 +208,7 @@ class SitemapCommand extends CConsoleCommand
            //die;
                 $message = "";
                 $to= "";
-                $subject = "";
+                //$subject = "";
                 //	$this->render('compradores', array('valor'=>$message));
             //}
             $message = "";
@@ -424,12 +424,12 @@ class SitemapCommand extends CConsoleCommand
             //die;
             $message = "";
             $to= "";
-            $subject = "";
+            //$subject = "";
             //	$this->render('compradores', array('valor'=>$message));
             //}
             $message = "";
             $to= "";
-            $subject = "";
+            //$subject = "";
         }
 
 
