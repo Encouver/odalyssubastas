@@ -32,3 +32,9 @@ ALTER TABLE `pre_subastas` ADD `observaciones` VARCHAR(255) COMMENT 'Observacion
 
 
 ALTER TABLE `subastas` ADD `envio_correos_pre` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Notifica si se realizó el envió de correos masivos al finalizar la presubasta.' ;
+
+
+/***** 03 de Diciembre 2015 ******/
+
+
+ALTER TABLE `subastas` ADD `presubasta` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indica si la subasta posee presubasta.' ;
