@@ -118,7 +118,7 @@ class SiteController extends Controller
 
 		        $contenido ="<html>
 		            <head>
-		                <title>Probando</title>
+		                <title>Presubasta</title>
 		                 <style type='text/css'>
 		            <!--
 		                table {width: 98%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
@@ -158,7 +158,7 @@ class SiteController extends Controller
 
 		                         if($value['puja_telefonica'])
 		                         {
-		                         	$contenido .=    '<td style=\"width: 20%;\">'.$value->usuario->telefono.'</td>';
+		                         	$contenido .=    '<td style=\"width: 20%;\">'.$value->telefonos.'</td>';
 		                         }else
 		                         	$contenido .=    '<td style=\"width: 20%;\"></td>';
 

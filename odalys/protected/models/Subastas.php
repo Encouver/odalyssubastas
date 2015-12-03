@@ -22,6 +22,7 @@
  * @property integer $solopdf
  * @property integer $silenciosa
  * @property integer $fuesilenciosa
+ * @property integer $presubasta
  * @property string $moneda
  * @property integer $envio_correos
  * @property integer $envio_correos_pre
@@ -53,7 +54,7 @@ class Subastas extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre, categoriaid, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf, activa, publicaciones', 'required'),
-			array('categoriaid, activa, solopdf, silenciosa, fuesilenciosa, envio_correos, envio_correos_pre', 'numerical', 'integerOnly'=>true),
+			array('categoriaid, activa, solopdf, silenciosa, fuesilenciosa, envio_correos, presubasta ,envio_correos_pre', 'numerical', 'integerOnly'=>true),
 			array('nombre, nombrec, horae, exp, horas, subasta, lugare, lugars, caratula, pdf', 'length', 'max'=>200),
 			array('publicaciones', 'length', 'max'=>255),
 			array('NS', 'length', 'max'=>400),
@@ -100,6 +101,7 @@ class Subastas extends CActiveRecord
 			'silenciosa' => 'Silenciosa',
             'fuesilenciosa' => 'Fuesilenciosa',
             'moneda' => 'Moneda',
+            'presubasta' => 'Presubasta',
             'envio_correos' => 'Envio Correos',
 			'envio_correos_pre' => 'Envio Correos PRe',
 		);
@@ -111,6 +113,22 @@ class Subastas extends CActiveRecord
 			return true;
 		else
 			return false;
+	}
+
+	public function tienePresubasta()
+	{
+
+		/*$criteria = new CDbCriteria;
+
+		$criteria->condition = 'silenciosa=:silenciosa and activa=:activa and presubasta=:presubasta';
+		$criteria->params = array(':silenciosa'=>1, ':activa'=>1, ':presubasta'=>1);
+
+		return 0;//count(Subastas::model()->find($criteria));*/
+
+		$subasta = $this->ultimaSilenciosa();
+
+		return ($subasta->presubasta && $subasta->activa);
+
 	}
 
 	public function silenciosaActiva(){
@@ -140,10 +158,16 @@ class Subastas extends CActiveRecord
 		$time = $this->fechaPresubasta();
 
 		$intervaloPresubasta =  $time->getTimestamp() - $actualTime->getTimestamp();
-
+		
 		// Verificando que se encuentra en la proxima hora al finalizar la subasta.
-		if( $intervaloPresubasta >=0 && $intervaloPresubasta <= Yii::app()->params['tiempoPresubasta']*3600 )
-			return true;
+		/**
+		@TODO Agregar condición para validar que la subasta posea presubasta.
+		**/
+
+		$tienePresubasta = $this->tienePresubasta();
+
+		if( $intervaloPresubasta >=0 && $intervaloPresubasta <= Yii::app()->params['tiempoPresubasta']*3600 && $tienePresubasta)
+			return false;
 		else
 			return false;
 	}
