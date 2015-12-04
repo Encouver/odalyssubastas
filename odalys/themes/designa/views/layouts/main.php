@@ -155,8 +155,8 @@
                     ?>
                     <!-- ESTO TIENE QUE IR EN EL HEADER CON POSICIÓN FIJADA(QUE SIEMPRE SE VEA)-->
                     <div id="odliczanie-b" class="" syle="margin: 0 0 0 0;"><b><?php echo $subasta->enPresubasta()?'Pre-Subasta: ':'' ?><span
-                                data-time="<?php echo $fecha->format('U'); ?>" class="cronometro" data-seconds="<?php echo $segundos; ?>"></span></b></div>
-                </div>
+                                data-time-old="<?php echo $fecha->format('U'); ?>"  class="cronometro" data-seconds="<?php echo $segundos; ?>"></span></b></div>
+        </div>
 
             </div>
             <br>
@@ -399,7 +399,7 @@ if (Yii::app()->session['id_usuario']) {
 </script>
 <!-- Javascript - jQuery -->
 <script src="http://code.jquery.com/jquery.min.js"></script>
-<script>window.jQuery || document.write('&lt;script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-1.7.2.min.js"> &lt;\/script>')</script>
+<script>window.jQuery || document.write('&lt;script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-1.11.3.min.js"> &lt;\/script>')</script>
 
 <!--[if (gte IE 6)&(lte IE 8)]>
 <script src="js/selectivizr.js"></script>

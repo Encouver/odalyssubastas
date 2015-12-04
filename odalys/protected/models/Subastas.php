@@ -115,22 +115,6 @@ class Subastas extends CActiveRecord
 			return false;
 	}
 
-	public function tienePresubasta()
-	{
-
-		/*$criteria = new CDbCriteria;
-
-		$criteria->condition = 'silenciosa=:silenciosa and activa=:activa and presubasta=:presubasta';
-		$criteria->params = array(':silenciosa'=>1, ':activa'=>1, ':presubasta'=>1);
-
-		return 0;//count(Subastas::model()->find($criteria));*/
-
-		$subasta = $this->ultimaSilenciosa();
-
-		return ($subasta->presubasta && $subasta->activa);
-
-	}
-
 	public function silenciosaActiva(){
 
 		$criteria = new CDbCriteria;
@@ -158,7 +142,7 @@ class Subastas extends CActiveRecord
 		$time = $this->fechaPresubasta();
 
 		$intervaloPresubasta =  $time->getTimestamp() - $actualTime->getTimestamp();
-		
+
 		// Verificando que se encuentra en la proxima hora al finalizar la subasta.
 		/**
 		@TODO Agregar condición para validar que la subasta posea presubasta.
@@ -180,8 +164,6 @@ class Subastas extends CActiveRecord
 		return $time->add(new DateInterval('PT'.Yii::app()->params['tiempoPresubasta'].'H'));
 	}
 
-	// Fecha de finalización de la presubasta
-
 	public function ultimaSilenciosa(){
 
 		$criteria = new CDbCriteria;
@@ -191,6 +173,24 @@ class Subastas extends CActiveRecord
 		$criteria->order = 'id DESC';
 
 		return Subastas::model()->find($criteria);
+	}
+
+	// Fecha de finalización de la presubasta
+
+	public function tienePresubasta()
+	{
+
+		/*$criteria = new CDbCriteria;
+
+		$criteria->condition = 'silenciosa=:silenciosa and activa=:activa and presubasta=:presubasta';
+		$criteria->params = array(':silenciosa'=>1, ':activa'=>1, ':presubasta'=>1);
+
+		return 0;//count(Subastas::model()->find($criteria));*/
+
+		//$subasta = $this->ultimaSilenciosa();
+
+		return ($this->presubasta && $this->activa);
+
 	}
 
 	// Fecha de finalización de la subasta actual
